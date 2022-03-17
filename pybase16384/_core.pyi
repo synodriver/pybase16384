@@ -1,0 +1,13 @@
+from typing import BinaryIO
+
+
+def decode(data: bytes) -> bytes: ...
+
+
+def decode_file(input: BinaryIO, output: BinaryIO) -> None: ...
+
+
+def encode(data: bytes) -> bytes: ...
+
+
+def encode_file(input: BinaryIO, output: BinaryIO, boolwrite_head: bool = False) -> None: ...

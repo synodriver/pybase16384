@@ -15,9 +15,9 @@ void LENDAT_Del(LENDAT** self)
 {
     if(*self!=NULL)
     {
-         free((*self)->data);
+        PyMem_Free((*self)->data);
         (*self)->data = NULL;
-        free(*self);
+        PyMem_Free(*self);
         *self = NULL;
     }
 }

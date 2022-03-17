@@ -32,9 +32,9 @@ else:
     CPUBIT = 32
 
 if platform.system() == "Windows":
-    mocro_base = [("__WIN64__", "1")]
+    mocro_base = [("__WIN64__", "1"), ("new", "PyMem_Malloc")]
 else:
-    mocro_base = []
+    mocro_base = [("new", "PyMem_Malloc")]
 
 extensions = [
     Extension("pybase16384._core", ["pybase16384/_core.pyx"] + glob.glob(f'./base16384/{CPUBIT}/*.c'),
