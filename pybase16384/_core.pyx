@@ -32,9 +32,9 @@ cpdef void encode_file(object input,
         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
     if not PyFile_Check(output):
         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
+
     if write_head:
         output.write(b'\xfe\xff')
-
     while True:
         chunk = input.read(7)
         if not PyBytes_Check(chunk):
@@ -58,8 +58,6 @@ cpdef void decode_file(object input,
         input.read(1)
     else:
         input.seek(0, 0)  # 回到开头
-
-    cdef uint8_t should_break = 0
     while True:
         chunk = input.read(2)  # type: bytes
         if chunk:
@@ -70,7 +68,6 @@ cpdef void decode_file(object input,
                 input.seek(-2, 1)
         else:
             break
-
         chunk = input.read(8)
         ot = decode(chunk)  # type: bytes
         output.write(ot)
