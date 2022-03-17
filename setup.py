@@ -32,15 +32,15 @@ else:
     CPUBIT = 32
 
 if platform.system() == "Windows":
-    mocro_base = [("__WIN64__", "1"), ("new", "PyMem_Malloc")]
+    macro_base = [("__WIN64__", "1"), ("new", "PyMem_Malloc")]
 else:
-    mocro_base = [("new", "PyMem_Malloc")]
+    macro_base = [("new", "PyMem_Malloc")]
 
 extensions = [
     Extension("pybase16384._core", ["pybase16384/_core.pyx"] + glob.glob(f'./base16384/{CPUBIT}/*.c'),
               include_dirs=[f"./base16384", "./pybase16384", f"./base16384/{CPUBIT}"],
               library_dirs=[f"./base16384"],
-              define_macros=mocro_base + [("CPUBIT32", None)] if CPUBIT == 32 else []
+              define_macros=macro_base + [("CPUBIT32", None)] if CPUBIT == 32 else []
               ),
 ]
 
@@ -78,11 +78,11 @@ def main():
         author_email="diguohuangjiajinweijun@gmail.com",
         python_requires=">=3.6",
         install_requires=["cython"],
-        license='BSD',
+        license='GPLv3',
         classifiers=[
             "Development Status :: 4 - Beta",
             "Operating System :: OS Independent",
-            "License :: OSI Approved :: BSD License",
+            "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
             "Topic :: Multimedia :: Sound/Audio",
             "Programming Language :: C",
             "Programming Language :: Cython",

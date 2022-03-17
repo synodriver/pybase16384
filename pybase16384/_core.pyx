@@ -54,7 +54,7 @@ cpdef void decode_file(object input,
     chunk = input.read(1)  # type: bytes
     if not PyBytes_Check(chunk):
         raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
-    if chunk == b"\xfe":
+    if chunk == b"\xfe": # 去头
         input.read(1)
     else:
         input.seek(0, 0)  # 回到开头
