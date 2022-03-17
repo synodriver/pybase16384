@@ -644,13 +644,6 @@ void LENDAT_Del(LENDAT** self)
         *self = NULL;
     }
 }
-
-#define be16toh(x) __builtin_bswap16(x)
-#define be32toh(x) __builtin_bswap32(x)
-#define be64toh(x) __builtin_bswap64(x)
-#define htobe16(x) __builtin_bswap16(x)
-#define htobe32(x) __builtin_bswap32(x)
-#define htobe64(x) __builtin_bswap64(x)
     
 #ifdef _OPENMP
 #include <omp.h>
@@ -1120,9 +1113,9 @@ static PyObject *__pyx_pf_11pybase16384_5_core_2decode(CYTHON_UNUSED PyObject *_
 /* "pybase16384/_core.pyx":9
  * from pybase16384 cimport base16384
  * 
- * cpdef encode(bytes data):             # <<<<<<<<<<<<<<
+ * cpdef bytes encode(bytes data):             # <<<<<<<<<<<<<<
  *     cdef base16384.LENDAT *cret = base16384.encode(<const uint8_t *> data, <const int32_t> PyBytes_Size(data))
- * 
+ *     ret = <bytes> cret.data[:cret.len]
  */
 
 static PyObject *__pyx_pw_11pybase16384_5_core_1encode(PyObject *__pyx_self, PyObject *__pyx_v_data); /*proto*/
@@ -1142,10 +1135,10 @@ static PyObject *__pyx_f_11pybase16384_5_core_encode(PyObject *__pyx_v_data, CYT
 
   /* "pybase16384/_core.pyx":10
  * 
- * cpdef encode(bytes data):
+ * cpdef bytes encode(bytes data):
  *     cdef base16384.LENDAT *cret = base16384.encode(<const uint8_t *> data, <const int32_t> PyBytes_Size(data))             # <<<<<<<<<<<<<<
- * 
  *     ret = <bytes> cret.data[:cret.len]
+ *     base16384.LENDAT_Del(&cret)
  */
   if (unlikely(__pyx_v_data == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "expected bytes, NoneType found");
@@ -1155,14 +1148,14 @@ static PyObject *__pyx_f_11pybase16384_5_core_encode(PyObject *__pyx_v_data, CYT
   __pyx_t_2 = PyBytes_Size(__pyx_v_data); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1L))) __PYX_ERR(0, 10, __pyx_L1_error)
   __pyx_v_cret = encode(((uint8_t const *)__pyx_t_1), ((int32_t const )__pyx_t_2));
 
-  /* "pybase16384/_core.pyx":12
+  /* "pybase16384/_core.pyx":11
+ * cpdef bytes encode(bytes data):
  *     cdef base16384.LENDAT *cret = base16384.encode(<const uint8_t *> data, <const int32_t> PyBytes_Size(data))
- * 
  *     ret = <bytes> cret.data[:cret.len]             # <<<<<<<<<<<<<<
  *     base16384.LENDAT_Del(&cret)
  *     return ret
  */
-  __pyx_t_3 = __Pyx_PyBytes_FromStringAndSize(((const char*)__pyx_v_cret->data) + 0, __pyx_v_cret->len - 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyBytes_FromStringAndSize(((const char*)__pyx_v_cret->data) + 0, __pyx_v_cret->len - 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = __pyx_t_3;
   __Pyx_INCREF(__pyx_t_4);
@@ -1170,8 +1163,8 @@ static PyObject *__pyx_f_11pybase16384_5_core_encode(PyObject *__pyx_v_data, CYT
   __pyx_v_ret = ((PyObject*)__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "pybase16384/_core.pyx":13
- * 
+  /* "pybase16384/_core.pyx":12
+ *     cdef base16384.LENDAT *cret = base16384.encode(<const uint8_t *> data, <const int32_t> PyBytes_Size(data))
  *     ret = <bytes> cret.data[:cret.len]
  *     base16384.LENDAT_Del(&cret)             # <<<<<<<<<<<<<<
  *     return ret
@@ -1179,12 +1172,12 @@ static PyObject *__pyx_f_11pybase16384_5_core_encode(PyObject *__pyx_v_data, CYT
  */
   LENDAT_Del((&__pyx_v_cret));
 
-  /* "pybase16384/_core.pyx":14
+  /* "pybase16384/_core.pyx":13
  *     ret = <bytes> cret.data[:cret.len]
  *     base16384.LENDAT_Del(&cret)
  *     return ret             # <<<<<<<<<<<<<<
  * 
- * cpdef decode(bytes data):
+ * cpdef bytes decode(bytes data):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_ret);
@@ -1194,9 +1187,9 @@ static PyObject *__pyx_f_11pybase16384_5_core_encode(PyObject *__pyx_v_data, CYT
   /* "pybase16384/_core.pyx":9
  * from pybase16384 cimport base16384
  * 
- * cpdef encode(bytes data):             # <<<<<<<<<<<<<<
+ * cpdef bytes encode(bytes data):             # <<<<<<<<<<<<<<
  *     cdef base16384.LENDAT *cret = base16384.encode(<const uint8_t *> data, <const int32_t> PyBytes_Size(data))
- * 
+ *     ret = <bytes> cret.data[:cret.len]
  */
 
   /* function exit code */
@@ -1214,7 +1207,7 @@ static PyObject *__pyx_f_11pybase16384_5_core_encode(PyObject *__pyx_v_data, CYT
 
 /* Python wrapper */
 static PyObject *__pyx_pw_11pybase16384_5_core_1encode(PyObject *__pyx_self, PyObject *__pyx_v_data); /*proto*/
-static char __pyx_doc_11pybase16384_5_core_encode[] = "encode(bytes data)";
+static char __pyx_doc_11pybase16384_5_core_encode[] = "encode(bytes data) -> bytes";
 static PyObject *__pyx_pw_11pybase16384_5_core_1encode(PyObject *__pyx_self, PyObject *__pyx_v_data) {
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -1260,12 +1253,12 @@ static PyObject *__pyx_pf_11pybase16384_5_core_encode(CYTHON_UNUSED PyObject *__
   return __pyx_r;
 }
 
-/* "pybase16384/_core.pyx":16
+/* "pybase16384/_core.pyx":15
  *     return ret
  * 
- * cpdef decode(bytes data):             # <<<<<<<<<<<<<<
+ * cpdef bytes decode(bytes data):             # <<<<<<<<<<<<<<
  *     cdef base16384.LENDAT *cret = base16384.decode(<const uint8_t *> data, <const int32_t> PyBytes_Size(data))
- * 
+ *     ret = <bytes> cret.data[:cret.len]
  */
 
 static PyObject *__pyx_pw_11pybase16384_5_core_3decode(PyObject *__pyx_self, PyObject *__pyx_v_data); /*proto*/
@@ -1283,29 +1276,29 @@ static PyObject *__pyx_f_11pybase16384_5_core_decode(PyObject *__pyx_v_data, CYT
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("decode", 0);
 
-  /* "pybase16384/_core.pyx":17
+  /* "pybase16384/_core.pyx":16
  * 
- * cpdef decode(bytes data):
+ * cpdef bytes decode(bytes data):
  *     cdef base16384.LENDAT *cret = base16384.decode(<const uint8_t *> data, <const int32_t> PyBytes_Size(data))             # <<<<<<<<<<<<<<
- * 
  *     ret = <bytes> cret.data[:cret.len]
+ *     base16384.LENDAT_Del(&cret)
  */
   if (unlikely(__pyx_v_data == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "expected bytes, NoneType found");
-    __PYX_ERR(0, 17, __pyx_L1_error)
+    __PYX_ERR(0, 16, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyBytes_AsUString(__pyx_v_data); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 17, __pyx_L1_error)
-  __pyx_t_2 = PyBytes_Size(__pyx_v_data); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1L))) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBytes_AsUString(__pyx_v_data); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_2 = PyBytes_Size(__pyx_v_data); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1L))) __PYX_ERR(0, 16, __pyx_L1_error)
   __pyx_v_cret = decode(((uint8_t const *)__pyx_t_1), ((int32_t const )__pyx_t_2));
 
-  /* "pybase16384/_core.pyx":19
+  /* "pybase16384/_core.pyx":17
+ * cpdef bytes decode(bytes data):
  *     cdef base16384.LENDAT *cret = base16384.decode(<const uint8_t *> data, <const int32_t> PyBytes_Size(data))
- * 
  *     ret = <bytes> cret.data[:cret.len]             # <<<<<<<<<<<<<<
  *     base16384.LENDAT_Del(&cret)
  *     return ret
  */
-  __pyx_t_3 = __Pyx_PyBytes_FromStringAndSize(((const char*)__pyx_v_cret->data) + 0, __pyx_v_cret->len - 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyBytes_FromStringAndSize(((const char*)__pyx_v_cret->data) + 0, __pyx_v_cret->len - 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = __pyx_t_3;
   __Pyx_INCREF(__pyx_t_4);
@@ -1313,15 +1306,15 @@ static PyObject *__pyx_f_11pybase16384_5_core_decode(PyObject *__pyx_v_data, CYT
   __pyx_v_ret = ((PyObject*)__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "pybase16384/_core.pyx":20
- * 
+  /* "pybase16384/_core.pyx":18
+ *     cdef base16384.LENDAT *cret = base16384.decode(<const uint8_t *> data, <const int32_t> PyBytes_Size(data))
  *     ret = <bytes> cret.data[:cret.len]
  *     base16384.LENDAT_Del(&cret)             # <<<<<<<<<<<<<<
  *     return ret
  */
   LENDAT_Del((&__pyx_v_cret));
 
-  /* "pybase16384/_core.pyx":21
+  /* "pybase16384/_core.pyx":19
  *     ret = <bytes> cret.data[:cret.len]
  *     base16384.LENDAT_Del(&cret)
  *     return ret             # <<<<<<<<<<<<<<
@@ -1331,12 +1324,12 @@ static PyObject *__pyx_f_11pybase16384_5_core_decode(PyObject *__pyx_v_data, CYT
   __pyx_r = __pyx_v_ret;
   goto __pyx_L0;
 
-  /* "pybase16384/_core.pyx":16
+  /* "pybase16384/_core.pyx":15
  *     return ret
  * 
- * cpdef decode(bytes data):             # <<<<<<<<<<<<<<
+ * cpdef bytes decode(bytes data):             # <<<<<<<<<<<<<<
  *     cdef base16384.LENDAT *cret = base16384.decode(<const uint8_t *> data, <const int32_t> PyBytes_Size(data))
- * 
+ *     ret = <bytes> cret.data[:cret.len]
  */
 
   /* function exit code */
@@ -1354,7 +1347,7 @@ static PyObject *__pyx_f_11pybase16384_5_core_decode(PyObject *__pyx_v_data, CYT
 
 /* Python wrapper */
 static PyObject *__pyx_pw_11pybase16384_5_core_3decode(PyObject *__pyx_self, PyObject *__pyx_v_data); /*proto*/
-static char __pyx_doc_11pybase16384_5_core_2decode[] = "decode(bytes data)";
+static char __pyx_doc_11pybase16384_5_core_2decode[] = "decode(bytes data) -> bytes";
 static PyObject *__pyx_pw_11pybase16384_5_core_3decode(PyObject *__pyx_self, PyObject *__pyx_v_data) {
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -1362,7 +1355,7 @@ static PyObject *__pyx_pw_11pybase16384_5_core_3decode(PyObject *__pyx_self, PyO
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("decode (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_data), (&PyBytes_Type), 1, "data", 1))) __PYX_ERR(0, 16, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_data), (&PyBytes_Type), 1, "data", 1))) __PYX_ERR(0, 15, __pyx_L1_error)
   __pyx_r = __pyx_pf_11pybase16384_5_core_2decode(__pyx_self, ((PyObject*)__pyx_v_data));
 
   /* function exit code */
@@ -1383,7 +1376,7 @@ static PyObject *__pyx_pf_11pybase16384_5_core_2decode(CYTHON_UNUSED PyObject *_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("decode", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_11pybase16384_5_core_decode(__pyx_v_data, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_11pybase16384_5_core_decode(__pyx_v_data, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
