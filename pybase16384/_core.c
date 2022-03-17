@@ -871,17 +871,31 @@ static const char *__pyx_f[] = {
 
 /*--- Type declarations ---*/
 struct __pyx_opt_args_11pybase16384_5_core_encode_file;
+struct __pyx_opt_args_11pybase16384_5_core_decode_file;
 
 /* "pybase16384/_core.pyx":28
  *     return ret
  * 
  * cpdef void encode_file(object input,             # <<<<<<<<<<<<<<
  *                        object output,
- *                        bint write_head = False) with gil:
+ *                        bint write_head = False,
  */
 struct __pyx_opt_args_11pybase16384_5_core_encode_file {
   int __pyx_n;
   int write_head;
+  int32_t buf_rate;
+};
+
+/* "pybase16384/_core.pyx":62
+ *             break
+ * 
+ * cpdef void decode_file(object input,             # <<<<<<<<<<<<<<
+ *                        object output,
+ *                        int32_t buf_rate = 10) with gil:
+ */
+struct __pyx_opt_args_11pybase16384_5_core_decode_file {
+  int __pyx_n;
+  int32_t buf_rate;
 };
 
 /* --- Runtime support code (head) --- */
@@ -1189,6 +1203,12 @@ static void __Pyx_AddTraceback(const char *funcname, int c_line,
 #define __Pyx_HAS_GCC_DIAGNOSTIC
 #endif
 
+/* CIntFromPy.proto */
+static CYTHON_INLINE int32_t __Pyx_PyInt_As_int32_t(PyObject *);
+
+/* CIntToPy.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int32_t(int32_t value);
+
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
@@ -1244,7 +1264,7 @@ static uint8_t __pyx_f_11pybase16384_5_core_PyFile_Check(PyObject *); /*proto*/
 static PyObject *__pyx_f_11pybase16384_5_core_encode(PyObject *, int __pyx_skip_dispatch); /*proto*/
 static PyObject *__pyx_f_11pybase16384_5_core_decode(PyObject *, int __pyx_skip_dispatch); /*proto*/
 static void __pyx_f_11pybase16384_5_core_encode_file(PyObject *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_11pybase16384_5_core_encode_file *__pyx_optional_args); /*proto*/
-static void __pyx_f_11pybase16384_5_core_decode_file(PyObject *, PyObject *, int __pyx_skip_dispatch); /*proto*/
+static void __pyx_f_11pybase16384_5_core_decode_file(PyObject *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_11pybase16384_5_core_decode_file *__pyx_optional_args); /*proto*/
 #define __Pyx_MODULE_NAME "pybase16384._core"
 extern int __pyx_module_is_main_pybase16384___core;
 int __pyx_module_is_main_pybase16384___core = 0;
@@ -1261,6 +1281,7 @@ static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_input[] = "input";
 static const char __pyx_k_write[] = "write";
 static const char __pyx_k_output[] = "output";
+static const char __pyx_k_buf_rate[] = "buf_rate";
 static const char __pyx_k_TypeError[] = "TypeError";
 static const char __pyx_k_write_head[] = "write_head";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
@@ -1270,6 +1291,7 @@ static const char __pyx_k_output_except_a_file_like_object[] = "output except a 
 static PyObject *__pyx_kp_b_;
 static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_kp_b__2;
+static PyObject *__pyx_n_s_buf_rate;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_input;
 static PyObject *__pyx_kp_u_input_except_a_file_like_object;
@@ -1285,13 +1307,11 @@ static PyObject *__pyx_n_s_write;
 static PyObject *__pyx_n_s_write_head;
 static PyObject *__pyx_pf_11pybase16384_5_core_encode(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_data); /* proto */
 static PyObject *__pyx_pf_11pybase16384_5_core_2decode(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_data); /* proto */
-static PyObject *__pyx_pf_11pybase16384_5_core_4encode_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input, PyObject *__pyx_v_output, int __pyx_v_write_head); /* proto */
-static PyObject *__pyx_pf_11pybase16384_5_core_6decode_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input, PyObject *__pyx_v_output); /* proto */
+static PyObject *__pyx_pf_11pybase16384_5_core_4encode_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input, PyObject *__pyx_v_output, int __pyx_v_write_head, int32_t __pyx_v_buf_rate); /* proto */
+static PyObject *__pyx_pf_11pybase16384_5_core_6decode_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input, PyObject *__pyx_v_output, int32_t __pyx_v_buf_rate); /* proto */
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
 static PyObject *__pyx_int_2;
-static PyObject *__pyx_int_7;
-static PyObject *__pyx_int_8;
 static PyObject *__pyx_int_61;
 static PyObject *__pyx_int_neg_2;
 static PyObject *__pyx_tuple__3;
@@ -1671,7 +1691,7 @@ static PyObject *__pyx_pf_11pybase16384_5_core_2decode(CYTHON_UNUSED PyObject *_
  * 
  * cpdef void encode_file(object input,             # <<<<<<<<<<<<<<
  *                        object output,
- *                        bint write_head = False) with gil:
+ *                        bint write_head = False,
  */
 
 static PyObject *__pyx_pw_11pybase16384_5_core_5encode_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
@@ -1680,11 +1700,15 @@ static void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__pyx_v_input, Py
   /* "pybase16384/_core.pyx":30
  * cpdef void encode_file(object input,
  *                        object output,
- *                        bint write_head = False) with gil:             # <<<<<<<<<<<<<<
+ *                        bint write_head = False,             # <<<<<<<<<<<<<<
+ *                        int32_t buf_rate = 10) with gil:
  *     if not PyFile_Check(input):
- *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
  */
   int __pyx_v_write_head = ((int)0);
+  int32_t __pyx_v_buf_rate = ((int32_t)10);
+  int32_t __pyx_v_current_buf_len;
+  Py_ssize_t __pyx_v_size;
+  uint8_t __pyx_v_first_check;
   PyObject *__pyx_v_chunk = NULL;
   PyObject *__pyx_v_ot = NULL;
   __Pyx_RefNannyDeclarations
@@ -1692,7 +1716,10 @@ static void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__pyx_v_input, Py
   PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
-  Py_ssize_t __pyx_t_5;
+  PyObject *__pyx_t_5 = NULL;
+  Py_ssize_t __pyx_t_6;
+  int __pyx_t_7;
+  PyObject *__pyx_t_8 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -1703,14 +1730,17 @@ static void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__pyx_v_input, Py
   if (__pyx_optional_args) {
     if (__pyx_optional_args->__pyx_n > 0) {
       __pyx_v_write_head = __pyx_optional_args->write_head;
+      if (__pyx_optional_args->__pyx_n > 1) {
+        __pyx_v_buf_rate = __pyx_optional_args->buf_rate;
+      }
     }
   }
   __Pyx_INCREF(__pyx_v_input);
   __Pyx_INCREF(__pyx_v_output);
 
-  /* "pybase16384/_core.pyx":31
- *                        object output,
- *                        bint write_head = False) with gil:
+  /* "pybase16384/_core.pyx":32
+ *                        bint write_head = False,
+ *                        int32_t buf_rate = 10) with gil:
  *     if not PyFile_Check(input):             # <<<<<<<<<<<<<<
  *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
  *     if not PyFile_Check(output):
@@ -1718,35 +1748,35 @@ static void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__pyx_v_input, Py
   __pyx_t_1 = ((!(__pyx_f_11pybase16384_5_core_PyFile_Check(__pyx_v_input) != 0)) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "pybase16384/_core.pyx":32
- *                        bint write_head = False) with gil:
+    /* "pybase16384/_core.pyx":33
+ *                        int32_t buf_rate = 10) with gil:
  *     if not PyFile_Check(input):
  *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)             # <<<<<<<<<<<<<<
  *     if not PyFile_Check(output):
  *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_input)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_input)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_input_except_a_file_like_object, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 32, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_input_except_a_file_like_object, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 33, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 32, __pyx_L1_error)
+    __PYX_ERR(0, 33, __pyx_L1_error)
 
-    /* "pybase16384/_core.pyx":31
- *                        object output,
- *                        bint write_head = False) with gil:
+    /* "pybase16384/_core.pyx":32
+ *                        bint write_head = False,
+ *                        int32_t buf_rate = 10) with gil:
  *     if not PyFile_Check(input):             # <<<<<<<<<<<<<<
  *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
  *     if not PyFile_Check(output):
  */
   }
 
-  /* "pybase16384/_core.pyx":33
+  /* "pybase16384/_core.pyx":34
  *     if not PyFile_Check(input):
  *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
  *     if not PyFile_Check(output):             # <<<<<<<<<<<<<<
@@ -1756,26 +1786,26 @@ static void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__pyx_v_input, Py
   __pyx_t_1 = ((!(__pyx_f_11pybase16384_5_core_PyFile_Check(__pyx_v_output) != 0)) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "pybase16384/_core.pyx":34
+    /* "pybase16384/_core.pyx":35
  *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
  *     if not PyFile_Check(output):
  *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)             # <<<<<<<<<<<<<<
  * 
  *     if write_head:
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_output)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_output)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_output_except_a_file_like_object, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 34, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_output_except_a_file_like_object, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 35, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 34, __pyx_L1_error)
+    __PYX_ERR(0, 35, __pyx_L1_error)
 
-    /* "pybase16384/_core.pyx":33
+    /* "pybase16384/_core.pyx":34
  *     if not PyFile_Check(input):
  *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
  *     if not PyFile_Check(output):             # <<<<<<<<<<<<<<
@@ -1784,24 +1814,24 @@ static void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__pyx_v_input, Py
  */
   }
 
-  /* "pybase16384/_core.pyx":36
+  /* "pybase16384/_core.pyx":37
  *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
  * 
  *     if write_head:             # <<<<<<<<<<<<<<
  *         output.write(b'\xfe\xff')
- *     while True:
+ * 
  */
   __pyx_t_1 = (__pyx_v_write_head != 0);
   if (__pyx_t_1) {
 
-    /* "pybase16384/_core.pyx":37
+    /* "pybase16384/_core.pyx":38
  * 
  *     if write_head:
  *         output.write(b'\xfe\xff')             # <<<<<<<<<<<<<<
- *     while True:
- *         chunk = input.read(7)
+ * 
+ *     cdef int32_t current_buf_len = buf_rate * 7
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_output, __pyx_n_s_write); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_output, __pyx_n_s_write); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -1815,148 +1845,332 @@ static void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__pyx_v_input, Py
     }
     __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_kp_b_) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_kp_b_);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pybase16384/_core.pyx":36
+    /* "pybase16384/_core.pyx":37
  *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
  * 
  *     if write_head:             # <<<<<<<<<<<<<<
  *         output.write(b'\xfe\xff')
- *     while True:
+ * 
  */
   }
 
-  /* "pybase16384/_core.pyx":38
- *     if write_head:
+  /* "pybase16384/_core.pyx":40
  *         output.write(b'\xfe\xff')
+ * 
+ *     cdef int32_t current_buf_len = buf_rate * 7             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t size
+ *     cdef uint8_t first_check = 1  #  bytes
+ */
+  __pyx_v_current_buf_len = (__pyx_v_buf_rate * 7);
+
+  /* "pybase16384/_core.pyx":42
+ *     cdef int32_t current_buf_len = buf_rate * 7
+ *     cdef Py_ssize_t size
+ *     cdef uint8_t first_check = 1  #  bytes             # <<<<<<<<<<<<<<
+ *     while True:
+ *         chunk = input.read(current_buf_len)
+ */
+  __pyx_v_first_check = 1;
+
+  /* "pybase16384/_core.pyx":43
+ *     cdef Py_ssize_t size
+ *     cdef uint8_t first_check = 1  #  bytes
  *     while True:             # <<<<<<<<<<<<<<
- *         chunk = input.read(7)
- *         if not PyBytes_Check(chunk):
+ *         chunk = input.read(current_buf_len)
+ *         if first_check:
  */
   while (1) {
 
-    /* "pybase16384/_core.pyx":39
- *         output.write(b'\xfe\xff')
+    /* "pybase16384/_core.pyx":44
+ *     cdef uint8_t first_check = 1  #  bytes
  *     while True:
- *         chunk = input.read(7)             # <<<<<<<<<<<<<<
- *         if not PyBytes_Check(chunk):
- *             raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
+ *         chunk = input.read(current_buf_len)             # <<<<<<<<<<<<<<
+ *         if first_check:
+ *             first_check = 0
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_read); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_read); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = NULL;
+    __pyx_t_4 = __Pyx_PyInt_From_int32_t(__pyx_v_current_buf_len); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 44, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
-      if (likely(__pyx_t_4)) {
+      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_5)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-        __Pyx_INCREF(__pyx_t_4);
+        __Pyx_INCREF(__pyx_t_5);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_3, function);
       }
     }
-    __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_int_7) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_int_7);
-    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4);
+    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_XDECREF_SET(__pyx_v_chunk, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "pybase16384/_core.pyx":40
+    /* "pybase16384/_core.pyx":45
  *     while True:
- *         chunk = input.read(7)
- *         if not PyBytes_Check(chunk):             # <<<<<<<<<<<<<<
- *             raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
- *         ot = encode(chunk)  # type: bytes
+ *         chunk = input.read(current_buf_len)
+ *         if first_check:             # <<<<<<<<<<<<<<
+ *             first_check = 0
+ *             if not PyBytes_Check(chunk):
  */
-    __pyx_t_1 = ((!(PyBytes_Check(__pyx_v_chunk) != 0)) != 0);
-    if (unlikely(__pyx_t_1)) {
+    __pyx_t_1 = (__pyx_v_first_check != 0);
+    if (__pyx_t_1) {
 
-      /* "pybase16384/_core.pyx":41
- *         chunk = input.read(7)
- *         if not PyBytes_Check(chunk):
- *             raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")             # <<<<<<<<<<<<<<
- *         ot = encode(chunk)  # type: bytes
- *         output.write(ot)
+      /* "pybase16384/_core.pyx":46
+ *         chunk = input.read(current_buf_len)
+ *         if first_check:
+ *             first_check = 0             # <<<<<<<<<<<<<<
+ *             if not PyBytes_Check(chunk):
+ *                 raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_input)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_3 = __Pyx_PyObject_FormatSimple(__pyx_t_2, __pyx_empty_unicode); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 41, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_PyUnicode_Concat(__pyx_kp_u_input_must_be_a_file_like_rb_obj, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 41, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_Raise(__pyx_t_3, 0, 0, 0);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __PYX_ERR(0, 41, __pyx_L1_error)
+      __pyx_v_first_check = 0;
 
-      /* "pybase16384/_core.pyx":40
+      /* "pybase16384/_core.pyx":47
+ *         if first_check:
+ *             first_check = 0
+ *             if not PyBytes_Check(chunk):             # <<<<<<<<<<<<<<
+ *                 raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
+ *         size = PyBytes_Size(chunk)
+ */
+      __pyx_t_1 = ((!(PyBytes_Check(__pyx_v_chunk) != 0)) != 0);
+      if (unlikely(__pyx_t_1)) {
+
+        /* "pybase16384/_core.pyx":48
+ *             first_check = 0
+ *             if not PyBytes_Check(chunk):
+ *                 raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")             # <<<<<<<<<<<<<<
+ *         size = PyBytes_Size(chunk)
+ *         if <int32_t> size < current_buf_len:  #
+ */
+        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_input)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __pyx_t_3 = __Pyx_PyObject_FormatSimple(__pyx_t_2, __pyx_empty_unicode); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_t_2 = __Pyx_PyUnicode_Concat(__pyx_kp_u_input_must_be_a_file_like_rb_obj, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __Pyx_Raise(__pyx_t_3, 0, 0, 0);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __PYX_ERR(0, 48, __pyx_L1_error)
+
+        /* "pybase16384/_core.pyx":47
+ *         if first_check:
+ *             first_check = 0
+ *             if not PyBytes_Check(chunk):             # <<<<<<<<<<<<<<
+ *                 raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
+ *         size = PyBytes_Size(chunk)
+ */
+      }
+
+      /* "pybase16384/_core.pyx":45
  *     while True:
- *         chunk = input.read(7)
- *         if not PyBytes_Check(chunk):             # <<<<<<<<<<<<<<
- *             raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
- *         ot = encode(chunk)  # type: bytes
+ *         chunk = input.read(current_buf_len)
+ *         if first_check:             # <<<<<<<<<<<<<<
+ *             first_check = 0
+ *             if not PyBytes_Check(chunk):
  */
     }
 
-    /* "pybase16384/_core.pyx":42
- *         if not PyBytes_Check(chunk):
- *             raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
+    /* "pybase16384/_core.pyx":49
+ *             if not PyBytes_Check(chunk):
+ *                 raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
+ *         size = PyBytes_Size(chunk)             # <<<<<<<<<<<<<<
+ *         if <int32_t> size < current_buf_len:  #
+ *             if buf_rate > 1:  #   7  encode
+ */
+    __pyx_t_6 = PyBytes_Size(__pyx_v_chunk); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1L))) __PYX_ERR(0, 49, __pyx_L1_error)
+    __pyx_v_size = __pyx_t_6;
+
+    /* "pybase16384/_core.pyx":50
+ *                 raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
+ *         size = PyBytes_Size(chunk)
+ *         if <int32_t> size < current_buf_len:  #             # <<<<<<<<<<<<<<
+ *             if buf_rate > 1:  #   7  encode
+ *                 buf_rate = buf_rate / 2
+ */
+    __pyx_t_1 = ((((int32_t)__pyx_v_size) < __pyx_v_current_buf_len) != 0);
+    if (__pyx_t_1) {
+
+      /* "pybase16384/_core.pyx":51
+ *         size = PyBytes_Size(chunk)
+ *         if <int32_t> size < current_buf_len:  #
+ *             if buf_rate > 1:  #   7  encode             # <<<<<<<<<<<<<<
+ *                 buf_rate = buf_rate / 2
+ *                 current_buf_len = buf_rate * 7
+ */
+      __pyx_t_1 = ((__pyx_v_buf_rate > 1) != 0);
+      if (__pyx_t_1) {
+
+        /* "pybase16384/_core.pyx":52
+ *         if <int32_t> size < current_buf_len:  #
+ *             if buf_rate > 1:  #   7  encode
+ *                 buf_rate = buf_rate / 2             # <<<<<<<<<<<<<<
+ *                 current_buf_len = buf_rate * 7
+ *                 input.seek(-size, 1)
+ */
+        __pyx_v_buf_rate = (((long)__pyx_v_buf_rate) / 2);
+
+        /* "pybase16384/_core.pyx":53
+ *             if buf_rate > 1:  #   7  encode
+ *                 buf_rate = buf_rate / 2
+ *                 current_buf_len = buf_rate * 7             # <<<<<<<<<<<<<<
+ *                 input.seek(-size, 1)
+ *                 continue
+ */
+        __pyx_v_current_buf_len = (__pyx_v_buf_rate * 7);
+
+        /* "pybase16384/_core.pyx":54
+ *                 buf_rate = buf_rate / 2
+ *                 current_buf_len = buf_rate * 7
+ *                 input.seek(-size, 1)             # <<<<<<<<<<<<<<
+ *                 continue
+ * 
+ */
+        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_seek); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 54, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __pyx_t_4 = PyInt_FromSsize_t((-__pyx_v_size)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __pyx_t_5 = NULL;
+        __pyx_t_7 = 0;
+        if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+          __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_2);
+          if (likely(__pyx_t_5)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+            __Pyx_INCREF(__pyx_t_5);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_2, function);
+            __pyx_t_7 = 1;
+          }
+        }
+        #if CYTHON_FAST_PYCALL
+        if (PyFunction_Check(__pyx_t_2)) {
+          PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_4, __pyx_int_1};
+          __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 54, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+          __Pyx_GOTREF(__pyx_t_3);
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        } else
+        #endif
+        #if CYTHON_FAST_PYCCALL
+        if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
+          PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_4, __pyx_int_1};
+          __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 54, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+          __Pyx_GOTREF(__pyx_t_3);
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        } else
+        #endif
+        {
+          __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 54, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_8);
+          if (__pyx_t_5) {
+            __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_5); __pyx_t_5 = NULL;
+          }
+          __Pyx_GIVEREF(__pyx_t_4);
+          PyTuple_SET_ITEM(__pyx_t_8, 0+__pyx_t_7, __pyx_t_4);
+          __Pyx_INCREF(__pyx_int_1);
+          __Pyx_GIVEREF(__pyx_int_1);
+          PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_int_1);
+          __pyx_t_4 = 0;
+          __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 54, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_3);
+          __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+        }
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+        /* "pybase16384/_core.pyx":55
+ *                 current_buf_len = buf_rate * 7
+ *                 input.seek(-size, 1)
+ *                 continue             # <<<<<<<<<<<<<<
+ * 
+ *         ot = encode(chunk)  # type: bytes
+ */
+        goto __pyx_L6_continue;
+
+        /* "pybase16384/_core.pyx":51
+ *         size = PyBytes_Size(chunk)
+ *         if <int32_t> size < current_buf_len:  #
+ *             if buf_rate > 1:  #   7  encode             # <<<<<<<<<<<<<<
+ *                 buf_rate = buf_rate / 2
+ *                 current_buf_len = buf_rate * 7
+ */
+      }
+
+      /* "pybase16384/_core.pyx":50
+ *                 raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
+ *         size = PyBytes_Size(chunk)
+ *         if <int32_t> size < current_buf_len:  #             # <<<<<<<<<<<<<<
+ *             if buf_rate > 1:  #   7  encode
+ *                 buf_rate = buf_rate / 2
+ */
+    }
+
+    /* "pybase16384/_core.pyx":57
+ *                 continue
+ * 
  *         ot = encode(chunk)  # type: bytes             # <<<<<<<<<<<<<<
  *         output.write(ot)
  *         if PyBytes_Size(chunk) < 7:
  */
-    if (!(likely(PyBytes_CheckExact(__pyx_v_chunk))||((__pyx_v_chunk) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "bytes", Py_TYPE(__pyx_v_chunk)->tp_name), 0))) __PYX_ERR(0, 42, __pyx_L1_error)
-    __pyx_t_3 = __pyx_f_11pybase16384_5_core_encode(((PyObject*)__pyx_v_chunk), 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
+    if (!(likely(PyBytes_CheckExact(__pyx_v_chunk))||((__pyx_v_chunk) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "bytes", Py_TYPE(__pyx_v_chunk)->tp_name), 0))) __PYX_ERR(0, 57, __pyx_L1_error)
+    __pyx_t_3 = __pyx_f_11pybase16384_5_core_encode(((PyObject*)__pyx_v_chunk), 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 57, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_XDECREF_SET(__pyx_v_ot, ((PyObject*)__pyx_t_3));
     __pyx_t_3 = 0;
 
-    /* "pybase16384/_core.pyx":43
- *             raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
+    /* "pybase16384/_core.pyx":58
+ * 
  *         ot = encode(chunk)  # type: bytes
  *         output.write(ot)             # <<<<<<<<<<<<<<
  *         if PyBytes_Size(chunk) < 7:
  *             break
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_output, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_output, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = NULL;
+    __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
-      if (likely(__pyx_t_4)) {
+      __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_2);
+      if (likely(__pyx_t_8)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-        __Pyx_INCREF(__pyx_t_4);
+        __Pyx_INCREF(__pyx_t_8);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_2, function);
       }
     }
-    __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_v_ot) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_ot);
-    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __pyx_t_3 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_8, __pyx_v_ot) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_ot);
+    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pybase16384/_core.pyx":44
+    /* "pybase16384/_core.pyx":59
  *         ot = encode(chunk)  # type: bytes
  *         output.write(ot)
  *         if PyBytes_Size(chunk) < 7:             # <<<<<<<<<<<<<<
  *             break
  * 
  */
-    __pyx_t_5 = PyBytes_Size(__pyx_v_chunk); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1L))) __PYX_ERR(0, 44, __pyx_L1_error)
-    __pyx_t_1 = ((__pyx_t_5 < 7) != 0);
+    __pyx_t_6 = PyBytes_Size(__pyx_v_chunk); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1L))) __PYX_ERR(0, 59, __pyx_L1_error)
+    __pyx_t_1 = ((__pyx_t_6 < 7) != 0);
     if (__pyx_t_1) {
 
-      /* "pybase16384/_core.pyx":45
+      /* "pybase16384/_core.pyx":60
  *         output.write(ot)
  *         if PyBytes_Size(chunk) < 7:
  *             break             # <<<<<<<<<<<<<<
@@ -1965,7 +2179,7 @@ static void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__pyx_v_input, Py
  */
       goto __pyx_L7_break;
 
-      /* "pybase16384/_core.pyx":44
+      /* "pybase16384/_core.pyx":59
  *         ot = encode(chunk)  # type: bytes
  *         output.write(ot)
  *         if PyBytes_Size(chunk) < 7:             # <<<<<<<<<<<<<<
@@ -1973,6 +2187,7 @@ static void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__pyx_v_input, Py
  * 
  */
     }
+    __pyx_L6_continue:;
   }
   __pyx_L7_break:;
 
@@ -1981,7 +2196,7 @@ static void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__pyx_v_input, Py
  * 
  * cpdef void encode_file(object input,             # <<<<<<<<<<<<<<
  *                        object output,
- *                        bint write_head = False) with gil:
+ *                        bint write_head = False,
  */
 
   /* function exit code */
@@ -1990,6 +2205,8 @@ static void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__pyx_v_input, Py
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_8);
   __Pyx_WriteUnraisable("pybase16384._core.encode_file", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_chunk);
@@ -2004,11 +2221,12 @@ static void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__pyx_v_input, Py
 
 /* Python wrapper */
 static PyObject *__pyx_pw_11pybase16384_5_core_5encode_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_11pybase16384_5_core_4encode_file[] = "encode_file(input, output, bool write_head=False) -> void";
+static char __pyx_doc_11pybase16384_5_core_4encode_file[] = "encode_file(input, output, bool write_head=False, int32_t buf_rate=10) -> void";
 static PyObject *__pyx_pw_11pybase16384_5_core_5encode_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_input = 0;
   PyObject *__pyx_v_output = 0;
   int __pyx_v_write_head;
+  int32_t __pyx_v_buf_rate;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -2016,7 +2234,858 @@ static PyObject *__pyx_pw_11pybase16384_5_core_5encode_file(PyObject *__pyx_self
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("encode_file (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_input,&__pyx_n_s_output,&__pyx_n_s_write_head,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_input,&__pyx_n_s_output,&__pyx_n_s_write_head,&__pyx_n_s_buf_rate,0};
+    PyObject* values[4] = {0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_input)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_output)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("encode_file", 0, 2, 4, 1); __PYX_ERR(0, 28, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_write_head);
+          if (value) { values[2] = value; kw_args--; }
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_buf_rate);
+          if (value) { values[3] = value; kw_args--; }
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "encode_file") < 0)) __PYX_ERR(0, 28, __pyx_L3_error)
+      }
+    } else {
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_input = values[0];
+    __pyx_v_output = values[1];
+    if (values[2]) {
+      __pyx_v_write_head = __Pyx_PyObject_IsTrue(values[2]); if (unlikely((__pyx_v_write_head == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 30, __pyx_L3_error)
+    } else {
+
+      /* "pybase16384/_core.pyx":30
+ * cpdef void encode_file(object input,
+ *                        object output,
+ *                        bint write_head = False,             # <<<<<<<<<<<<<<
+ *                        int32_t buf_rate = 10) with gil:
+ *     if not PyFile_Check(input):
+ */
+      __pyx_v_write_head = ((int)0);
+    }
+    if (values[3]) {
+      __pyx_v_buf_rate = __Pyx_PyInt_As_int32_t(values[3]); if (unlikely((__pyx_v_buf_rate == ((int32_t)-1)) && PyErr_Occurred())) __PYX_ERR(0, 31, __pyx_L3_error)
+    } else {
+      __pyx_v_buf_rate = ((int32_t)10);
+    }
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("encode_file", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 28, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("pybase16384._core.encode_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_11pybase16384_5_core_4encode_file(__pyx_self, __pyx_v_input, __pyx_v_output, __pyx_v_write_head, __pyx_v_buf_rate);
+
+  /* "pybase16384/_core.pyx":28
+ *     return ret
+ * 
+ * cpdef void encode_file(object input,             # <<<<<<<<<<<<<<
+ *                        object output,
+ *                        bint write_head = False,
+ */
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_11pybase16384_5_core_4encode_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input, PyObject *__pyx_v_output, int __pyx_v_write_head, int32_t __pyx_v_buf_rate) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  struct __pyx_opt_args_11pybase16384_5_core_encode_file __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("encode_file", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1.__pyx_n = 2;
+  __pyx_t_1.write_head = __pyx_v_write_head;
+  __pyx_t_1.buf_rate = __pyx_v_buf_rate;
+  __pyx_f_11pybase16384_5_core_encode_file(__pyx_v_input, __pyx_v_output, 0, &__pyx_t_1); 
+  __pyx_t_2 = __Pyx_void_to_None(NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("pybase16384._core.encode_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pybase16384/_core.pyx":62
+ *             break
+ * 
+ * cpdef void decode_file(object input,             # <<<<<<<<<<<<<<
+ *                        object output,
+ *                        int32_t buf_rate = 10) with gil:
+ */
+
+static PyObject *__pyx_pw_11pybase16384_5_core_7decode_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__pyx_v_input, PyObject *__pyx_v_output, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_11pybase16384_5_core_decode_file *__pyx_optional_args) {
+  int32_t __pyx_v_buf_rate = ((int32_t)10);
+  PyObject *__pyx_v_chunk = NULL;
+  int32_t __pyx_v_current_buf_len;
+  Py_ssize_t __pyx_v_size;
+  uint8_t __pyx_v_can_skip_check;
+  PyObject *__pyx_v_ot = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  Py_ssize_t __pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  int __pyx_t_7;
+  PyObject *__pyx_t_8 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  #ifdef WITH_THREAD
+  PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+  #endif
+  __Pyx_RefNannySetupContext("decode_file", 0);
+  if (__pyx_optional_args) {
+    if (__pyx_optional_args->__pyx_n > 0) {
+      __pyx_v_buf_rate = __pyx_optional_args->buf_rate;
+    }
+  }
+  __Pyx_INCREF(__pyx_v_input);
+  __Pyx_INCREF(__pyx_v_output);
+
+  /* "pybase16384/_core.pyx":65
+ *                        object output,
+ *                        int32_t buf_rate = 10) with gil:
+ *     if not PyFile_Check(input):             # <<<<<<<<<<<<<<
+ *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
+ *     if not PyFile_Check(output):
+ */
+  __pyx_t_1 = ((!(__pyx_f_11pybase16384_5_core_PyFile_Check(__pyx_v_input) != 0)) != 0);
+  if (unlikely(__pyx_t_1)) {
+
+    /* "pybase16384/_core.pyx":66
+ *                        int32_t buf_rate = 10) with gil:
+ *     if not PyFile_Check(input):
+ *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)             # <<<<<<<<<<<<<<
+ *     if not PyFile_Check(output):
+ *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
+ */
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_input)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_3 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_input_except_a_file_like_object, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __PYX_ERR(0, 66, __pyx_L1_error)
+
+    /* "pybase16384/_core.pyx":65
+ *                        object output,
+ *                        int32_t buf_rate = 10) with gil:
+ *     if not PyFile_Check(input):             # <<<<<<<<<<<<<<
+ *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
+ *     if not PyFile_Check(output):
+ */
+  }
+
+  /* "pybase16384/_core.pyx":67
+ *     if not PyFile_Check(input):
+ *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
+ *     if not PyFile_Check(output):             # <<<<<<<<<<<<<<
+ *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
+ * 
+ */
+  __pyx_t_1 = ((!(__pyx_f_11pybase16384_5_core_PyFile_Check(__pyx_v_output) != 0)) != 0);
+  if (unlikely(__pyx_t_1)) {
+
+    /* "pybase16384/_core.pyx":68
+ *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
+ *     if not PyFile_Check(output):
+ *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)             # <<<<<<<<<<<<<<
+ * 
+ *     chunk = input.read(1)  # type: bytes
+ */
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_output)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_3 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_output_except_a_file_like_object, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __PYX_ERR(0, 68, __pyx_L1_error)
+
+    /* "pybase16384/_core.pyx":67
+ *     if not PyFile_Check(input):
+ *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
+ *     if not PyFile_Check(output):             # <<<<<<<<<<<<<<
+ *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
+ * 
+ */
+  }
+
+  /* "pybase16384/_core.pyx":70
+ *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
+ * 
+ *     chunk = input.read(1)  # type: bytes             # <<<<<<<<<<<<<<
+ *     if not PyBytes_Check(chunk):
+ *         raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
+ */
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_read); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_int_1) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_int_1);
+  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_v_chunk = __pyx_t_2;
+  __pyx_t_2 = 0;
+
+  /* "pybase16384/_core.pyx":71
+ * 
+ *     chunk = input.read(1)  # type: bytes
+ *     if not PyBytes_Check(chunk):             # <<<<<<<<<<<<<<
+ *         raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
+ *     if chunk == b"\xfe":  #
+ */
+  __pyx_t_1 = ((!(PyBytes_Check(__pyx_v_chunk) != 0)) != 0);
+  if (unlikely(__pyx_t_1)) {
+
+    /* "pybase16384/_core.pyx":72
+ *     chunk = input.read(1)  # type: bytes
+ *     if not PyBytes_Check(chunk):
+ *         raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")             # <<<<<<<<<<<<<<
+ *     if chunk == b"\xfe":  #
+ *         input.read(1)
+ */
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_input)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_3 = __Pyx_PyObject_FormatSimple(__pyx_t_2, __pyx_empty_unicode); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 72, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = __Pyx_PyUnicode_Concat(__pyx_kp_u_input_must_be_a_file_like_rb_obj, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 72, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __PYX_ERR(0, 72, __pyx_L1_error)
+
+    /* "pybase16384/_core.pyx":71
+ * 
+ *     chunk = input.read(1)  # type: bytes
+ *     if not PyBytes_Check(chunk):             # <<<<<<<<<<<<<<
+ *         raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
+ *     if chunk == b"\xfe":  #
+ */
+  }
+
+  /* "pybase16384/_core.pyx":73
+ *     if not PyBytes_Check(chunk):
+ *         raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
+ *     if chunk == b"\xfe":  #             # <<<<<<<<<<<<<<
+ *         input.read(1)
+ *     else:
+ */
+  __pyx_t_1 = (__Pyx_PyBytes_Equals(__pyx_v_chunk, __pyx_kp_b__2, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 73, __pyx_L1_error)
+  if (__pyx_t_1) {
+
+    /* "pybase16384/_core.pyx":74
+ *         raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
+ *     if chunk == b"\xfe":  #
+ *         input.read(1)             # <<<<<<<<<<<<<<
+ *     else:
+ *         input.seek(0, 0)  #
+ */
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_read); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_4 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
+      if (likely(__pyx_t_4)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+        __Pyx_INCREF(__pyx_t_4);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_2, function);
+      }
+    }
+    __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_int_1) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_int_1);
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 74, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+    /* "pybase16384/_core.pyx":73
+ *     if not PyBytes_Check(chunk):
+ *         raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
+ *     if chunk == b"\xfe":  #             # <<<<<<<<<<<<<<
+ *         input.read(1)
+ *     else:
+ */
+    goto __pyx_L6;
+  }
+
+  /* "pybase16384/_core.pyx":76
+ *         input.read(1)
+ *     else:
+ *         input.seek(0, 0)  #             # <<<<<<<<<<<<<<
+ * 
+ *     cdef int32_t current_buf_len = buf_rate * 8
+ */
+  /*else*/ {
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_seek); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 76, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  }
+  __pyx_L6:;
+
+  /* "pybase16384/_core.pyx":78
+ *         input.seek(0, 0)  #
+ * 
+ *     cdef int32_t current_buf_len = buf_rate * 8             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t size
+ *     cdef uint8_t can_skip_check = 0  #
+ */
+  __pyx_v_current_buf_len = (__pyx_v_buf_rate * 8);
+
+  /* "pybase16384/_core.pyx":80
+ *     cdef int32_t current_buf_len = buf_rate * 8
+ *     cdef Py_ssize_t size
+ *     cdef uint8_t can_skip_check = 0  #             # <<<<<<<<<<<<<<
+ *     while True:
+ *         if not can_skip_check:
+ */
+  __pyx_v_can_skip_check = 0;
+
+  /* "pybase16384/_core.pyx":81
+ *     cdef Py_ssize_t size
+ *     cdef uint8_t can_skip_check = 0  #
+ *     while True:             # <<<<<<<<<<<<<<
+ *         if not can_skip_check:
+ *             chunk = input.read(2)  # type: bytes
+ */
+  while (1) {
+
+    /* "pybase16384/_core.pyx":82
+ *     cdef uint8_t can_skip_check = 0  #
+ *     while True:
+ *         if not can_skip_check:             # <<<<<<<<<<<<<<
+ *             chunk = input.read(2)  # type: bytes
+ *             if PyBytes_Size(chunk) > 0:
+ */
+    __pyx_t_1 = ((!(__pyx_v_can_skip_check != 0)) != 0);
+    if (__pyx_t_1) {
+
+      /* "pybase16384/_core.pyx":83
+ *     while True:
+ *         if not can_skip_check:
+ *             chunk = input.read(2)  # type: bytes             # <<<<<<<<<<<<<<
+ *             if PyBytes_Size(chunk) > 0:
+ *                 if chunk[0] == 61:  # = stream
+ */
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_read); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 83, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_4 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+        if (likely(__pyx_t_4)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+          __Pyx_INCREF(__pyx_t_4);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_3, function);
+        }
+      }
+      __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_int_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_int_2);
+      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 83, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_DECREF_SET(__pyx_v_chunk, __pyx_t_2);
+      __pyx_t_2 = 0;
+
+      /* "pybase16384/_core.pyx":84
+ *         if not can_skip_check:
+ *             chunk = input.read(2)  # type: bytes
+ *             if PyBytes_Size(chunk) > 0:             # <<<<<<<<<<<<<<
+ *                 if chunk[0] == 61:  # = stream
+ *                     output.write(chunk)
+ */
+      __pyx_t_5 = PyBytes_Size(__pyx_v_chunk); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1L))) __PYX_ERR(0, 84, __pyx_L1_error)
+      __pyx_t_1 = ((__pyx_t_5 > 0) != 0);
+      if (__pyx_t_1) {
+
+        /* "pybase16384/_core.pyx":85
+ *             chunk = input.read(2)  # type: bytes
+ *             if PyBytes_Size(chunk) > 0:
+ *                 if chunk[0] == 61:  # = stream             # <<<<<<<<<<<<<<
+ *                     output.write(chunk)
+ *                     break
+ */
+        __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_chunk, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __pyx_t_3 = __Pyx_PyInt_EqObjC(__pyx_t_2, __pyx_int_61, 61, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 85, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 85, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        if (__pyx_t_1) {
+
+          /* "pybase16384/_core.pyx":86
+ *             if PyBytes_Size(chunk) > 0:
+ *                 if chunk[0] == 61:  # = stream
+ *                     output.write(chunk)             # <<<<<<<<<<<<<<
+ *                     break
+ *                 else:
+ */
+          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_output, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __pyx_t_4 = NULL;
+          if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+            __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
+            if (likely(__pyx_t_4)) {
+              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+              __Pyx_INCREF(__pyx_t_4);
+              __Pyx_INCREF(function);
+              __Pyx_DECREF_SET(__pyx_t_2, function);
+            }
+          }
+          __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_v_chunk) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_chunk);
+          __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+          if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 86, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_3);
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+          /* "pybase16384/_core.pyx":87
+ *                 if chunk[0] == 61:  # = stream
+ *                     output.write(chunk)
+ *                     break             # <<<<<<<<<<<<<<
+ *                 else:
+ *                     input.seek(-2, 1)
+ */
+          goto __pyx_L8_break;
+
+          /* "pybase16384/_core.pyx":85
+ *             chunk = input.read(2)  # type: bytes
+ *             if PyBytes_Size(chunk) > 0:
+ *                 if chunk[0] == 61:  # = stream             # <<<<<<<<<<<<<<
+ *                     output.write(chunk)
+ *                     break
+ */
+        }
+
+        /* "pybase16384/_core.pyx":89
+ *                     break
+ *                 else:
+ *                     input.seek(-2, 1)             # <<<<<<<<<<<<<<
+ *             else:
+ *                 break
+ */
+        /*else*/ {
+          __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_seek); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 89, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_3);
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 89, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        }
+
+        /* "pybase16384/_core.pyx":84
+ *         if not can_skip_check:
+ *             chunk = input.read(2)  # type: bytes
+ *             if PyBytes_Size(chunk) > 0:             # <<<<<<<<<<<<<<
+ *                 if chunk[0] == 61:  # = stream
+ *                     output.write(chunk)
+ */
+        goto __pyx_L10;
+      }
+
+      /* "pybase16384/_core.pyx":91
+ *                     input.seek(-2, 1)
+ *             else:
+ *                 break             # <<<<<<<<<<<<<<
+ *         can_skip_check = 0
+ * 
+ */
+      /*else*/ {
+        goto __pyx_L8_break;
+      }
+      __pyx_L10:;
+
+      /* "pybase16384/_core.pyx":82
+ *     cdef uint8_t can_skip_check = 0  #
+ *     while True:
+ *         if not can_skip_check:             # <<<<<<<<<<<<<<
+ *             chunk = input.read(2)  # type: bytes
+ *             if PyBytes_Size(chunk) > 0:
+ */
+    }
+
+    /* "pybase16384/_core.pyx":92
+ *             else:
+ *                 break
+ *         can_skip_check = 0             # <<<<<<<<<<<<<<
+ * 
+ *         chunk = input.read(current_buf_len)  # 8
+ */
+    __pyx_v_can_skip_check = 0;
+
+    /* "pybase16384/_core.pyx":94
+ *         can_skip_check = 0
+ * 
+ *         chunk = input.read(current_buf_len)  # 8             # <<<<<<<<<<<<<<
+ *         size = PyBytes_Size(chunk)
+ *         if <int32_t> size < current_buf_len:  #
+ */
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_read); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 94, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_4 = __Pyx_PyInt_From_int32_t(__pyx_v_current_buf_len); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 94, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_6 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_6)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_6);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_3, function);
+      }
+    }
+    __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_6, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4);
+    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 94, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF_SET(__pyx_v_chunk, __pyx_t_2);
+    __pyx_t_2 = 0;
+
+    /* "pybase16384/_core.pyx":95
+ * 
+ *         chunk = input.read(current_buf_len)  # 8
+ *         size = PyBytes_Size(chunk)             # <<<<<<<<<<<<<<
+ *         if <int32_t> size < current_buf_len:  #
+ *             if buf_rate > 1:  #
+ */
+    __pyx_t_5 = PyBytes_Size(__pyx_v_chunk); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1L))) __PYX_ERR(0, 95, __pyx_L1_error)
+    __pyx_v_size = __pyx_t_5;
+
+    /* "pybase16384/_core.pyx":96
+ *         chunk = input.read(current_buf_len)  # 8
+ *         size = PyBytes_Size(chunk)
+ *         if <int32_t> size < current_buf_len:  #             # <<<<<<<<<<<<<<
+ *             if buf_rate > 1:  #
+ *                 buf_rate = buf_rate / 2  #
+ */
+    __pyx_t_1 = ((((int32_t)__pyx_v_size) < __pyx_v_current_buf_len) != 0);
+    if (__pyx_t_1) {
+
+      /* "pybase16384/_core.pyx":97
+ *         size = PyBytes_Size(chunk)
+ *         if <int32_t> size < current_buf_len:  #
+ *             if buf_rate > 1:  #             # <<<<<<<<<<<<<<
+ *                 buf_rate = buf_rate / 2  #
+ *                 current_buf_len = buf_rate * 8
+ */
+      __pyx_t_1 = ((__pyx_v_buf_rate > 1) != 0);
+      if (__pyx_t_1) {
+
+        /* "pybase16384/_core.pyx":98
+ *         if <int32_t> size < current_buf_len:  #
+ *             if buf_rate > 1:  #
+ *                 buf_rate = buf_rate / 2  #             # <<<<<<<<<<<<<<
+ *                 current_buf_len = buf_rate * 8
+ *                 input.seek(-size, 1)
+ */
+        __pyx_v_buf_rate = (((long)__pyx_v_buf_rate) / 2);
+
+        /* "pybase16384/_core.pyx":99
+ *             if buf_rate > 1:  #
+ *                 buf_rate = buf_rate / 2  #
+ *                 current_buf_len = buf_rate * 8             # <<<<<<<<<<<<<<
+ *                 input.seek(-size, 1)
+ *                 can_skip_check = 1  #
+ */
+        __pyx_v_current_buf_len = (__pyx_v_buf_rate * 8);
+
+        /* "pybase16384/_core.pyx":100
+ *                 buf_rate = buf_rate / 2  #
+ *                 current_buf_len = buf_rate * 8
+ *                 input.seek(-size, 1)             # <<<<<<<<<<<<<<
+ *                 can_skip_check = 1  #
+ *                 continue
+ */
+        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_seek); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 100, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __pyx_t_4 = PyInt_FromSsize_t((-__pyx_v_size)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 100, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __pyx_t_6 = NULL;
+        __pyx_t_7 = 0;
+        if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_6)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_6);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+            __pyx_t_7 = 1;
+          }
+        }
+        #if CYTHON_FAST_PYCALL
+        if (PyFunction_Check(__pyx_t_3)) {
+          PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_4, __pyx_int_1};
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 100, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        } else
+        #endif
+        #if CYTHON_FAST_PYCCALL
+        if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+          PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_4, __pyx_int_1};
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 100, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        } else
+        #endif
+        {
+          __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 100, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_8);
+          if (__pyx_t_6) {
+            __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
+          }
+          __Pyx_GIVEREF(__pyx_t_4);
+          PyTuple_SET_ITEM(__pyx_t_8, 0+__pyx_t_7, __pyx_t_4);
+          __Pyx_INCREF(__pyx_int_1);
+          __Pyx_GIVEREF(__pyx_int_1);
+          PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_int_1);
+          __pyx_t_4 = 0;
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 100, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+        }
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+        /* "pybase16384/_core.pyx":101
+ *                 current_buf_len = buf_rate * 8
+ *                 input.seek(-size, 1)
+ *                 can_skip_check = 1  #             # <<<<<<<<<<<<<<
+ *                 continue
+ *         ot = decode(chunk)  # type: bytes
+ */
+        __pyx_v_can_skip_check = 1;
+
+        /* "pybase16384/_core.pyx":102
+ *                 input.seek(-size, 1)
+ *                 can_skip_check = 1  #
+ *                 continue             # <<<<<<<<<<<<<<
+ *         ot = decode(chunk)  # type: bytes
+ *         output.write(ot)
+ */
+        goto __pyx_L7_continue;
+
+        /* "pybase16384/_core.pyx":97
+ *         size = PyBytes_Size(chunk)
+ *         if <int32_t> size < current_buf_len:  #
+ *             if buf_rate > 1:  #             # <<<<<<<<<<<<<<
+ *                 buf_rate = buf_rate / 2  #
+ *                 current_buf_len = buf_rate * 8
+ */
+      }
+
+      /* "pybase16384/_core.pyx":96
+ *         chunk = input.read(current_buf_len)  # 8
+ *         size = PyBytes_Size(chunk)
+ *         if <int32_t> size < current_buf_len:  #             # <<<<<<<<<<<<<<
+ *             if buf_rate > 1:  #
+ *                 buf_rate = buf_rate / 2  #
+ */
+    }
+
+    /* "pybase16384/_core.pyx":103
+ *                 can_skip_check = 1  #
+ *                 continue
+ *         ot = decode(chunk)  # type: bytes             # <<<<<<<<<<<<<<
+ *         output.write(ot)
+ *         if size < 8:
+ */
+    if (!(likely(PyBytes_CheckExact(__pyx_v_chunk))||((__pyx_v_chunk) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "bytes", Py_TYPE(__pyx_v_chunk)->tp_name), 0))) __PYX_ERR(0, 103, __pyx_L1_error)
+    __pyx_t_2 = __pyx_f_11pybase16384_5_core_decode(((PyObject*)__pyx_v_chunk), 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_XDECREF_SET(__pyx_v_ot, ((PyObject*)__pyx_t_2));
+    __pyx_t_2 = 0;
+
+    /* "pybase16384/_core.pyx":104
+ *                 continue
+ *         ot = decode(chunk)  # type: bytes
+ *         output.write(ot)             # <<<<<<<<<<<<<<
+ *         if size < 8:
+ *             break
+ */
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_output, __pyx_n_s_write); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_8 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+      __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_8)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_8);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_3, function);
+      }
+    }
+    __pyx_t_2 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_8, __pyx_v_ot) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_ot);
+    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+    /* "pybase16384/_core.pyx":105
+ *         ot = decode(chunk)  # type: bytes
+ *         output.write(ot)
+ *         if size < 8:             # <<<<<<<<<<<<<<
+ *             break
+ */
+    __pyx_t_1 = ((__pyx_v_size < 8) != 0);
+    if (__pyx_t_1) {
+
+      /* "pybase16384/_core.pyx":106
+ *         output.write(ot)
+ *         if size < 8:
+ *             break             # <<<<<<<<<<<<<<
+ */
+      goto __pyx_L8_break;
+
+      /* "pybase16384/_core.pyx":105
+ *         ot = decode(chunk)  # type: bytes
+ *         output.write(ot)
+ *         if size < 8:             # <<<<<<<<<<<<<<
+ *             break
+ */
+    }
+    __pyx_L7_continue:;
+  }
+  __pyx_L8_break:;
+
+  /* "pybase16384/_core.pyx":62
+ *             break
+ * 
+ * cpdef void decode_file(object input,             # <<<<<<<<<<<<<<
+ *                        object output,
+ *                        int32_t buf_rate = 10) with gil:
+ */
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_WriteUnraisable("pybase16384._core.decode_file", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_chunk);
+  __Pyx_XDECREF(__pyx_v_ot);
+  __Pyx_XDECREF(__pyx_v_input);
+  __Pyx_XDECREF(__pyx_v_output);
+  __Pyx_RefNannyFinishContext();
+  #ifdef WITH_THREAD
+  __Pyx_PyGILState_Release(__pyx_gilstate_save);
+  #endif
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_11pybase16384_5_core_7decode_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_11pybase16384_5_core_6decode_file[] = "decode_file(input, output, int32_t buf_rate=10) -> void";
+static PyObject *__pyx_pw_11pybase16384_5_core_7decode_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_input = 0;
+  PyObject *__pyx_v_output = 0;
+  int32_t __pyx_v_buf_rate;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("decode_file (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_input,&__pyx_n_s_output,&__pyx_n_s_buf_rate,0};
     PyObject* values[3] = {0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
@@ -2040,17 +3109,17 @@ static PyObject *__pyx_pw_11pybase16384_5_core_5encode_file(PyObject *__pyx_self
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_output)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("encode_file", 0, 2, 3, 1); __PYX_ERR(0, 28, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("decode_file", 0, 2, 3, 1); __PYX_ERR(0, 62, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_write_head);
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_buf_rate);
           if (value) { values[2] = value; kw_args--; }
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "encode_file") < 0)) __PYX_ERR(0, 28, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "decode_file") < 0)) __PYX_ERR(0, 62, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -2065,56 +3134,40 @@ static PyObject *__pyx_pw_11pybase16384_5_core_5encode_file(PyObject *__pyx_self
     __pyx_v_input = values[0];
     __pyx_v_output = values[1];
     if (values[2]) {
-      __pyx_v_write_head = __Pyx_PyObject_IsTrue(values[2]); if (unlikely((__pyx_v_write_head == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 30, __pyx_L3_error)
+      __pyx_v_buf_rate = __Pyx_PyInt_As_int32_t(values[2]); if (unlikely((__pyx_v_buf_rate == ((int32_t)-1)) && PyErr_Occurred())) __PYX_ERR(0, 64, __pyx_L3_error)
     } else {
-
-      /* "pybase16384/_core.pyx":30
- * cpdef void encode_file(object input,
- *                        object output,
- *                        bint write_head = False) with gil:             # <<<<<<<<<<<<<<
- *     if not PyFile_Check(input):
- *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
- */
-      __pyx_v_write_head = ((int)0);
+      __pyx_v_buf_rate = ((int32_t)10);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("encode_file", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 28, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("decode_file", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 62, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pybase16384._core.encode_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pybase16384._core.decode_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_11pybase16384_5_core_4encode_file(__pyx_self, __pyx_v_input, __pyx_v_output, __pyx_v_write_head);
-
-  /* "pybase16384/_core.pyx":28
- *     return ret
- * 
- * cpdef void encode_file(object input,             # <<<<<<<<<<<<<<
- *                        object output,
- *                        bint write_head = False) with gil:
- */
+  __pyx_r = __pyx_pf_11pybase16384_5_core_6decode_file(__pyx_self, __pyx_v_input, __pyx_v_output, __pyx_v_buf_rate);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_11pybase16384_5_core_4encode_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input, PyObject *__pyx_v_output, int __pyx_v_write_head) {
+static PyObject *__pyx_pf_11pybase16384_5_core_6decode_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input, PyObject *__pyx_v_output, int32_t __pyx_v_buf_rate) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  struct __pyx_opt_args_11pybase16384_5_core_encode_file __pyx_t_1;
+  struct __pyx_opt_args_11pybase16384_5_core_decode_file __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("encode_file", 0);
+  __Pyx_RefNannySetupContext("decode_file", 0);
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1.__pyx_n = 1;
-  __pyx_t_1.write_head = __pyx_v_write_head;
-  __pyx_f_11pybase16384_5_core_encode_file(__pyx_v_input, __pyx_v_output, 0, &__pyx_t_1); 
-  __pyx_t_2 = __Pyx_void_to_None(NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_1.buf_rate = __pyx_v_buf_rate;
+  __pyx_f_11pybase16384_5_core_decode_file(__pyx_v_input, __pyx_v_output, 0, &__pyx_t_1); 
+  __pyx_t_2 = __Pyx_void_to_None(NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
@@ -2123,595 +3176,6 @@ static PyObject *__pyx_pf_11pybase16384_5_core_4encode_file(CYTHON_UNUSED PyObje
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("pybase16384._core.encode_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "pybase16384/_core.pyx":47
- *             break
- * 
- * cpdef void decode_file(object input,             # <<<<<<<<<<<<<<
- *                        object output) with gil:
- *     if not PyFile_Check(input):
- */
-
-static PyObject *__pyx_pw_11pybase16384_5_core_7decode_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__pyx_v_input, PyObject *__pyx_v_output, CYTHON_UNUSED int __pyx_skip_dispatch) {
-  PyObject *__pyx_v_chunk = NULL;
-  PyObject *__pyx_v_ot = NULL;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  Py_ssize_t __pyx_t_5;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  #ifdef WITH_THREAD
-  PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-  #endif
-  __Pyx_RefNannySetupContext("decode_file", 0);
-  __Pyx_INCREF(__pyx_v_input);
-  __Pyx_INCREF(__pyx_v_output);
-
-  /* "pybase16384/_core.pyx":49
- * cpdef void decode_file(object input,
- *                        object output) with gil:
- *     if not PyFile_Check(input):             # <<<<<<<<<<<<<<
- *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
- *     if not PyFile_Check(output):
- */
-  __pyx_t_1 = ((!(__pyx_f_11pybase16384_5_core_PyFile_Check(__pyx_v_input) != 0)) != 0);
-  if (unlikely(__pyx_t_1)) {
-
-    /* "pybase16384/_core.pyx":50
- *                        object output) with gil:
- *     if not PyFile_Check(input):
- *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)             # <<<<<<<<<<<<<<
- *     if not PyFile_Check(output):
- *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
- */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_input)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_input_except_a_file_like_object, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 50, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 50, __pyx_L1_error)
-
-    /* "pybase16384/_core.pyx":49
- * cpdef void decode_file(object input,
- *                        object output) with gil:
- *     if not PyFile_Check(input):             # <<<<<<<<<<<<<<
- *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
- *     if not PyFile_Check(output):
- */
-  }
-
-  /* "pybase16384/_core.pyx":51
- *     if not PyFile_Check(input):
- *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
- *     if not PyFile_Check(output):             # <<<<<<<<<<<<<<
- *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
- * 
- */
-  __pyx_t_1 = ((!(__pyx_f_11pybase16384_5_core_PyFile_Check(__pyx_v_output) != 0)) != 0);
-  if (unlikely(__pyx_t_1)) {
-
-    /* "pybase16384/_core.pyx":52
- *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
- *     if not PyFile_Check(output):
- *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)             # <<<<<<<<<<<<<<
- * 
- *     chunk = input.read(1)  # type: bytes
- */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_output)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_output_except_a_file_like_object, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 52, __pyx_L1_error)
-
-    /* "pybase16384/_core.pyx":51
- *     if not PyFile_Check(input):
- *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
- *     if not PyFile_Check(output):             # <<<<<<<<<<<<<<
- *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
- * 
- */
-  }
-
-  /* "pybase16384/_core.pyx":54
- *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
- * 
- *     chunk = input.read(1)  # type: bytes             # <<<<<<<<<<<<<<
- *     if not PyBytes_Check(chunk):
- *         raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
- */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_read); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 54, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_4);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_int_1) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_int_1);
-  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 54, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_v_chunk = __pyx_t_2;
-  __pyx_t_2 = 0;
-
-  /* "pybase16384/_core.pyx":55
- * 
- *     chunk = input.read(1)  # type: bytes
- *     if not PyBytes_Check(chunk):             # <<<<<<<<<<<<<<
- *         raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
- *     if chunk == b"\xfe":
- */
-  __pyx_t_1 = ((!(PyBytes_Check(__pyx_v_chunk) != 0)) != 0);
-  if (unlikely(__pyx_t_1)) {
-
-    /* "pybase16384/_core.pyx":56
- *     chunk = input.read(1)  # type: bytes
- *     if not PyBytes_Check(chunk):
- *         raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")             # <<<<<<<<<<<<<<
- *     if chunk == b"\xfe":
- *         input.read(1)
- */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_input)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 56, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyObject_FormatSimple(__pyx_t_2, __pyx_empty_unicode); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 56, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyUnicode_Concat(__pyx_kp_u_input_must_be_a_file_like_rb_obj, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 56, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 56, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 56, __pyx_L1_error)
-
-    /* "pybase16384/_core.pyx":55
- * 
- *     chunk = input.read(1)  # type: bytes
- *     if not PyBytes_Check(chunk):             # <<<<<<<<<<<<<<
- *         raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
- *     if chunk == b"\xfe":
- */
-  }
-
-  /* "pybase16384/_core.pyx":57
- *     if not PyBytes_Check(chunk):
- *         raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
- *     if chunk == b"\xfe":             # <<<<<<<<<<<<<<
- *         input.read(1)
- *     else:
- */
-  __pyx_t_1 = (__Pyx_PyBytes_Equals(__pyx_v_chunk, __pyx_kp_b__2, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 57, __pyx_L1_error)
-  if (__pyx_t_1) {
-
-    /* "pybase16384/_core.pyx":58
- *         raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
- *     if chunk == b"\xfe":
- *         input.read(1)             # <<<<<<<<<<<<<<
- *     else:
- *         input.seek(0, 0)  #
- */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_read); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-        __Pyx_INCREF(__pyx_t_4);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_2, function);
-      }
-    }
-    __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_int_1) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_int_1);
-    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-    /* "pybase16384/_core.pyx":57
- *     if not PyBytes_Check(chunk):
- *         raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
- *     if chunk == b"\xfe":             # <<<<<<<<<<<<<<
- *         input.read(1)
- *     else:
- */
-    goto __pyx_L6;
-  }
-
-  /* "pybase16384/_core.pyx":60
- *         input.read(1)
- *     else:
- *         input.seek(0, 0)  #             # <<<<<<<<<<<<<<
- *     while True:
- *         chunk = input.read(2)  # type: bytes
- */
-  /*else*/ {
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_seek); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 60, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 60, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  }
-  __pyx_L6:;
-
-  /* "pybase16384/_core.pyx":61
- *     else:
- *         input.seek(0, 0)  #
- *     while True:             # <<<<<<<<<<<<<<
- *         chunk = input.read(2)  # type: bytes
- *         if chunk:
- */
-  while (1) {
-
-    /* "pybase16384/_core.pyx":62
- *         input.seek(0, 0)  #
- *     while True:
- *         chunk = input.read(2)  # type: bytes             # <<<<<<<<<<<<<<
- *         if chunk:
- *             if chunk[0] == 61:  # = stream
- */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_read); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 62, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-        __Pyx_INCREF(__pyx_t_4);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_3, function);
-      }
-    }
-    __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_int_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_int_2);
-    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF_SET(__pyx_v_chunk, __pyx_t_2);
-    __pyx_t_2 = 0;
-
-    /* "pybase16384/_core.pyx":63
- *     while True:
- *         chunk = input.read(2)  # type: bytes
- *         if chunk:             # <<<<<<<<<<<<<<
- *             if chunk[0] == 61:  # = stream
- *                 output.write(chunk)
- */
-    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_chunk); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 63, __pyx_L1_error)
-    if (__pyx_t_1) {
-
-      /* "pybase16384/_core.pyx":64
- *         chunk = input.read(2)  # type: bytes
- *         if chunk:
- *             if chunk[0] == 61:  # = stream             # <<<<<<<<<<<<<<
- *                 output.write(chunk)
- *                 break
- */
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_chunk, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_3 = __Pyx_PyInt_EqObjC(__pyx_t_2, __pyx_int_61, 61, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 64, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 64, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (__pyx_t_1) {
-
-        /* "pybase16384/_core.pyx":65
- *         if chunk:
- *             if chunk[0] == 61:  # = stream
- *                 output.write(chunk)             # <<<<<<<<<<<<<<
- *                 break
- *             else:
- */
-        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_output, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_4 = NULL;
-        if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
-          if (likely(__pyx_t_4)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-            __Pyx_INCREF(__pyx_t_4);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_2, function);
-          }
-        }
-        __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_v_chunk) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_chunk);
-        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 65, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-        /* "pybase16384/_core.pyx":66
- *             if chunk[0] == 61:  # = stream
- *                 output.write(chunk)
- *                 break             # <<<<<<<<<<<<<<
- *             else:
- *                 input.seek(-2, 1)
- */
-        goto __pyx_L8_break;
-
-        /* "pybase16384/_core.pyx":64
- *         chunk = input.read(2)  # type: bytes
- *         if chunk:
- *             if chunk[0] == 61:  # = stream             # <<<<<<<<<<<<<<
- *                 output.write(chunk)
- *                 break
- */
-      }
-
-      /* "pybase16384/_core.pyx":68
- *                 break
- *             else:
- *                 input.seek(-2, 1)             # <<<<<<<<<<<<<<
- *         else:
- *             break
- */
-      /*else*/ {
-        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_seek); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 68, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      }
-
-      /* "pybase16384/_core.pyx":63
- *     while True:
- *         chunk = input.read(2)  # type: bytes
- *         if chunk:             # <<<<<<<<<<<<<<
- *             if chunk[0] == 61:  # = stream
- *                 output.write(chunk)
- */
-      goto __pyx_L9;
-    }
-
-    /* "pybase16384/_core.pyx":70
- *                 input.seek(-2, 1)
- *         else:
- *             break             # <<<<<<<<<<<<<<
- *         chunk = input.read(8)
- *         ot = decode(chunk)  # type: bytes
- */
-    /*else*/ {
-      goto __pyx_L8_break;
-    }
-    __pyx_L9:;
-
-    /* "pybase16384/_core.pyx":71
- *         else:
- *             break
- *         chunk = input.read(8)             # <<<<<<<<<<<<<<
- *         ot = decode(chunk)  # type: bytes
- *         output.write(ot)
- */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_read); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 71, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-        __Pyx_INCREF(__pyx_t_4);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_3, function);
-      }
-    }
-    __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_int_8) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_int_8);
-    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF_SET(__pyx_v_chunk, __pyx_t_2);
-    __pyx_t_2 = 0;
-
-    /* "pybase16384/_core.pyx":72
- *             break
- *         chunk = input.read(8)
- *         ot = decode(chunk)  # type: bytes             # <<<<<<<<<<<<<<
- *         output.write(ot)
- *         if PyBytes_Size(chunk) < 8:
- */
-    if (!(likely(PyBytes_CheckExact(__pyx_v_chunk))||((__pyx_v_chunk) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "bytes", Py_TYPE(__pyx_v_chunk)->tp_name), 0))) __PYX_ERR(0, 72, __pyx_L1_error)
-    __pyx_t_2 = __pyx_f_11pybase16384_5_core_decode(((PyObject*)__pyx_v_chunk), 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_XDECREF_SET(__pyx_v_ot, ((PyObject*)__pyx_t_2));
-    __pyx_t_2 = 0;
-
-    /* "pybase16384/_core.pyx":73
- *         chunk = input.read(8)
- *         ot = decode(chunk)  # type: bytes
- *         output.write(ot)             # <<<<<<<<<<<<<<
- *         if PyBytes_Size(chunk) < 8:
- *             break
- */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_output, __pyx_n_s_write); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 73, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-        __Pyx_INCREF(__pyx_t_4);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_3, function);
-      }
-    }
-    __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_v_ot) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_ot);
-    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 73, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-    /* "pybase16384/_core.pyx":74
- *         ot = decode(chunk)  # type: bytes
- *         output.write(ot)
- *         if PyBytes_Size(chunk) < 8:             # <<<<<<<<<<<<<<
- *             break
- */
-    __pyx_t_5 = PyBytes_Size(__pyx_v_chunk); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1L))) __PYX_ERR(0, 74, __pyx_L1_error)
-    __pyx_t_1 = ((__pyx_t_5 < 8) != 0);
-    if (__pyx_t_1) {
-
-      /* "pybase16384/_core.pyx":75
- *         output.write(ot)
- *         if PyBytes_Size(chunk) < 8:
- *             break             # <<<<<<<<<<<<<<
- */
-      goto __pyx_L8_break;
-
-      /* "pybase16384/_core.pyx":74
- *         ot = decode(chunk)  # type: bytes
- *         output.write(ot)
- *         if PyBytes_Size(chunk) < 8:             # <<<<<<<<<<<<<<
- *             break
- */
-    }
-  }
-  __pyx_L8_break:;
-
-  /* "pybase16384/_core.pyx":47
- *             break
- * 
- * cpdef void decode_file(object input,             # <<<<<<<<<<<<<<
- *                        object output) with gil:
- *     if not PyFile_Check(input):
- */
-
-  /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_WriteUnraisable("pybase16384._core.decode_file", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_chunk);
-  __Pyx_XDECREF(__pyx_v_ot);
-  __Pyx_XDECREF(__pyx_v_input);
-  __Pyx_XDECREF(__pyx_v_output);
-  __Pyx_RefNannyFinishContext();
-  #ifdef WITH_THREAD
-  __Pyx_PyGILState_Release(__pyx_gilstate_save);
-  #endif
-}
-
-/* Python wrapper */
-static PyObject *__pyx_pw_11pybase16384_5_core_7decode_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_11pybase16384_5_core_6decode_file[] = "decode_file(input, output) -> void";
-static PyObject *__pyx_pw_11pybase16384_5_core_7decode_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_input = 0;
-  PyObject *__pyx_v_output = 0;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("decode_file (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_input,&__pyx_n_s_output,0};
-    PyObject* values[2] = {0,0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_input)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        CYTHON_FALLTHROUGH;
-        case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_output)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("decode_file", 1, 2, 2, 1); __PYX_ERR(0, 47, __pyx_L3_error)
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "decode_file") < 0)) __PYX_ERR(0, 47, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-    }
-    __pyx_v_input = values[0];
-    __pyx_v_output = values[1];
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("decode_file", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 47, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("pybase16384._core.decode_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_11pybase16384_5_core_6decode_file(__pyx_self, __pyx_v_input, __pyx_v_output);
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_11pybase16384_5_core_6decode_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input, PyObject *__pyx_v_output) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("decode_file", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_11pybase16384_5_core_decode_file(__pyx_v_input, __pyx_v_output, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
   __Pyx_AddTraceback("pybase16384._core.decode_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -2773,6 +3237,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_b_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 0, 0},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {&__pyx_kp_b__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 0, 0},
+  {&__pyx_n_s_buf_rate, __pyx_k_buf_rate, sizeof(__pyx_k_buf_rate), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_input, __pyx_k_input, sizeof(__pyx_k_input), 0, 0, 1, 1},
   {&__pyx_kp_u_input_except_a_file_like_object, __pyx_k_input_except_a_file_like_object, sizeof(__pyx_k_input_except_a_file_like_object), 0, 1, 0, 0},
@@ -2789,7 +3254,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 33, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -2799,25 +3264,25 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "pybase16384/_core.pyx":60
+  /* "pybase16384/_core.pyx":76
  *         input.read(1)
  *     else:
  *         input.seek(0, 0)  #             # <<<<<<<<<<<<<<
- *     while True:
- *         chunk = input.read(2)  # type: bytes
+ * 
+ *     cdef int32_t current_buf_len = buf_rate * 8
  */
-  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_0); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_0); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "pybase16384/_core.pyx":68
- *                 break
+  /* "pybase16384/_core.pyx":89
+ *                     break
+ *                 else:
+ *                     input.seek(-2, 1)             # <<<<<<<<<<<<<<
  *             else:
- *                 input.seek(-2, 1)             # <<<<<<<<<<<<<<
- *         else:
- *             break
+ *                 break
  */
-  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_int_neg_2, __pyx_int_1); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_int_neg_2, __pyx_int_1); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
   __Pyx_RefNannyFinishContext();
@@ -2832,8 +3297,6 @@ static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_2 = PyInt_FromLong(2); if (unlikely(!__pyx_int_2)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_7 = PyInt_FromLong(7); if (unlikely(!__pyx_int_7)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_8 = PyInt_FromLong(8); if (unlikely(!__pyx_int_8)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_61 = PyInt_FromLong(61); if (unlikely(!__pyx_int_61)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_neg_2 = PyInt_FromLong(-2); if (unlikely(!__pyx_int_neg_2)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
@@ -4340,6 +4803,262 @@ bad:
     Py_XDECREF(py_frame);
 }
 
+/* CIntFromPyVerify */
+#define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
+    __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 0)
+#define __PYX_VERIFY_RETURN_INT_EXC(target_type, func_type, func_value)\
+    __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 1)
+#define __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, exc)\
+    {\
+        func_type value = func_value;\
+        if (sizeof(target_type) < sizeof(func_type)) {\
+            if (unlikely(value != (func_type) (target_type) value)) {\
+                func_type zero = 0;\
+                if (exc && unlikely(value == (func_type)-1 && PyErr_Occurred()))\
+                    return (target_type) -1;\
+                if (is_unsigned && unlikely(value < zero))\
+                    goto raise_neg_overflow;\
+                else\
+                    goto raise_overflow;\
+            }\
+        }\
+        return (target_type) value;\
+    }
+
+/* CIntFromPy */
+static CYTHON_INLINE int32_t __Pyx_PyInt_As_int32_t(PyObject *x) {
+#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
+#endif
+    const int32_t neg_one = (int32_t) -1, const_zero = (int32_t) 0;
+#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
+#pragma GCC diagnostic pop
+#endif
+    const int is_unsigned = neg_one > const_zero;
+#if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_Check(x))) {
+        if (sizeof(int32_t) < sizeof(long)) {
+            __PYX_VERIFY_RETURN_INT(int32_t, long, PyInt_AS_LONG(x))
+        } else {
+            long val = PyInt_AS_LONG(x);
+            if (is_unsigned && unlikely(val < 0)) {
+                goto raise_neg_overflow;
+            }
+            return (int32_t) val;
+        }
+    } else
+#endif
+    if (likely(PyLong_Check(x))) {
+        if (is_unsigned) {
+#if CYTHON_USE_PYLONG_INTERNALS
+            const digit* digits = ((PyLongObject*)x)->ob_digit;
+            switch (Py_SIZE(x)) {
+                case  0: return (int32_t) 0;
+                case  1: __PYX_VERIFY_RETURN_INT(int32_t, digit, digits[0])
+                case 2:
+                    if (8 * sizeof(int32_t) > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(int32_t, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(int32_t) >= 2 * PyLong_SHIFT) {
+                            return (int32_t) (((((int32_t)digits[1]) << PyLong_SHIFT) | (int32_t)digits[0]));
+                        }
+                    }
+                    break;
+                case 3:
+                    if (8 * sizeof(int32_t) > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(int32_t, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(int32_t) >= 3 * PyLong_SHIFT) {
+                            return (int32_t) (((((((int32_t)digits[2]) << PyLong_SHIFT) | (int32_t)digits[1]) << PyLong_SHIFT) | (int32_t)digits[0]));
+                        }
+                    }
+                    break;
+                case 4:
+                    if (8 * sizeof(int32_t) > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(int32_t, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(int32_t) >= 4 * PyLong_SHIFT) {
+                            return (int32_t) (((((((((int32_t)digits[3]) << PyLong_SHIFT) | (int32_t)digits[2]) << PyLong_SHIFT) | (int32_t)digits[1]) << PyLong_SHIFT) | (int32_t)digits[0]));
+                        }
+                    }
+                    break;
+            }
+#endif
+#if CYTHON_COMPILING_IN_CPYTHON
+            if (unlikely(Py_SIZE(x) < 0)) {
+                goto raise_neg_overflow;
+            }
+#else
+            {
+                int result = PyObject_RichCompareBool(x, Py_False, Py_LT);
+                if (unlikely(result < 0))
+                    return (int32_t) -1;
+                if (unlikely(result == 1))
+                    goto raise_neg_overflow;
+            }
+#endif
+            if (sizeof(int32_t) <= sizeof(unsigned long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(int32_t, unsigned long, PyLong_AsUnsignedLong(x))
+#ifdef HAVE_LONG_LONG
+            } else if (sizeof(int32_t) <= sizeof(unsigned PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(int32_t, unsigned PY_LONG_LONG, PyLong_AsUnsignedLongLong(x))
+#endif
+            }
+        } else {
+#if CYTHON_USE_PYLONG_INTERNALS
+            const digit* digits = ((PyLongObject*)x)->ob_digit;
+            switch (Py_SIZE(x)) {
+                case  0: return (int32_t) 0;
+                case -1: __PYX_VERIFY_RETURN_INT(int32_t, sdigit, (sdigit) (-(sdigit)digits[0]))
+                case  1: __PYX_VERIFY_RETURN_INT(int32_t,  digit, +digits[0])
+                case -2:
+                    if (8 * sizeof(int32_t) - 1 > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(int32_t, long, -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(int32_t) - 1 > 2 * PyLong_SHIFT) {
+                            return (int32_t) (((int32_t)-1)*(((((int32_t)digits[1]) << PyLong_SHIFT) | (int32_t)digits[0])));
+                        }
+                    }
+                    break;
+                case 2:
+                    if (8 * sizeof(int32_t) > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(int32_t, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(int32_t) - 1 > 2 * PyLong_SHIFT) {
+                            return (int32_t) ((((((int32_t)digits[1]) << PyLong_SHIFT) | (int32_t)digits[0])));
+                        }
+                    }
+                    break;
+                case -3:
+                    if (8 * sizeof(int32_t) - 1 > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(int32_t, long, -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(int32_t) - 1 > 3 * PyLong_SHIFT) {
+                            return (int32_t) (((int32_t)-1)*(((((((int32_t)digits[2]) << PyLong_SHIFT) | (int32_t)digits[1]) << PyLong_SHIFT) | (int32_t)digits[0])));
+                        }
+                    }
+                    break;
+                case 3:
+                    if (8 * sizeof(int32_t) > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(int32_t, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(int32_t) - 1 > 3 * PyLong_SHIFT) {
+                            return (int32_t) ((((((((int32_t)digits[2]) << PyLong_SHIFT) | (int32_t)digits[1]) << PyLong_SHIFT) | (int32_t)digits[0])));
+                        }
+                    }
+                    break;
+                case -4:
+                    if (8 * sizeof(int32_t) - 1 > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(int32_t, long, -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(int32_t) - 1 > 4 * PyLong_SHIFT) {
+                            return (int32_t) (((int32_t)-1)*(((((((((int32_t)digits[3]) << PyLong_SHIFT) | (int32_t)digits[2]) << PyLong_SHIFT) | (int32_t)digits[1]) << PyLong_SHIFT) | (int32_t)digits[0])));
+                        }
+                    }
+                    break;
+                case 4:
+                    if (8 * sizeof(int32_t) > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(int32_t, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(int32_t) - 1 > 4 * PyLong_SHIFT) {
+                            return (int32_t) ((((((((((int32_t)digits[3]) << PyLong_SHIFT) | (int32_t)digits[2]) << PyLong_SHIFT) | (int32_t)digits[1]) << PyLong_SHIFT) | (int32_t)digits[0])));
+                        }
+                    }
+                    break;
+            }
+#endif
+            if (sizeof(int32_t) <= sizeof(long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(int32_t, long, PyLong_AsLong(x))
+#ifdef HAVE_LONG_LONG
+            } else if (sizeof(int32_t) <= sizeof(PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(int32_t, PY_LONG_LONG, PyLong_AsLongLong(x))
+#endif
+            }
+        }
+        {
+#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
+            PyErr_SetString(PyExc_RuntimeError,
+                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
+#else
+            int32_t val;
+            PyObject *v = __Pyx_PyNumber_IntOrLong(x);
+ #if PY_MAJOR_VERSION < 3
+            if (likely(v) && !PyLong_Check(v)) {
+                PyObject *tmp = v;
+                v = PyNumber_Long(tmp);
+                Py_DECREF(tmp);
+            }
+ #endif
+            if (likely(v)) {
+                int one = 1; int is_little = (int)*(unsigned char *)&one;
+                unsigned char *bytes = (unsigned char *)&val;
+                int ret = _PyLong_AsByteArray((PyLongObject *)v,
+                                              bytes, sizeof(val),
+                                              is_little, !is_unsigned);
+                Py_DECREF(v);
+                if (likely(!ret))
+                    return val;
+            }
+#endif
+            return (int32_t) -1;
+        }
+    } else {
+        int32_t val;
+        PyObject *tmp = __Pyx_PyNumber_IntOrLong(x);
+        if (!tmp) return (int32_t) -1;
+        val = __Pyx_PyInt_As_int32_t(tmp);
+        Py_DECREF(tmp);
+        return val;
+    }
+raise_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "value too large to convert to int32_t");
+    return (int32_t) -1;
+raise_neg_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "can't convert negative value to int32_t");
+    return (int32_t) -1;
+}
+
+/* CIntToPy */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int32_t(int32_t value) {
+#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
+#endif
+    const int32_t neg_one = (int32_t) -1, const_zero = (int32_t) 0;
+#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
+#pragma GCC diagnostic pop
+#endif
+    const int is_unsigned = neg_one > const_zero;
+    if (is_unsigned) {
+        if (sizeof(int32_t) < sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(int32_t) <= sizeof(unsigned long)) {
+            return PyLong_FromUnsignedLong((unsigned long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(int32_t) <= sizeof(unsigned PY_LONG_LONG)) {
+            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
+#endif
+        }
+    } else {
+        if (sizeof(int32_t) <= sizeof(long)) {
+            return PyInt_FromLong((long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(int32_t) <= sizeof(PY_LONG_LONG)) {
+            return PyLong_FromLongLong((PY_LONG_LONG) value);
+#endif
+        }
+    }
+    {
+        int one = 1; int little = (int)*(unsigned char *)&one;
+        unsigned char *bytes = (unsigned char *)&value;
+        return _PyLong_FromByteArray(bytes, sizeof(int32_t),
+                                     little, !is_unsigned);
+    }
+}
+
 /* CIntToPy */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
 #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
@@ -4377,28 +5096,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
                                      little, !is_unsigned);
     }
 }
-
-/* CIntFromPyVerify */
-#define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
-    __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 0)
-#define __PYX_VERIFY_RETURN_INT_EXC(target_type, func_type, func_value)\
-    __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 1)
-#define __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, exc)\
-    {\
-        func_type value = func_value;\
-        if (sizeof(target_type) < sizeof(func_type)) {\
-            if (unlikely(value != (func_type) (target_type) value)) {\
-                func_type zero = 0;\
-                if (exc && unlikely(value == (func_type)-1 && PyErr_Occurred()))\
-                    return (target_type) -1;\
-                if (is_unsigned && unlikely(value < zero))\
-                    goto raise_neg_overflow;\
-                else\
-                    goto raise_overflow;\
-            }\
-        }\
-        return (target_type) value;\
-    }
 
 /* CIntFromPy */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *x) {
