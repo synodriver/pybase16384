@@ -33,6 +33,14 @@ def encode_to_string(data: bytes) -> str:
     return out.getvalue().decode("utf-16-be")
 
 
+def encode_string(data: str) -> str:
+    data = data.encode()
+    inp = BytesIO(data)
+    out = BytesIO()
+    encode_file(inp, out, False, len(data) // 7)
+    return out.getvalue().decode("utf-16-be")
+
+
 def decode_from_bytes(data: bytes) -> str:
     inp = BytesIO(data)
     out = BytesIO()
@@ -46,3 +54,11 @@ def decode_from_string(data: str) -> bytes:
     out = BytesIO()
     decode_file(inp, out, len(bt) // 8)
     return out.getvalue()
+
+
+def decode_string(data: str) -> str:
+    bt = data.encode("utf-16-be")
+    inp = BytesIO(bt)
+    out = BytesIO()
+    decode_file(inp, out, len(bt) // 8)
+    return out.getvalue().decode()
