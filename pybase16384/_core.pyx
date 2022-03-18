@@ -13,14 +13,16 @@ cdef uint8_t PyFile_Check(object file):
         return 1
     return 0
 
-cpdef bytes encode(bytes data):
-    cdef base16384.LENDAT *cret = base16384.encode(<const uint8_t *> data, <const int32_t> PyBytes_Size(data))
+cpdef bytes _encode(const uint8_t[:] data):
+    cdef size_t length = data.shape[0]
+    cdef base16384.LENDAT *cret = base16384.encode(<const uint8_t *> &data[0],<const int32_t>length) # encode 整数倍的那个
     ret = <bytes> cret.data[:cret.len]
     base16384.LENDAT_Del(&cret)
     return ret
 
-cpdef bytes decode(bytes data):
-    cdef base16384.LENDAT *cret = base16384.decode(<const uint8_t *> data, <const int32_t> PyBytes_Size(data))
+cpdef bytes _decode(const uint8_t[:] data):
+    cdef size_t length = data.shape[0]
+    cdef base16384.LENDAT *cret = base16384.decode(<const uint8_t *> &data[0], <const int32_t>length)
     ret = <bytes> cret.data[:cret.len]
     base16384.LENDAT_Del(&cret)
     return ret
@@ -54,7 +56,7 @@ cpdef void encode_file(object input,
                 input.seek(-size, 1)
                 continue
 
-        ot = encode(chunk)  # type: bytes
+        ot = _encode(chunk)  # type: bytes
         output.write(ot)
         if PyBytes_Size(chunk) < 7:
             break
@@ -100,7 +102,7 @@ cpdef void decode_file(object input,
                 input.seek(-size, 1)
                 can_skip_check = 1  # 这次就可以跳过结尾检查
                 continue
-        ot = decode(chunk)  # type: bytes
+        ot = _decode(chunk)  # type: bytes
         output.write(ot)
         if size < 8:
             break

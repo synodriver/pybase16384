@@ -8,7 +8,7 @@ with open("output2.pcm", "rb") as f:
 
 st = time()
 for i in range(1):
-    pybs.decode_file(BytesIO(data), open("input2.pcm",'wb'))
+    pybs.decode_file(BytesIO(data), open("input2.pcm", 'wb'))
 print(f"耗时： {time() - st}")
 
 

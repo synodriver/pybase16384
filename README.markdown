@@ -24,6 +24,7 @@ b'hello!!'
 ```
 
 - 编码文件
+
 ```python
 from io import BytesIO
 
@@ -32,9 +33,10 @@ import pybase16384 as pybs
 with open("input.pcm", "rb") as f:
     data = f.read()
 for i in range(1):
-    pybs.encode_file(BytesIO(data), open("output2.pcm",'wb'), True)
+    pybs.encode_file(BytesIO(data), open("output2.pcm", 'wb'), True)
 ```
 - 解码文件
+
 ```python
 from io import BytesIO
 
@@ -43,7 +45,7 @@ import pybase16384 as pybs
 with open("output2.pcm", "rb") as f:
     data = f.read()
 for i in range(1):
-    pybs.decode_file(BytesIO(data), open("input2.pcm",'wb'))
+    pybs.decode_file(BytesIO(data), open("input2.pcm", 'wb'))
 ```
 
 ### 公开函数
