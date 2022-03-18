@@ -77,7 +77,7 @@ def main():
         url="https://github.com/synodriver/pybase16384",
         packages=packages,
         keywords=["encode", "decode", "16384"],
-        description="16384 encode and decode",
+        description="base16384 encode and decode",
         long_description_content_type="text/markdown",
         long_description=dis,
         author="synodriver",
