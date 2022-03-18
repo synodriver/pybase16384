@@ -60,7 +60,7 @@ cpdef void encode_file(object input,
 
         ot = _encode(chunk)  # type: bytes
         output.write(ot)
-        if PyBytes_Size(chunk) < 7:
+        if size < 7:
             break
 
 cpdef void decode_file(object input,
