@@ -17,10 +17,10 @@
 - 编码/解码文本
 ```python
 >>> import pybase16384 as pybs
->>> pybs.encode_to_string(b'hello!!')
-栙擆羼漡
->>> pybs.decode_from_string("栙擆羼漡")
-b'hello!!'
+>>> pybs.encode_string('hello!!')
+'栙擆羼漡'
+>>> pybs.decode_string('栙擆羼漡')
+'hello!!'
 ```
 
 - 编码文件
@@ -62,9 +62,13 @@ def encode_from_string(data: str, write_head: bool = False) -> bytes: ...
 
 def encode_to_string(data: bytes) -> str: ...
 
+def encode_string(data: str) -> str: ...
+
 def decode_from_bytes(data: bytes) -> str: ...
 
 def decode_from_string(data: str) -> bytes: ...
+
+def decode_string(data: str) -> str: ...
 ```
 - write_head将显式指明编码出的文本格式(utf16be)，以便文本编辑器(如记事本)能够正确渲染，一般在写入文件时使用。
 
