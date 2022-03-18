@@ -83,30 +83,23 @@ cpdef void decode_file(object input,
 
     cdef int32_t current_buf_len = buf_rate * 8
     cdef Py_ssize_t size
-    cdef uint8_t can_skip_check = 0  # 不能跳过结尾检查
     while True:
-        if not can_skip_check:
-            chunk = input.read(2)  # type: bytes
-            if PyBytes_Size(chunk) > 0:
-                if chunk[0] == 61:  # = stream完了
-                    output.write(chunk)
-                    break
-                else:
-                    input.seek(-2, 1)
-            else:
-                break
-        can_skip_check = 0
-
         chunk = input.read(current_buf_len)  # 8的倍数
         size = PyBytes_Size(chunk)
+        if size == 0:
+            break
         if <int32_t> size < current_buf_len:  # 长度不够了
             if buf_rate > 1:  # 还能继续变小
                 buf_rate = buf_rate / 2  # 重新设置一次读取的大小
                 current_buf_len = buf_rate * 8
                 input.seek(-size, 1)
-                can_skip_check = 1  # 这次就可以跳过结尾检查
                 continue
+        tmp = input.read(2)  # type: bytes
+        if PyBytes_Size(tmp) == 2:
+            if tmp[0] == 61:  # = stream完了   一次解码8n+2个字节
+                chunk += tmp
+            else:
+                input.seek(-2, 1)
+
         ot = _decode(chunk)  # type: bytes
         output.write(ot)
-        if size < 8:
-            break
