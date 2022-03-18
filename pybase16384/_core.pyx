@@ -35,6 +35,8 @@ cpdef void encode_file(object input,
         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
     if not PyFile_Check(output):
         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
+    if buf_rate <= 0:
+        buf_rate = 1
 
     if write_head:
         output.write(b'\xfe\xff')
@@ -68,6 +70,8 @@ cpdef void decode_file(object input,
         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
     if not PyFile_Check(output):
         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
+    if buf_rate <= 0:
+        buf_rate = 1
 
     chunk = input.read(1)  # type: bytes
     if not PyBytes_Check(chunk):

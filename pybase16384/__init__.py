@@ -1,7 +1,7 @@
 from io import BytesIO
 from pybase16384._core import _encode, _decode, encode_file, decode_file
 
-__version__ = "0.1.1rc2"
+__version__ = "0.1.1rc3"
 
 
 def encode(data: bytes) -> bytes:
