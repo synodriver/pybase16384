@@ -2,7 +2,7 @@ from time import time
 from io import BytesIO
 
 import pybase16384 as pybs
-
+pybs.is_64bits()
 with open("input.pcm", "rb") as f:
     data = f.read()
 

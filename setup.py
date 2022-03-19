@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 import re
-import glob
 from collections import defaultdict
 import platform
 import sys
@@ -34,35 +33,30 @@ else:
 
 system = platform.system()
 if system == "Windows":
-    macro_base = [("_WIN64", None), ("new", "PyMem_Malloc")]
+    macro_base = [("_WIN64", None)]
 elif system == "Linux":
-    macro_base = [("__linux__", None), ("new", "PyMem_Malloc")]
+    macro_base = [("__linux__", None)]
 elif system == "Darwin":
-    macro_base = [("__MAC_10_0", None), ("new", "PyMem_Malloc")]
+    macro_base = [("__MAC_10_0", None)]
 else:
-    macro_base = [("new", "PyMem_Malloc")]
+    macro_base = []
 
-if CPUBIT == 32:
-    macro_base.append(("CPUBIT32", None))
-else:
+if sys.byteorder != "little":
+    macro_base.append(("WORDS_BIGENDIAN", None))
+
+if CPUBIT == 64:
     macro_base.append(("CPUBIT64", None))
+else:
+    macro_base.append(("CPUBIT32", None))
 
 print(macro_base)
 extensions = [
-    Extension("pybase16384._core", ["pybase16384/_core.pyx"] + glob.glob(f'./base16384/{CPUBIT}/*.c'),
-              include_dirs=[f"./base16384", "./pybase16384", f"./base16384/{CPUBIT}"],
+    Extension("pybase16384._core", ["pybase16384/_core.pyx", f'./base16384/base14{CPUBIT}.c', "./base16384/base14.c"],
+              include_dirs=[f"./base16384"],
               library_dirs=[f"./base16384"],
               define_macros=macro_base
               ),
 ]
-
-
-def header_append_python(header: str):
-    with open(header, "r") as f:
-        data = f.read()
-    if "Python.h" not in data:
-        with open(header, "a+") as f:
-            f.write("#include \"Python.h\"\n")
 
 
 def get_dis():
@@ -83,8 +77,6 @@ packages = find_packages(exclude=('test', 'tests.*', "test*"))
 
 def main():
     version: str = get_version()
-    header_append_python("./base16384/32/base14.h")
-    header_append_python("./base16384/64/base14.h")
     dis = get_dis()
     setup(
         name="pybase16384",
