@@ -103,3 +103,6 @@ cpdef void decode_file(object input,
 
         ot = _decode(chunk)  # type: bytes
         output.write(ot)
+
+cpdef bint is_64bits():
+    return base16384.pybase16384_64bits()

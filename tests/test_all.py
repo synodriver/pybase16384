@@ -1,5 +1,6 @@
 from unittest import TestCase
 import unittest
+import sys
 from random import randint
 
 import pybase16384 as bs
@@ -22,6 +23,11 @@ class Test(TestCase):
         dt = bs.decode_from_string('嵞喇濡虸氞喇濡虸氞喇濡虸氞咶箭祫棚薇濡蘀㴆')
         self.assertEqual(dt, b'=xxxxxxxxxxxxxxxxxxxxxxkkkkkkkxxxx')
 
+    def test_bit(self):
+        if sys.maxsize > 2**32:
+            self.assertEqual(bs.is_64bits(), True)
+        else:
+            self.assertEqual(bs.is_64bits(), False)
 
 if __name__ == "__main__":
     unittest.main()

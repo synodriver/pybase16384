@@ -1,7 +1,7 @@
 # cython: language_level=3
 # cython: cdivision=True
 from libc.stdint cimport uint8_t, int32_t
-cdef extern from "base14.h" nogil:
+cdef extern from "base16384.h" nogil:
     ctypedef struct LENDAT:
         uint8_t * data
         int32_t len
@@ -21,5 +21,11 @@ void LENDAT_Del(LENDAT** self)
         *self = NULL;
     }
 }
+#ifdef CPUBIT32
+#define pybase16384_64bits() 0
+#else
+#define pybase16384_64bits() 1
+#endif
     """
     void LENDAT_Del(LENDAT** self)
+    int32_t pybase16384_64bits()

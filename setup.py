@@ -27,7 +27,7 @@ class build_ext_compiler_check(build_ext):
         super().build_extensions()
 
 
-if sys.maxsize > 2**32:  # 64位
+if sys.maxsize > 2 ** 32:  # 64位
     CPUBIT = 64
 else:
     CPUBIT = 32
@@ -42,13 +42,27 @@ elif system == "Darwin":
 else:
     macro_base = [("new", "PyMem_Malloc")]
 
+if CPUBIT == 32:
+    macro_base.append(("CPUBIT32", None))
+else:
+    macro_base.append(("CPUBIT64", None))
+
+print(macro_base)
 extensions = [
     Extension("pybase16384._core", ["pybase16384/_core.pyx"] + glob.glob(f'./base16384/{CPUBIT}/*.c'),
               include_dirs=[f"./base16384", "./pybase16384", f"./base16384/{CPUBIT}"],
               library_dirs=[f"./base16384"],
-              define_macros=macro_base + [("CPUBIT32", None)] if CPUBIT == 32 else []
+              define_macros=macro_base
               ),
 ]
+
+
+def header_append_python(header: str):
+    with open(header, "r") as f:
+        data = f.read()
+    if "Python.h" not in data:
+        with open(header, "a+") as f:
+            f.write("#include \"Python.h\"\n")
 
 
 def get_dis():
@@ -69,7 +83,8 @@ packages = find_packages(exclude=('test', 'tests.*', "test*"))
 
 def main():
     version: str = get_version()
-
+    header_append_python("./base16384/32/base14.h")
+    header_append_python("./base16384/64/base14.h")
     dis = get_dis()
     setup(
         name="pybase16384",

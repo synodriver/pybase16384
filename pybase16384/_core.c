@@ -3,6 +3,20 @@
 /* BEGIN: Cython Metadata
 {
     "distutils": {
+        "define_macros": [
+            [
+                "_WIN64",
+                null
+            ],
+            [
+                "new",
+                "PyMem_Malloc"
+            ],
+            [
+                "CPUBIT64",
+                null
+            ]
+        ],
         "depends": [],
         "include_dirs": [
             "./base16384",
@@ -632,7 +646,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
-#include "base14.h"
+#include "base16384.h"
 
 void LENDAT_Del(LENDAT** self)
 {
@@ -644,6 +658,11 @@ void LENDAT_Del(LENDAT** self)
         *self = NULL;
     }
 }
+#ifdef CPUBIT32
+#define pybase16384_64bits() 0
+#else
+#define pybase16384_64bits() 1
+#endif
     
 #include "pythread.h"
 #include <stdlib.h>
@@ -1827,6 +1846,7 @@ static PyObject *__pyx_f_11pybase16384_5_core__encode(__Pyx_memviewslice, int __
 static PyObject *__pyx_f_11pybase16384_5_core__decode(__Pyx_memviewslice, int __pyx_skip_dispatch); /*proto*/
 static void __pyx_f_11pybase16384_5_core_encode_file(PyObject *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_11pybase16384_5_core_encode_file *__pyx_optional_args); /*proto*/
 static void __pyx_f_11pybase16384_5_core_decode_file(PyObject *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_11pybase16384_5_core_decode_file *__pyx_optional_args); /*proto*/
+static int __pyx_f_11pybase16384_5_core_is_64bits(int __pyx_skip_dispatch); /*proto*/
 static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char *, char *); /*proto*/
 static void *__pyx_align_pointer(void *, size_t); /*proto*/
 static PyObject *__pyx_memoryview_new(PyObject *, int, int, __Pyx_TypeInfo *); /*proto*/
@@ -2072,6 +2092,7 @@ static PyObject *__pyx_pf_11pybase16384_5_core__encode(CYTHON_UNUSED PyObject *_
 static PyObject *__pyx_pf_11pybase16384_5_core_2_decode(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_data); /* proto */
 static PyObject *__pyx_pf_11pybase16384_5_core_4encode_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input, PyObject *__pyx_v_output, int __pyx_v_write_head, int32_t __pyx_v_buf_rate); /* proto */
 static PyObject *__pyx_pf_11pybase16384_5_core_6decode_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input, PyObject *__pyx_v_output, int32_t __pyx_v_buf_rate); /* proto */
+static PyObject *__pyx_pf_11pybase16384_5_core_8is_64bits(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(struct __pyx_array_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_array___pyx_pf_15View_dot_MemoryView_5array_4__dealloc__(struct __pyx_array_obj *__pyx_v_self); /* proto */
@@ -3849,6 +3870,7 @@ static void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__pyx_v_input, Py
  * 
  *         ot = _decode(chunk)  # type: bytes             # <<<<<<<<<<<<<<
  *         output.write(ot)
+ * 
  */
     __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint8_t__const__(__pyx_v_chunk, 0); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(0, 104, __pyx_L1_error)
     __pyx_t_2 = __pyx_f_11pybase16384_5_core__decode(__pyx_t_9, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 104, __pyx_L1_error)
@@ -3863,6 +3885,8 @@ static void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__pyx_v_input, Py
  * 
  *         ot = _decode(chunk)  # type: bytes
  *         output.write(ot)             # <<<<<<<<<<<<<<
+ * 
+ * cpdef bint is_64bits():
  */
     __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_output, __pyx_n_s_write); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 105, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -4022,6 +4046,80 @@ static PyObject *__pyx_pf_11pybase16384_5_core_6decode_file(CYTHON_UNUSED PyObje
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_AddTraceback("pybase16384._core.decode_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pybase16384/_core.pyx":107
+ *         output.write(ot)
+ * 
+ * cpdef bint is_64bits():             # <<<<<<<<<<<<<<
+ *     return base16384.pybase16384_64bits()
+ */
+
+static PyObject *__pyx_pw_11pybase16384_5_core_9is_64bits(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static int __pyx_f_11pybase16384_5_core_is_64bits(CYTHON_UNUSED int __pyx_skip_dispatch) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("is_64bits", 0);
+
+  /* "pybase16384/_core.pyx":108
+ * 
+ * cpdef bint is_64bits():
+ *     return base16384.pybase16384_64bits()             # <<<<<<<<<<<<<<
+ */
+  __pyx_r = pybase16384_64bits();
+  goto __pyx_L0;
+
+  /* "pybase16384/_core.pyx":107
+ *         output.write(ot)
+ * 
+ * cpdef bint is_64bits():             # <<<<<<<<<<<<<<
+ *     return base16384.pybase16384_64bits()
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_11pybase16384_5_core_9is_64bits(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_11pybase16384_5_core_8is_64bits[] = "is_64bits() -> bool";
+static PyObject *__pyx_pw_11pybase16384_5_core_9is_64bits(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("is_64bits (wrapper)", 0);
+  __pyx_r = __pyx_pf_11pybase16384_5_core_8is_64bits(__pyx_self);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_11pybase16384_5_core_8is_64bits(CYTHON_UNUSED PyObject *__pyx_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("is_64bits", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_f_11pybase16384_5_core_is_64bits(0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("pybase16384._core.is_64bits", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -17767,6 +17865,7 @@ static PyMethodDef __pyx_methods[] = {
   {"_decode", (PyCFunction)__pyx_pw_11pybase16384_5_core_3_decode, METH_O, __pyx_doc_11pybase16384_5_core_2_decode},
   {"encode_file", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_11pybase16384_5_core_5encode_file, METH_VARARGS|METH_KEYWORDS, __pyx_doc_11pybase16384_5_core_4encode_file},
   {"decode_file", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_11pybase16384_5_core_7decode_file, METH_VARARGS|METH_KEYWORDS, __pyx_doc_11pybase16384_5_core_6decode_file},
+  {"is_64bits", (PyCFunction)__pyx_pw_11pybase16384_5_core_9is_64bits, METH_NOARGS, __pyx_doc_11pybase16384_5_core_8is_64bits},
   {0, 0, 0, 0}
 };
 
