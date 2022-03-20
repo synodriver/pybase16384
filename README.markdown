@@ -50,6 +50,10 @@ for i in range(1):
 
 ### 公开函数
 ```python
+def encode_len(dlen: int) -> int: ...
+
+def decode_len(dlen: int, offset: int) -> int: ...
+
 def encode(data: bytes) -> bytes: ...
 
 def decode(data: bytes) -> bytes: ...
@@ -75,13 +79,20 @@ def decode_string(data: str) -> str: ...
 - buf_rate指定读取文件的策略。当它为n时，则表示一次读取7n或者8n个字节。如果读到的字节长度小于预期，则说明长度不够，
 此时，n将减半，恢复文件指针，重新读取。如果当n=1时长度仍然不够，就地encode/decode处理之。
 
+- ```encode_len```和```decode_len```用于计算输出的长度
+
 ### 内部函数
 
-- 他们直接来自底层的C库，高性能，但是一般不需要在外部使用
+- 他们直接来自底层的C库，高性能，但是一般不需要在外部使用（除非是增加性能）
 
 ```python
 def _encode(data: BufferProtocol) -> bytes: ...
 
 def _decode(data: BufferProtocol) -> bytes: ...
+
+def _encode_into(data: BufferProtocol, dest: BufferProtocol) -> int: ...
+
+def _decode_into(data: BufferProtocol, dest: BufferProtocol) -> int: ...
 ```
 - ```_decode```在解码```b'='```开头的数据时***不安全***：***解释器异常***
+- ```_encode_into```和```_decode_into```直接操作缓冲区对象的底层指针，0拷贝，当然也和上面一样的问题，他们是没有检查的

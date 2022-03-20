@@ -1,7 +1,15 @@
 from io import BytesIO
-from pybase16384._core import _encode, _decode, encode_file, decode_file, is_64bits
+from pybase16384._core import (_encode,
+                               _decode,
+                               _encode_into,
+                               _decode_into,
+                               encode_len,
+                               decode_len,
+                               encode_file,
+                               decode_file,
+                               is_64bits)
 
-__version__ = "0.2.0"
+__version__ = "0.2.1rc1"
 
 
 def encode(data: bytes) -> bytes:

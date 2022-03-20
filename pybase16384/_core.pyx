@@ -14,6 +14,12 @@ cdef uint8_t PyFile_Check(object file):
         return 1
     return 0
 
+cpdef int encode_len(int dlen):
+    return base16384.encode_len(dlen)
+
+cpdef int decode_len(int dlen, int offset):
+    return base16384.decode_len(dlen, offset)
+
 cpdef bytes _encode(const uint8_t[:] data):
     cdef size_t length = data.shape[0]
     cdef size_t output_size = <size_t>base16384.encode_len(<int>length) + 16
@@ -41,6 +47,28 @@ cpdef bytes _decode(const uint8_t[:] data):
     ret = <bytes> output_buf[:count]
     PyMem_Free(output_buf)
     return ret
+
+cpdef int _encode_into(const uint8_t[:] data, uint8_t[:] dest):
+    cdef size_t input_size = data.shape[0]
+    cdef size_t output_size = <size_t> base16384.encode_len(<int> input_size)
+    cdef size_t output_buf_size = dest.shape[0]
+    if output_buf_size < output_size:
+        raise ValueError("Buffer is too small to hold result")
+    return base16384.encode(<const char *> &data[0],
+                                      <int> input_size,
+                                      <char *> &dest[0],
+                                      <int> output_buf_size)
+
+cpdef int _decode_into(const uint8_t[:] data, uint8_t[:] dest):
+    cdef size_t input_size = data.shape[0]
+    cdef size_t output_size = <size_t> base16384.decode_len(<int> input_size, 0)
+    cdef size_t output_buf_size = dest.shape[0]
+    if output_buf_size < output_size:
+        raise ValueError("Buffer is too small to hold result")
+    return base16384.decode(<const char *> &data[0],
+                                      <int> input_size,
+                                      <char *> &dest[0],
+                                      <int> output_buf_size)
 
 
 cpdef void encode_file(object input,
