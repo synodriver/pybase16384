@@ -8,19 +8,19 @@ from cpython.mem cimport PyMem_Malloc, PyMem_Free
 
 from pybase16384 cimport base16384
 
-cdef uint8_t PyFile_Check(object file):
+cdef inline uint8_t PyFile_Check(object file):
     if PyObject_HasAttrString(file, "read") and PyObject_HasAttrString(file, "write") and PyObject_HasAttrString(file,
                                                                                                                  "seek"):
         return 1
     return 0
 
-cpdef int encode_len(int dlen):
+cpdef inline int encode_len(int dlen):
     return base16384.encode_len(dlen)
 
-cpdef int decode_len(int dlen, int offset):
+cpdef inline int decode_len(int dlen, int offset):
     return base16384.decode_len(dlen, offset)
 
-cpdef bytes _encode(const uint8_t[:] data):
+cpdef inline bytes _encode(const uint8_t[:] data):
     cdef size_t length = data.shape[0]
     cdef size_t output_size = <size_t>base16384.encode_len(<int>length) + 16
     cdef char *output_buf = <char*>PyMem_Malloc(output_size)
@@ -34,7 +34,7 @@ cpdef bytes _encode(const uint8_t[:] data):
     PyMem_Free(output_buf)
     return ret
 
-cpdef bytes _decode(const uint8_t[:] data):
+cpdef inline bytes _decode(const uint8_t[:] data):
     cdef size_t length = data.shape[0]
     cdef size_t output_size = <size_t>base16384.decode_len(<int>length, 0) + 16
     cdef char *output_buf = <char *> PyMem_Malloc(output_size)
@@ -48,7 +48,7 @@ cpdef bytes _decode(const uint8_t[:] data):
     PyMem_Free(output_buf)
     return ret
 
-cpdef int _encode_into(const uint8_t[:] data, uint8_t[:] dest):
+cpdef inline int _encode_into(const uint8_t[:] data, uint8_t[:] dest):
     cdef size_t input_size = data.shape[0]
     cdef size_t output_size = <size_t> base16384.encode_len(<int> input_size)
     cdef size_t output_buf_size = dest.shape[0]
@@ -59,7 +59,7 @@ cpdef int _encode_into(const uint8_t[:] data, uint8_t[:] dest):
                                       <char *> &dest[0],
                                       <int> output_buf_size)
 
-cpdef int _decode_into(const uint8_t[:] data, uint8_t[:] dest):
+cpdef inline int _decode_into(const uint8_t[:] data, uint8_t[:] dest):
     cdef size_t input_size = data.shape[0]
     cdef size_t output_size = <size_t> base16384.decode_len(<int> input_size, 0)
     cdef size_t output_buf_size = dest.shape[0]
@@ -71,7 +71,7 @@ cpdef int _decode_into(const uint8_t[:] data, uint8_t[:] dest):
                                       <int> output_buf_size)
 
 
-cpdef void encode_file(object input,
+cpdef inline void encode_file(object input,
                        object output,
                        bint write_head = False,
                        int32_t buf_rate = 10) with gil:
@@ -114,7 +114,7 @@ cpdef void encode_file(object input,
             break
     PyMem_Free(output_buf)
 
-cpdef void decode_file(object input,
+cpdef inline void decode_file(object input,
                        object output,
                        int32_t buf_rate = 10) with gil:
     if not PyFile_Check(input):
@@ -162,5 +162,5 @@ cpdef void decode_file(object input,
         output.write(<bytes>output_buf[:count])
     PyMem_Free(output_buf)
 
-cpdef bint is_64bits():
+cpdef inline bint is_64bits():
     return base16384.pybase16384_64bits()
