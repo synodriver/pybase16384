@@ -5,6 +5,8 @@ from libc.stdint cimport uint8_t, int32_t
 from cpython.object cimport PyObject_HasAttrString
 from cpython.bytes cimport PyBytes_Check, PyBytes_AsString, PyBytes_Size
 from cpython.mem cimport PyMem_Malloc, PyMem_Free
+from cython.parallel cimport prange
+from openmp cimport omp_get_num_procs
 
 from pybase16384 cimport base16384
 
@@ -34,7 +36,7 @@ cpdef inline bytes _encode(const uint8_t[:] data):
     PyMem_Free(output_buf)
     return ret
 
-cpdef inline bytes _decode(const uint8_t[:] data):
+cpdef inline bytes _decode(const uint8_t[::1] data):
     cdef size_t length = data.shape[0]
     cdef size_t output_size = <size_t>base16384.decode_len(<int>length, 0) + 16
     cdef char *output_buf = <char *> PyMem_Malloc(output_size)
@@ -48,7 +50,7 @@ cpdef inline bytes _decode(const uint8_t[:] data):
     PyMem_Free(output_buf)
     return ret
 
-cpdef inline int _encode_into(const uint8_t[:] data, uint8_t[:] dest):
+cpdef inline int _encode_into(const uint8_t[::1] data, uint8_t[::1] dest):
     cdef size_t input_size = data.shape[0]
     cdef size_t output_size = <size_t> base16384.encode_len(<int> input_size)
     cdef size_t output_buf_size = dest.shape[0]
@@ -59,7 +61,7 @@ cpdef inline int _encode_into(const uint8_t[:] data, uint8_t[:] dest):
                                       <char *> &dest[0],
                                       <int> output_buf_size)
 
-cpdef inline int _decode_into(const uint8_t[:] data, uint8_t[:] dest):
+cpdef inline int _decode_into(const uint8_t[::1] data, uint8_t[::1] dest):
     cdef size_t input_size = data.shape[0]
     cdef size_t output_size = <size_t> base16384.decode_len(<int> input_size, 0)
     cdef size_t output_buf_size = dest.shape[0]
@@ -70,6 +72,65 @@ cpdef inline int _decode_into(const uint8_t[:] data, uint8_t[:] dest):
                                       <char *> &dest[0],
                                       <int> output_buf_size)
 
+cpdef inline bytes _encode_parallel(const uint8_t[::1] data):
+    cdef int threads = omp_get_num_procs()
+    cdef size_t length = data.shape[0]
+    cdef size_t chunk_size = length / threads / 7 * 7 # 有几个线程分成几块 还要保证是7的倍数
+    cdef size_t output_chunk_size = chunk_size / 7 * 8  # 7字节进 8字节出
+    cdef size_t mod = length - chunk_size * threads # 剩下的单独加密
+    cdef size_t output_size = <size_t> base16384.encode_len(<int> length) + 16
+
+    cdef char *output_buf = <char *> PyMem_Malloc(output_size)  # 老规矩加16字节
+    if output_buf == NULL:
+        raise MemoryError
+    cdef int i
+    for i in prange(threads, nogil=True, schedule="guided"):
+        base16384.encode(<const char *> &data[i*chunk_size],
+                                          <int>chunk_size,
+                                          &output_buf[i*output_chunk_size],
+                                          <int>output_chunk_size)  # encode 整数倍的那个
+    cdef int count
+    if mod!=0:
+        count = base16384.encode(<const char *> &data[length - mod],
+                                <int>mod,
+                                &output_buf[threads * output_chunk_size],
+                                 <int>(output_size - threads * output_chunk_size))  # 余数
+    else:
+        count = 0
+
+    ret = <bytes> output_buf[:threads * output_chunk_size + count]
+    PyMem_Free(output_buf)
+    return ret
+
+cpdef inline bytes _decode_parallel(const uint8_t[::1] data):
+    cdef int threads = omp_get_num_procs()
+    cdef size_t length = data.shape[0]
+    cdef size_t chunk_size = length / threads / 8 * 8  # 有几个线程分成几块 还要保证是8的倍数
+    cdef size_t output_chunk_size = chunk_size / 8 * 7  # 8字节进 7字节出
+    cdef size_t mod = length - chunk_size * threads  # 剩下的单独加密
+    cdef size_t output_size = <size_t> base16384.decode_len(<int> length, 0) + 16
+
+    cdef char *output_buf = <char *> PyMem_Malloc(output_size)  # 老规矩加16字节
+    if output_buf == NULL:
+        raise MemoryError
+    cdef int i
+    for i in prange(threads, nogil=True, schedule="guided"):
+        base16384.decode(<const char *> &data[i * chunk_size],
+                         <int> chunk_size,
+                         &output_buf[i * output_chunk_size],
+                         <int> output_chunk_size)  # encode 整数倍的那个
+    cdef int count
+    if mod != 0:
+        count = base16384.decode(<const char *> &data[length - mod],
+                                 <int> mod,
+                                 &output_buf[threads * output_chunk_size],
+                                 <int> (output_size - threads * output_chunk_size))  # 余数
+    else:
+        count = 0
+
+    ret = <bytes> output_buf[:threads * output_chunk_size + count]
+    PyMem_Free(output_buf)
+    return ret
 
 cpdef inline void encode_file(object input,
                        object output,

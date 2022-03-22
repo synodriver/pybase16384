@@ -14,6 +14,12 @@
             ]
         ],
         "depends": [],
+        "extra_compile_args": [
+            "/openmp"
+        ],
+        "extra_link_args": [
+            "/openmp"
+        ],
         "include_dirs": [
             "./base16384"
         ],
@@ -641,6 +647,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
+#include <omp.h>
 #include "base14.h"
 
 #ifdef CPUBIT32
@@ -924,17 +931,17 @@ typedef volatile __pyx_atomic_int_type __pyx_atomic_int;
             __pyx_sub_acquisition_count_locked(__pyx_get_slice_count_pointer(memview), memview->lock)
 #endif
 
-/* ForceInitThreads.proto */
-#ifndef __PYX_FORCE_INIT_THREADS
-  #define __PYX_FORCE_INIT_THREADS 0
-#endif
-
 /* NoFastGil.proto */
 #define __Pyx_PyGILState_Ensure PyGILState_Ensure
 #define __Pyx_PyGILState_Release PyGILState_Release
 #define __Pyx_FastGIL_Remember()
 #define __Pyx_FastGIL_Forget()
 #define __Pyx_FastGilFuncInit()
+
+/* ForceInitThreads.proto */
+#ifndef __PYX_FORCE_INIT_THREADS
+  #define __PYX_FORCE_INIT_THREADS 0
+#endif
 
 /* BufferFormatStructs.proto */
 #define IS_UNSIGNED(type) (((type) -1) > 0)
@@ -981,8 +988,8 @@ struct __pyx_memoryviewslice_obj;
 struct __pyx_opt_args_11pybase16384_5_core_encode_file;
 struct __pyx_opt_args_11pybase16384_5_core_decode_file;
 
-/* "pybase16384/_core.pyx":74
- * 
+/* "pybase16384/_core.pyx":135
+ *     return ret
  * 
  * cpdef inline void encode_file(object input,             # <<<<<<<<<<<<<<
  *                        object output,
@@ -994,7 +1001,7 @@ struct __pyx_opt_args_11pybase16384_5_core_encode_file {
   int32_t buf_rate;
 };
 
-/* "pybase16384/_core.pyx":117
+/* "pybase16384/_core.pyx":178
  *     PyMem_Free(output_buf)
  * 
  * cpdef inline void decode_file(object input,             # <<<<<<<<<<<<<<
@@ -1749,7 +1756,10 @@ static int __Pyx_ValidateAndInit_memviewslice(
 static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint8_t__const__(PyObject *, int writable_flag);
 
 /* ObjectToMemviewSlice.proto */
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint8_t(PyObject *, int writable_flag);
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t__const__(PyObject *, int writable_flag);
+
+/* ObjectToMemviewSlice.proto */
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t(PyObject *, int writable_flag);
 
 /* MemviewSliceCopyTemplate.proto */
 static __Pyx_memviewslice
@@ -1815,6 +1825,8 @@ static PyTypeObject *__pyx_ptype_7cpython_4type_type = 0;
 
 /* Module declarations from 'cpython.mem' */
 
+/* Module declarations from 'openmp' */
+
 /* Module declarations from 'pybase16384' */
 
 /* Module declarations from 'pybase16384.base16384' */
@@ -1838,6 +1850,8 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__encode(__Pyx_memvie
 static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__decode(__Pyx_memviewslice, int __pyx_skip_dispatch); /*proto*/
 static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__encode_into(__Pyx_memviewslice, __Pyx_memviewslice, int __pyx_skip_dispatch); /*proto*/
 static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__decode_into(__Pyx_memviewslice, __Pyx_memviewslice, int __pyx_skip_dispatch); /*proto*/
+static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__encode_parallel(__Pyx_memviewslice, int __pyx_skip_dispatch); /*proto*/
+static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__decode_parallel(__Pyx_memviewslice, int __pyx_skip_dispatch); /*proto*/
 static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_11pybase16384_5_core_encode_file *__pyx_optional_args); /*proto*/
 static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_11pybase16384_5_core_decode_file *__pyx_optional_args); /*proto*/
 static CYTHON_INLINE int __pyx_f_11pybase16384_5_core_is_64bits(int __pyx_skip_dispatch); /*proto*/
@@ -2099,9 +2113,11 @@ static PyObject *__pyx_pf_11pybase16384_5_core_4_encode(CYTHON_UNUSED PyObject *
 static PyObject *__pyx_pf_11pybase16384_5_core_6_decode(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_data); /* proto */
 static PyObject *__pyx_pf_11pybase16384_5_core_8_encode_into(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_data, __Pyx_memviewslice __pyx_v_dest); /* proto */
 static PyObject *__pyx_pf_11pybase16384_5_core_10_decode_into(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_data, __Pyx_memviewslice __pyx_v_dest); /* proto */
-static PyObject *__pyx_pf_11pybase16384_5_core_12encode_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input, PyObject *__pyx_v_output, int __pyx_v_write_head, int32_t __pyx_v_buf_rate); /* proto */
-static PyObject *__pyx_pf_11pybase16384_5_core_14decode_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input, PyObject *__pyx_v_output, int32_t __pyx_v_buf_rate); /* proto */
-static PyObject *__pyx_pf_11pybase16384_5_core_16is_64bits(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
+static PyObject *__pyx_pf_11pybase16384_5_core_12_encode_parallel(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_data); /* proto */
+static PyObject *__pyx_pf_11pybase16384_5_core_14_decode_parallel(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_data); /* proto */
+static PyObject *__pyx_pf_11pybase16384_5_core_16encode_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input, PyObject *__pyx_v_output, int __pyx_v_write_head, int32_t __pyx_v_buf_rate); /* proto */
+static PyObject *__pyx_pf_11pybase16384_5_core_18decode_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input, PyObject *__pyx_v_output, int32_t __pyx_v_buf_rate); /* proto */
+static PyObject *__pyx_pf_11pybase16384_5_core_20is_64bits(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(struct __pyx_array_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_array___pyx_pf_15View_dot_MemoryView_5array_4__dealloc__(struct __pyx_array_obj *__pyx_v_self); /* proto */
@@ -2185,7 +2201,7 @@ static PyObject *__pyx_tuple__29;
 static PyObject *__pyx_codeobj__30;
 /* Late includes */
 
-/* "pybase16384/_core.pyx":11
+/* "pybase16384/_core.pyx":13
  * from pybase16384 cimport base16384
  * 
  * cdef inline uint8_t PyFile_Check(object file):             # <<<<<<<<<<<<<<
@@ -2200,7 +2216,7 @@ static CYTHON_INLINE uint8_t __pyx_f_11pybase16384_5_core_PyFile_Check(PyObject 
   int __pyx_t_2;
   __Pyx_RefNannySetupContext("PyFile_Check", 0);
 
-  /* "pybase16384/_core.pyx":12
+  /* "pybase16384/_core.pyx":14
  * 
  * cdef inline uint8_t PyFile_Check(object file):
  *     if PyObject_HasAttrString(file, "read") and PyObject_HasAttrString(file, "write") and PyObject_HasAttrString(file,             # <<<<<<<<<<<<<<
@@ -2224,7 +2240,7 @@ static CYTHON_INLINE uint8_t __pyx_f_11pybase16384_5_core_PyFile_Check(PyObject 
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "pybase16384/_core.pyx":14
+    /* "pybase16384/_core.pyx":16
  *     if PyObject_HasAttrString(file, "read") and PyObject_HasAttrString(file, "write") and PyObject_HasAttrString(file,
  *                                                                                                                  "seek"):
  *         return 1             # <<<<<<<<<<<<<<
@@ -2234,7 +2250,7 @@ static CYTHON_INLINE uint8_t __pyx_f_11pybase16384_5_core_PyFile_Check(PyObject 
     __pyx_r = 1;
     goto __pyx_L0;
 
-    /* "pybase16384/_core.pyx":12
+    /* "pybase16384/_core.pyx":14
  * 
  * cdef inline uint8_t PyFile_Check(object file):
  *     if PyObject_HasAttrString(file, "read") and PyObject_HasAttrString(file, "write") and PyObject_HasAttrString(file,             # <<<<<<<<<<<<<<
@@ -2243,7 +2259,7 @@ static CYTHON_INLINE uint8_t __pyx_f_11pybase16384_5_core_PyFile_Check(PyObject 
  */
   }
 
-  /* "pybase16384/_core.pyx":15
+  /* "pybase16384/_core.pyx":17
  *                                                                                                                  "seek"):
  *         return 1
  *     return 0             # <<<<<<<<<<<<<<
@@ -2253,7 +2269,7 @@ static CYTHON_INLINE uint8_t __pyx_f_11pybase16384_5_core_PyFile_Check(PyObject 
   __pyx_r = 0;
   goto __pyx_L0;
 
-  /* "pybase16384/_core.pyx":11
+  /* "pybase16384/_core.pyx":13
  * from pybase16384 cimport base16384
  * 
  * cdef inline uint8_t PyFile_Check(object file):             # <<<<<<<<<<<<<<
@@ -2267,7 +2283,7 @@ static CYTHON_INLINE uint8_t __pyx_f_11pybase16384_5_core_PyFile_Check(PyObject 
   return __pyx_r;
 }
 
-/* "pybase16384/_core.pyx":17
+/* "pybase16384/_core.pyx":19
  *     return 0
  * 
  * cpdef inline int encode_len(int dlen):             # <<<<<<<<<<<<<<
@@ -2281,7 +2297,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core_encode_len(int __pyx_v_dle
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("encode_len", 0);
 
-  /* "pybase16384/_core.pyx":18
+  /* "pybase16384/_core.pyx":20
  * 
  * cpdef inline int encode_len(int dlen):
  *     return base16384.encode_len(dlen)             # <<<<<<<<<<<<<<
@@ -2291,7 +2307,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core_encode_len(int __pyx_v_dle
   __pyx_r = encode_len(__pyx_v_dlen);
   goto __pyx_L0;
 
-  /* "pybase16384/_core.pyx":17
+  /* "pybase16384/_core.pyx":19
  *     return 0
  * 
  * cpdef inline int encode_len(int dlen):             # <<<<<<<<<<<<<<
@@ -2317,7 +2333,7 @@ static PyObject *__pyx_pw_11pybase16384_5_core_1encode_len(PyObject *__pyx_self,
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("encode_len (wrapper)", 0);
   assert(__pyx_arg_dlen); {
-    __pyx_v_dlen = __Pyx_PyInt_As_int(__pyx_arg_dlen); if (unlikely((__pyx_v_dlen == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 17, __pyx_L3_error)
+    __pyx_v_dlen = __Pyx_PyInt_As_int(__pyx_arg_dlen); if (unlikely((__pyx_v_dlen == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 19, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -2341,7 +2357,7 @@ static PyObject *__pyx_pf_11pybase16384_5_core_encode_len(CYTHON_UNUSED PyObject
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("encode_len", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_11pybase16384_5_core_encode_len(__pyx_v_dlen, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_11pybase16384_5_core_encode_len(__pyx_v_dlen, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2358,7 +2374,7 @@ static PyObject *__pyx_pf_11pybase16384_5_core_encode_len(CYTHON_UNUSED PyObject
   return __pyx_r;
 }
 
-/* "pybase16384/_core.pyx":20
+/* "pybase16384/_core.pyx":22
  *     return base16384.encode_len(dlen)
  * 
  * cpdef inline int decode_len(int dlen, int offset):             # <<<<<<<<<<<<<<
@@ -2372,7 +2388,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core_decode_len(int __pyx_v_dle
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("decode_len", 0);
 
-  /* "pybase16384/_core.pyx":21
+  /* "pybase16384/_core.pyx":23
  * 
  * cpdef inline int decode_len(int dlen, int offset):
  *     return base16384.decode_len(dlen, offset)             # <<<<<<<<<<<<<<
@@ -2382,7 +2398,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core_decode_len(int __pyx_v_dle
   __pyx_r = decode_len(__pyx_v_dlen, __pyx_v_offset);
   goto __pyx_L0;
 
-  /* "pybase16384/_core.pyx":20
+  /* "pybase16384/_core.pyx":22
  *     return base16384.encode_len(dlen)
  * 
  * cpdef inline int decode_len(int dlen, int offset):             # <<<<<<<<<<<<<<
@@ -2431,11 +2447,11 @@ static PyObject *__pyx_pw_11pybase16384_5_core_3decode_len(PyObject *__pyx_self,
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_offset)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("decode_len", 1, 2, 2, 1); __PYX_ERR(0, 20, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("decode_len", 1, 2, 2, 1); __PYX_ERR(0, 22, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "decode_len") < 0)) __PYX_ERR(0, 20, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "decode_len") < 0)) __PYX_ERR(0, 22, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2443,12 +2459,12 @@ static PyObject *__pyx_pw_11pybase16384_5_core_3decode_len(PyObject *__pyx_self,
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_dlen = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_dlen == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 20, __pyx_L3_error)
-    __pyx_v_offset = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_offset == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 20, __pyx_L3_error)
+    __pyx_v_dlen = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_dlen == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 22, __pyx_L3_error)
+    __pyx_v_offset = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_offset == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 22, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("decode_len", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 20, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("decode_len", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 22, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pybase16384._core.decode_len", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2470,7 +2486,7 @@ static PyObject *__pyx_pf_11pybase16384_5_core_2decode_len(CYTHON_UNUSED PyObjec
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("decode_len", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_11pybase16384_5_core_decode_len(__pyx_v_dlen, __pyx_v_offset, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_11pybase16384_5_core_decode_len(__pyx_v_dlen, __pyx_v_offset, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2487,7 +2503,7 @@ static PyObject *__pyx_pf_11pybase16384_5_core_2decode_len(CYTHON_UNUSED PyObjec
   return __pyx_r;
 }
 
-/* "pybase16384/_core.pyx":23
+/* "pybase16384/_core.pyx":25
  *     return base16384.decode_len(dlen, offset)
  * 
  * cpdef inline bytes _encode(const uint8_t[:] data):             # <<<<<<<<<<<<<<
@@ -2513,7 +2529,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__encode(__Pyx_memvie
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_encode", 0);
 
-  /* "pybase16384/_core.pyx":24
+  /* "pybase16384/_core.pyx":26
  * 
  * cpdef inline bytes _encode(const uint8_t[:] data):
  *     cdef size_t length = data.shape[0]             # <<<<<<<<<<<<<<
@@ -2522,7 +2538,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__encode(__Pyx_memvie
  */
   __pyx_v_length = (__pyx_v_data.shape[0]);
 
-  /* "pybase16384/_core.pyx":25
+  /* "pybase16384/_core.pyx":27
  * cpdef inline bytes _encode(const uint8_t[:] data):
  *     cdef size_t length = data.shape[0]
  *     cdef size_t output_size = <size_t>base16384.encode_len(<int>length) + 16             # <<<<<<<<<<<<<<
@@ -2531,7 +2547,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__encode(__Pyx_memvie
  */
   __pyx_v_output_size = (((size_t)encode_len(((int)__pyx_v_length))) + 16);
 
-  /* "pybase16384/_core.pyx":26
+  /* "pybase16384/_core.pyx":28
  *     cdef size_t length = data.shape[0]
  *     cdef size_t output_size = <size_t>base16384.encode_len(<int>length) + 16
  *     cdef char *output_buf = <char*>PyMem_Malloc(output_size)             # <<<<<<<<<<<<<<
@@ -2540,7 +2556,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__encode(__Pyx_memvie
  */
   __pyx_v_output_buf = ((char *)PyMem_Malloc(__pyx_v_output_size));
 
-  /* "pybase16384/_core.pyx":27
+  /* "pybase16384/_core.pyx":29
  *     cdef size_t output_size = <size_t>base16384.encode_len(<int>length) + 16
  *     cdef char *output_buf = <char*>PyMem_Malloc(output_size)
  *     if output_buf == NULL:             # <<<<<<<<<<<<<<
@@ -2550,16 +2566,16 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__encode(__Pyx_memvie
   __pyx_t_1 = ((__pyx_v_output_buf == NULL) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "pybase16384/_core.pyx":28
+    /* "pybase16384/_core.pyx":30
  *     cdef char *output_buf = <char*>PyMem_Malloc(output_size)
  *     if output_buf == NULL:
  *         raise MemoryError             # <<<<<<<<<<<<<<
  *     cdef int count = base16384.encode(<const char*> &data[0],
  *                                       <int>length,
  */
-    PyErr_NoMemory(); __PYX_ERR(0, 28, __pyx_L1_error)
+    PyErr_NoMemory(); __PYX_ERR(0, 30, __pyx_L1_error)
 
-    /* "pybase16384/_core.pyx":27
+    /* "pybase16384/_core.pyx":29
  *     cdef size_t output_size = <size_t>base16384.encode_len(<int>length) + 16
  *     cdef char *output_buf = <char*>PyMem_Malloc(output_size)
  *     if output_buf == NULL:             # <<<<<<<<<<<<<<
@@ -2568,7 +2584,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__encode(__Pyx_memvie
  */
   }
 
-  /* "pybase16384/_core.pyx":29
+  /* "pybase16384/_core.pyx":31
  *     if output_buf == NULL:
  *         raise MemoryError
  *     cdef int count = base16384.encode(<const char*> &data[0],             # <<<<<<<<<<<<<<
@@ -2577,7 +2593,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__encode(__Pyx_memvie
  */
   __pyx_t_2 = 0;
 
-  /* "pybase16384/_core.pyx":32
+  /* "pybase16384/_core.pyx":34
  *                                       <int>length,
  *                                       output_buf,
  *                                       <int>output_size) # encode             # <<<<<<<<<<<<<<
@@ -2586,14 +2602,14 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__encode(__Pyx_memvie
  */
   __pyx_v_count = encode(((char const *)(&(*((uint8_t const  *) ( /* dim=0 */ (__pyx_v_data.data + __pyx_t_2 * __pyx_v_data.strides[0]) ))))), ((int)__pyx_v_length), __pyx_v_output_buf, ((int)__pyx_v_output_size));
 
-  /* "pybase16384/_core.pyx":33
+  /* "pybase16384/_core.pyx":35
  *                                       output_buf,
  *                                       <int>output_size) # encode
  *     ret = <bytes>output_buf[:count]             # <<<<<<<<<<<<<<
  *     PyMem_Free(output_buf)
  *     return ret
  */
-  __pyx_t_3 = __Pyx_PyBytes_FromStringAndSize(__pyx_v_output_buf + 0, __pyx_v_count - 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyBytes_FromStringAndSize(__pyx_v_output_buf + 0, __pyx_v_count - 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = __pyx_t_3;
   __Pyx_INCREF(__pyx_t_4);
@@ -2601,7 +2617,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__encode(__Pyx_memvie
   __pyx_v_ret = ((PyObject*)__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "pybase16384/_core.pyx":34
+  /* "pybase16384/_core.pyx":36
  *                                       <int>output_size) # encode
  *     ret = <bytes>output_buf[:count]
  *     PyMem_Free(output_buf)             # <<<<<<<<<<<<<<
@@ -2610,19 +2626,19 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__encode(__Pyx_memvie
  */
   PyMem_Free(__pyx_v_output_buf);
 
-  /* "pybase16384/_core.pyx":35
+  /* "pybase16384/_core.pyx":37
  *     ret = <bytes>output_buf[:count]
  *     PyMem_Free(output_buf)
  *     return ret             # <<<<<<<<<<<<<<
  * 
- * cpdef inline bytes _decode(const uint8_t[:] data):
+ * cpdef inline bytes _decode(const uint8_t[::1] data):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_ret);
   __pyx_r = __pyx_v_ret;
   goto __pyx_L0;
 
-  /* "pybase16384/_core.pyx":23
+  /* "pybase16384/_core.pyx":25
  *     return base16384.decode_len(dlen, offset)
  * 
  * cpdef inline bytes _encode(const uint8_t[:] data):             # <<<<<<<<<<<<<<
@@ -2655,7 +2671,7 @@ static PyObject *__pyx_pw_11pybase16384_5_core_5_encode(PyObject *__pyx_self, Py
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_encode (wrapper)", 0);
   assert(__pyx_arg_data); {
-    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint8_t__const__(__pyx_arg_data, 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 23, __pyx_L3_error)
+    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint8_t__const__(__pyx_arg_data, 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 25, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -2679,8 +2695,8 @@ static PyObject *__pyx_pf_11pybase16384_5_core_4_encode(CYTHON_UNUSED PyObject *
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_encode", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_data.memview)) { __Pyx_RaiseUnboundLocalError("data"); __PYX_ERR(0, 23, __pyx_L1_error) }
-  __pyx_t_1 = __pyx_f_11pybase16384_5_core__encode(__pyx_v_data, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (unlikely(!__pyx_v_data.memview)) { __Pyx_RaiseUnboundLocalError("data"); __PYX_ERR(0, 25, __pyx_L1_error) }
+  __pyx_t_1 = __pyx_f_11pybase16384_5_core__encode(__pyx_v_data, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2698,10 +2714,10 @@ static PyObject *__pyx_pf_11pybase16384_5_core_4_encode(CYTHON_UNUSED PyObject *
   return __pyx_r;
 }
 
-/* "pybase16384/_core.pyx":37
+/* "pybase16384/_core.pyx":39
  *     return ret
  * 
- * cpdef inline bytes _decode(const uint8_t[:] data):             # <<<<<<<<<<<<<<
+ * cpdef inline bytes _decode(const uint8_t[::1] data):             # <<<<<<<<<<<<<<
  *     cdef size_t length = data.shape[0]
  *     cdef size_t output_size = <size_t>base16384.decode_len(<int>length, 0) + 16
  */
@@ -2724,17 +2740,17 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__decode(__Pyx_memvie
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_decode", 0);
 
-  /* "pybase16384/_core.pyx":38
+  /* "pybase16384/_core.pyx":40
  * 
- * cpdef inline bytes _decode(const uint8_t[:] data):
+ * cpdef inline bytes _decode(const uint8_t[::1] data):
  *     cdef size_t length = data.shape[0]             # <<<<<<<<<<<<<<
  *     cdef size_t output_size = <size_t>base16384.decode_len(<int>length, 0) + 16
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)
  */
   __pyx_v_length = (__pyx_v_data.shape[0]);
 
-  /* "pybase16384/_core.pyx":39
- * cpdef inline bytes _decode(const uint8_t[:] data):
+  /* "pybase16384/_core.pyx":41
+ * cpdef inline bytes _decode(const uint8_t[::1] data):
  *     cdef size_t length = data.shape[0]
  *     cdef size_t output_size = <size_t>base16384.decode_len(<int>length, 0) + 16             # <<<<<<<<<<<<<<
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)
@@ -2742,7 +2758,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__decode(__Pyx_memvie
  */
   __pyx_v_output_size = (((size_t)decode_len(((int)__pyx_v_length), 0)) + 16);
 
-  /* "pybase16384/_core.pyx":40
+  /* "pybase16384/_core.pyx":42
  *     cdef size_t length = data.shape[0]
  *     cdef size_t output_size = <size_t>base16384.decode_len(<int>length, 0) + 16
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)             # <<<<<<<<<<<<<<
@@ -2751,7 +2767,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__decode(__Pyx_memvie
  */
   __pyx_v_output_buf = ((char *)PyMem_Malloc(__pyx_v_output_size));
 
-  /* "pybase16384/_core.pyx":41
+  /* "pybase16384/_core.pyx":43
  *     cdef size_t output_size = <size_t>base16384.decode_len(<int>length, 0) + 16
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)
  *     if output_buf == NULL:             # <<<<<<<<<<<<<<
@@ -2761,16 +2777,16 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__decode(__Pyx_memvie
   __pyx_t_1 = ((__pyx_v_output_buf == NULL) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "pybase16384/_core.pyx":42
+    /* "pybase16384/_core.pyx":44
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)
  *     if output_buf == NULL:
  *         raise MemoryError             # <<<<<<<<<<<<<<
  *     cdef int count = base16384.decode(<const char *> &data[0],
  *                                       <int> length,
  */
-    PyErr_NoMemory(); __PYX_ERR(0, 42, __pyx_L1_error)
+    PyErr_NoMemory(); __PYX_ERR(0, 44, __pyx_L1_error)
 
-    /* "pybase16384/_core.pyx":41
+    /* "pybase16384/_core.pyx":43
  *     cdef size_t output_size = <size_t>base16384.decode_len(<int>length, 0) + 16
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)
  *     if output_buf == NULL:             # <<<<<<<<<<<<<<
@@ -2779,7 +2795,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__decode(__Pyx_memvie
  */
   }
 
-  /* "pybase16384/_core.pyx":43
+  /* "pybase16384/_core.pyx":45
  *     if output_buf == NULL:
  *         raise MemoryError
  *     cdef int count = base16384.decode(<const char *> &data[0],             # <<<<<<<<<<<<<<
@@ -2788,23 +2804,23 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__decode(__Pyx_memvie
  */
   __pyx_t_2 = 0;
 
-  /* "pybase16384/_core.pyx":46
+  /* "pybase16384/_core.pyx":48
  *                                       <int> length,
  *                                       output_buf,
  *                                       <int> output_size)  # decode             # <<<<<<<<<<<<<<
  *     ret = <bytes> output_buf[:count]
  *     PyMem_Free(output_buf)
  */
-  __pyx_v_count = decode(((char const *)(&(*((uint8_t const  *) ( /* dim=0 */ (__pyx_v_data.data + __pyx_t_2 * __pyx_v_data.strides[0]) ))))), ((int)__pyx_v_length), __pyx_v_output_buf, ((int)__pyx_v_output_size));
+  __pyx_v_count = decode(((char const *)(&(*((uint8_t const  *) ( /* dim=0 */ ((char *) (((uint8_t const  *) __pyx_v_data.data) + __pyx_t_2)) ))))), ((int)__pyx_v_length), __pyx_v_output_buf, ((int)__pyx_v_output_size));
 
-  /* "pybase16384/_core.pyx":47
+  /* "pybase16384/_core.pyx":49
  *                                       output_buf,
  *                                       <int> output_size)  # decode
  *     ret = <bytes> output_buf[:count]             # <<<<<<<<<<<<<<
  *     PyMem_Free(output_buf)
  *     return ret
  */
-  __pyx_t_3 = __Pyx_PyBytes_FromStringAndSize(__pyx_v_output_buf + 0, __pyx_v_count - 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyBytes_FromStringAndSize(__pyx_v_output_buf + 0, __pyx_v_count - 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = __pyx_t_3;
   __Pyx_INCREF(__pyx_t_4);
@@ -2812,7 +2828,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__decode(__Pyx_memvie
   __pyx_v_ret = ((PyObject*)__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "pybase16384/_core.pyx":48
+  /* "pybase16384/_core.pyx":50
  *                                       <int> output_size)  # decode
  *     ret = <bytes> output_buf[:count]
  *     PyMem_Free(output_buf)             # <<<<<<<<<<<<<<
@@ -2821,22 +2837,22 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__decode(__Pyx_memvie
  */
   PyMem_Free(__pyx_v_output_buf);
 
-  /* "pybase16384/_core.pyx":49
+  /* "pybase16384/_core.pyx":51
  *     ret = <bytes> output_buf[:count]
  *     PyMem_Free(output_buf)
  *     return ret             # <<<<<<<<<<<<<<
  * 
- * cpdef inline int _encode_into(const uint8_t[:] data, uint8_t[:] dest):
+ * cpdef inline int _encode_into(const uint8_t[::1] data, uint8_t[::1] dest):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_ret);
   __pyx_r = __pyx_v_ret;
   goto __pyx_L0;
 
-  /* "pybase16384/_core.pyx":37
+  /* "pybase16384/_core.pyx":39
  *     return ret
  * 
- * cpdef inline bytes _decode(const uint8_t[:] data):             # <<<<<<<<<<<<<<
+ * cpdef inline bytes _decode(const uint8_t[::1] data):             # <<<<<<<<<<<<<<
  *     cdef size_t length = data.shape[0]
  *     cdef size_t output_size = <size_t>base16384.decode_len(<int>length, 0) + 16
  */
@@ -2856,7 +2872,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__decode(__Pyx_memvie
 
 /* Python wrapper */
 static PyObject *__pyx_pw_11pybase16384_5_core_7_decode(PyObject *__pyx_self, PyObject *__pyx_arg_data); /*proto*/
-static char __pyx_doc_11pybase16384_5_core_6_decode[] = "_decode(const uint8_t[:] data) -> bytes";
+static char __pyx_doc_11pybase16384_5_core_6_decode[] = "_decode(const uint8_t[::1] data) -> bytes";
 static PyObject *__pyx_pw_11pybase16384_5_core_7_decode(PyObject *__pyx_self, PyObject *__pyx_arg_data) {
   __Pyx_memviewslice __pyx_v_data = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_lineno = 0;
@@ -2866,7 +2882,7 @@ static PyObject *__pyx_pw_11pybase16384_5_core_7_decode(PyObject *__pyx_self, Py
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_decode (wrapper)", 0);
   assert(__pyx_arg_data); {
-    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint8_t__const__(__pyx_arg_data, 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 37, __pyx_L3_error)
+    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t__const__(__pyx_arg_data, 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 39, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -2890,8 +2906,8 @@ static PyObject *__pyx_pf_11pybase16384_5_core_6_decode(CYTHON_UNUSED PyObject *
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_decode", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_data.memview)) { __Pyx_RaiseUnboundLocalError("data"); __PYX_ERR(0, 37, __pyx_L1_error) }
-  __pyx_t_1 = __pyx_f_11pybase16384_5_core__decode(__pyx_v_data, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
+  if (unlikely(!__pyx_v_data.memview)) { __Pyx_RaiseUnboundLocalError("data"); __PYX_ERR(0, 39, __pyx_L1_error) }
+  __pyx_t_1 = __pyx_f_11pybase16384_5_core__decode(__pyx_v_data, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2909,10 +2925,10 @@ static PyObject *__pyx_pf_11pybase16384_5_core_6_decode(CYTHON_UNUSED PyObject *
   return __pyx_r;
 }
 
-/* "pybase16384/_core.pyx":51
+/* "pybase16384/_core.pyx":53
  *     return ret
  * 
- * cpdef inline int _encode_into(const uint8_t[:] data, uint8_t[:] dest):             # <<<<<<<<<<<<<<
+ * cpdef inline int _encode_into(const uint8_t[::1] data, uint8_t[::1] dest):             # <<<<<<<<<<<<<<
  *     cdef size_t input_size = data.shape[0]
  *     cdef size_t output_size = <size_t> base16384.encode_len(<int> input_size)
  */
@@ -2933,17 +2949,17 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__encode_into(__Pyx_memview
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_encode_into", 0);
 
-  /* "pybase16384/_core.pyx":52
+  /* "pybase16384/_core.pyx":54
  * 
- * cpdef inline int _encode_into(const uint8_t[:] data, uint8_t[:] dest):
+ * cpdef inline int _encode_into(const uint8_t[::1] data, uint8_t[::1] dest):
  *     cdef size_t input_size = data.shape[0]             # <<<<<<<<<<<<<<
  *     cdef size_t output_size = <size_t> base16384.encode_len(<int> input_size)
  *     cdef size_t output_buf_size = dest.shape[0]
  */
   __pyx_v_input_size = (__pyx_v_data.shape[0]);
 
-  /* "pybase16384/_core.pyx":53
- * cpdef inline int _encode_into(const uint8_t[:] data, uint8_t[:] dest):
+  /* "pybase16384/_core.pyx":55
+ * cpdef inline int _encode_into(const uint8_t[::1] data, uint8_t[::1] dest):
  *     cdef size_t input_size = data.shape[0]
  *     cdef size_t output_size = <size_t> base16384.encode_len(<int> input_size)             # <<<<<<<<<<<<<<
  *     cdef size_t output_buf_size = dest.shape[0]
@@ -2951,7 +2967,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__encode_into(__Pyx_memview
  */
   __pyx_v_output_size = ((size_t)encode_len(((int)__pyx_v_input_size)));
 
-  /* "pybase16384/_core.pyx":54
+  /* "pybase16384/_core.pyx":56
  *     cdef size_t input_size = data.shape[0]
  *     cdef size_t output_size = <size_t> base16384.encode_len(<int> input_size)
  *     cdef size_t output_buf_size = dest.shape[0]             # <<<<<<<<<<<<<<
@@ -2960,7 +2976,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__encode_into(__Pyx_memview
  */
   __pyx_v_output_buf_size = (__pyx_v_dest.shape[0]);
 
-  /* "pybase16384/_core.pyx":55
+  /* "pybase16384/_core.pyx":57
  *     cdef size_t output_size = <size_t> base16384.encode_len(<int> input_size)
  *     cdef size_t output_buf_size = dest.shape[0]
  *     if output_buf_size < output_size:             # <<<<<<<<<<<<<<
@@ -2970,20 +2986,20 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__encode_into(__Pyx_memview
   __pyx_t_1 = ((__pyx_v_output_buf_size < __pyx_v_output_size) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "pybase16384/_core.pyx":56
+    /* "pybase16384/_core.pyx":58
  *     cdef size_t output_buf_size = dest.shape[0]
  *     if output_buf_size < output_size:
  *         raise ValueError("Buffer is too small to hold result")             # <<<<<<<<<<<<<<
  *     return base16384.encode(<const char *> &data[0],
  *                                       <int> input_size,
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 56, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 56, __pyx_L1_error)
+    __PYX_ERR(0, 58, __pyx_L1_error)
 
-    /* "pybase16384/_core.pyx":55
+    /* "pybase16384/_core.pyx":57
  *     cdef size_t output_size = <size_t> base16384.encode_len(<int> input_size)
  *     cdef size_t output_buf_size = dest.shape[0]
  *     if output_buf_size < output_size:             # <<<<<<<<<<<<<<
@@ -2992,7 +3008,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__encode_into(__Pyx_memview
  */
   }
 
-  /* "pybase16384/_core.pyx":57
+  /* "pybase16384/_core.pyx":59
  *     if output_buf_size < output_size:
  *         raise ValueError("Buffer is too small to hold result")
  *     return base16384.encode(<const char *> &data[0],             # <<<<<<<<<<<<<<
@@ -3001,7 +3017,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__encode_into(__Pyx_memview
  */
   __pyx_t_3 = 0;
 
-  /* "pybase16384/_core.pyx":59
+  /* "pybase16384/_core.pyx":61
  *     return base16384.encode(<const char *> &data[0],
  *                                       <int> input_size,
  *                                       <char *> &dest[0],             # <<<<<<<<<<<<<<
@@ -3010,20 +3026,20 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__encode_into(__Pyx_memview
  */
   __pyx_t_4 = 0;
 
-  /* "pybase16384/_core.pyx":57
+  /* "pybase16384/_core.pyx":59
  *     if output_buf_size < output_size:
  *         raise ValueError("Buffer is too small to hold result")
  *     return base16384.encode(<const char *> &data[0],             # <<<<<<<<<<<<<<
  *                                       <int> input_size,
  *                                       <char *> &dest[0],
  */
-  __pyx_r = encode(((char const *)(&(*((uint8_t const  *) ( /* dim=0 */ (__pyx_v_data.data + __pyx_t_3 * __pyx_v_data.strides[0]) ))))), ((int)__pyx_v_input_size), ((char *)(&(*((uint8_t *) ( /* dim=0 */ (__pyx_v_dest.data + __pyx_t_4 * __pyx_v_dest.strides[0]) ))))), ((int)__pyx_v_output_buf_size));
+  __pyx_r = encode(((char const *)(&(*((uint8_t const  *) ( /* dim=0 */ ((char *) (((uint8_t const  *) __pyx_v_data.data) + __pyx_t_3)) ))))), ((int)__pyx_v_input_size), ((char *)(&(*((uint8_t *) ( /* dim=0 */ ((char *) (((uint8_t *) __pyx_v_dest.data) + __pyx_t_4)) ))))), ((int)__pyx_v_output_buf_size));
   goto __pyx_L0;
 
-  /* "pybase16384/_core.pyx":51
+  /* "pybase16384/_core.pyx":53
  *     return ret
  * 
- * cpdef inline int _encode_into(const uint8_t[:] data, uint8_t[:] dest):             # <<<<<<<<<<<<<<
+ * cpdef inline int _encode_into(const uint8_t[::1] data, uint8_t[::1] dest):             # <<<<<<<<<<<<<<
  *     cdef size_t input_size = data.shape[0]
  *     cdef size_t output_size = <size_t> base16384.encode_len(<int> input_size)
  */
@@ -3040,7 +3056,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__encode_into(__Pyx_memview
 
 /* Python wrapper */
 static PyObject *__pyx_pw_11pybase16384_5_core_9_encode_into(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_11pybase16384_5_core_8_encode_into[] = "_encode_into(const uint8_t[:] data, uint8_t[:] dest) -> int";
+static char __pyx_doc_11pybase16384_5_core_8_encode_into[] = "_encode_into(const uint8_t[::1] data, uint8_t[::1] dest) -> int";
 static PyObject *__pyx_pw_11pybase16384_5_core_9_encode_into(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   __Pyx_memviewslice __pyx_v_data = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_dest = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -3073,11 +3089,11 @@ static PyObject *__pyx_pw_11pybase16384_5_core_9_encode_into(PyObject *__pyx_sel
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_dest)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_encode_into", 1, 2, 2, 1); __PYX_ERR(0, 51, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("_encode_into", 1, 2, 2, 1); __PYX_ERR(0, 53, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_encode_into") < 0)) __PYX_ERR(0, 51, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_encode_into") < 0)) __PYX_ERR(0, 53, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -3085,12 +3101,12 @@ static PyObject *__pyx_pw_11pybase16384_5_core_9_encode_into(PyObject *__pyx_sel
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint8_t__const__(values[0], 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 51, __pyx_L3_error)
-    __pyx_v_dest = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint8_t(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_dest.memview)) __PYX_ERR(0, 51, __pyx_L3_error)
+    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t__const__(values[0], 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 53, __pyx_L3_error)
+    __pyx_v_dest = __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_dest.memview)) __PYX_ERR(0, 53, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_encode_into", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 51, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_encode_into", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 53, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pybase16384._core._encode_into", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3112,9 +3128,9 @@ static PyObject *__pyx_pf_11pybase16384_5_core_8_encode_into(CYTHON_UNUSED PyObj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_encode_into", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_data.memview)) { __Pyx_RaiseUnboundLocalError("data"); __PYX_ERR(0, 51, __pyx_L1_error) }
-  if (unlikely(!__pyx_v_dest.memview)) { __Pyx_RaiseUnboundLocalError("dest"); __PYX_ERR(0, 51, __pyx_L1_error) }
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_11pybase16384_5_core__encode_into(__pyx_v_data, __pyx_v_dest, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
+  if (unlikely(!__pyx_v_data.memview)) { __Pyx_RaiseUnboundLocalError("data"); __PYX_ERR(0, 53, __pyx_L1_error) }
+  if (unlikely(!__pyx_v_dest.memview)) { __Pyx_RaiseUnboundLocalError("dest"); __PYX_ERR(0, 53, __pyx_L1_error) }
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_11pybase16384_5_core__encode_into(__pyx_v_data, __pyx_v_dest, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3133,10 +3149,10 @@ static PyObject *__pyx_pf_11pybase16384_5_core_8_encode_into(CYTHON_UNUSED PyObj
   return __pyx_r;
 }
 
-/* "pybase16384/_core.pyx":62
+/* "pybase16384/_core.pyx":64
  *                                       <int> output_buf_size)
  * 
- * cpdef inline int _decode_into(const uint8_t[:] data, uint8_t[:] dest):             # <<<<<<<<<<<<<<
+ * cpdef inline int _decode_into(const uint8_t[::1] data, uint8_t[::1] dest):             # <<<<<<<<<<<<<<
  *     cdef size_t input_size = data.shape[0]
  *     cdef size_t output_size = <size_t> base16384.decode_len(<int> input_size, 0)
  */
@@ -3157,17 +3173,17 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__decode_into(__Pyx_memview
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_decode_into", 0);
 
-  /* "pybase16384/_core.pyx":63
+  /* "pybase16384/_core.pyx":65
  * 
- * cpdef inline int _decode_into(const uint8_t[:] data, uint8_t[:] dest):
+ * cpdef inline int _decode_into(const uint8_t[::1] data, uint8_t[::1] dest):
  *     cdef size_t input_size = data.shape[0]             # <<<<<<<<<<<<<<
  *     cdef size_t output_size = <size_t> base16384.decode_len(<int> input_size, 0)
  *     cdef size_t output_buf_size = dest.shape[0]
  */
   __pyx_v_input_size = (__pyx_v_data.shape[0]);
 
-  /* "pybase16384/_core.pyx":64
- * cpdef inline int _decode_into(const uint8_t[:] data, uint8_t[:] dest):
+  /* "pybase16384/_core.pyx":66
+ * cpdef inline int _decode_into(const uint8_t[::1] data, uint8_t[::1] dest):
  *     cdef size_t input_size = data.shape[0]
  *     cdef size_t output_size = <size_t> base16384.decode_len(<int> input_size, 0)             # <<<<<<<<<<<<<<
  *     cdef size_t output_buf_size = dest.shape[0]
@@ -3175,7 +3191,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__decode_into(__Pyx_memview
  */
   __pyx_v_output_size = ((size_t)decode_len(((int)__pyx_v_input_size), 0));
 
-  /* "pybase16384/_core.pyx":65
+  /* "pybase16384/_core.pyx":67
  *     cdef size_t input_size = data.shape[0]
  *     cdef size_t output_size = <size_t> base16384.decode_len(<int> input_size, 0)
  *     cdef size_t output_buf_size = dest.shape[0]             # <<<<<<<<<<<<<<
@@ -3184,7 +3200,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__decode_into(__Pyx_memview
  */
   __pyx_v_output_buf_size = (__pyx_v_dest.shape[0]);
 
-  /* "pybase16384/_core.pyx":66
+  /* "pybase16384/_core.pyx":68
  *     cdef size_t output_size = <size_t> base16384.decode_len(<int> input_size, 0)
  *     cdef size_t output_buf_size = dest.shape[0]
  *     if output_buf_size < output_size:             # <<<<<<<<<<<<<<
@@ -3194,20 +3210,20 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__decode_into(__Pyx_memview
   __pyx_t_1 = ((__pyx_v_output_buf_size < __pyx_v_output_size) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "pybase16384/_core.pyx":67
+    /* "pybase16384/_core.pyx":69
  *     cdef size_t output_buf_size = dest.shape[0]
  *     if output_buf_size < output_size:
  *         raise ValueError("Buffer is too small to hold result")             # <<<<<<<<<<<<<<
  *     return base16384.decode(<const char *> &data[0],
  *                                       <int> input_size,
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 67, __pyx_L1_error)
+    __PYX_ERR(0, 69, __pyx_L1_error)
 
-    /* "pybase16384/_core.pyx":66
+    /* "pybase16384/_core.pyx":68
  *     cdef size_t output_size = <size_t> base16384.decode_len(<int> input_size, 0)
  *     cdef size_t output_buf_size = dest.shape[0]
  *     if output_buf_size < output_size:             # <<<<<<<<<<<<<<
@@ -3216,7 +3232,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__decode_into(__Pyx_memview
  */
   }
 
-  /* "pybase16384/_core.pyx":68
+  /* "pybase16384/_core.pyx":70
  *     if output_buf_size < output_size:
  *         raise ValueError("Buffer is too small to hold result")
  *     return base16384.decode(<const char *> &data[0],             # <<<<<<<<<<<<<<
@@ -3225,7 +3241,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__decode_into(__Pyx_memview
  */
   __pyx_t_3 = 0;
 
-  /* "pybase16384/_core.pyx":70
+  /* "pybase16384/_core.pyx":72
  *     return base16384.decode(<const char *> &data[0],
  *                                       <int> input_size,
  *                                       <char *> &dest[0],             # <<<<<<<<<<<<<<
@@ -3234,20 +3250,20 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__decode_into(__Pyx_memview
  */
   __pyx_t_4 = 0;
 
-  /* "pybase16384/_core.pyx":68
+  /* "pybase16384/_core.pyx":70
  *     if output_buf_size < output_size:
  *         raise ValueError("Buffer is too small to hold result")
  *     return base16384.decode(<const char *> &data[0],             # <<<<<<<<<<<<<<
  *                                       <int> input_size,
  *                                       <char *> &dest[0],
  */
-  __pyx_r = decode(((char const *)(&(*((uint8_t const  *) ( /* dim=0 */ (__pyx_v_data.data + __pyx_t_3 * __pyx_v_data.strides[0]) ))))), ((int)__pyx_v_input_size), ((char *)(&(*((uint8_t *) ( /* dim=0 */ (__pyx_v_dest.data + __pyx_t_4 * __pyx_v_dest.strides[0]) ))))), ((int)__pyx_v_output_buf_size));
+  __pyx_r = decode(((char const *)(&(*((uint8_t const  *) ( /* dim=0 */ ((char *) (((uint8_t const  *) __pyx_v_data.data) + __pyx_t_3)) ))))), ((int)__pyx_v_input_size), ((char *)(&(*((uint8_t *) ( /* dim=0 */ ((char *) (((uint8_t *) __pyx_v_dest.data) + __pyx_t_4)) ))))), ((int)__pyx_v_output_buf_size));
   goto __pyx_L0;
 
-  /* "pybase16384/_core.pyx":62
+  /* "pybase16384/_core.pyx":64
  *                                       <int> output_buf_size)
  * 
- * cpdef inline int _decode_into(const uint8_t[:] data, uint8_t[:] dest):             # <<<<<<<<<<<<<<
+ * cpdef inline int _decode_into(const uint8_t[::1] data, uint8_t[::1] dest):             # <<<<<<<<<<<<<<
  *     cdef size_t input_size = data.shape[0]
  *     cdef size_t output_size = <size_t> base16384.decode_len(<int> input_size, 0)
  */
@@ -3264,7 +3280,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__decode_into(__Pyx_memview
 
 /* Python wrapper */
 static PyObject *__pyx_pw_11pybase16384_5_core_11_decode_into(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_11pybase16384_5_core_10_decode_into[] = "_decode_into(const uint8_t[:] data, uint8_t[:] dest) -> int";
+static char __pyx_doc_11pybase16384_5_core_10_decode_into[] = "_decode_into(const uint8_t[::1] data, uint8_t[::1] dest) -> int";
 static PyObject *__pyx_pw_11pybase16384_5_core_11_decode_into(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   __Pyx_memviewslice __pyx_v_data = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_dest = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -3297,11 +3313,11 @@ static PyObject *__pyx_pw_11pybase16384_5_core_11_decode_into(PyObject *__pyx_se
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_dest)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_decode_into", 1, 2, 2, 1); __PYX_ERR(0, 62, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("_decode_into", 1, 2, 2, 1); __PYX_ERR(0, 64, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_decode_into") < 0)) __PYX_ERR(0, 62, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_decode_into") < 0)) __PYX_ERR(0, 64, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -3309,12 +3325,12 @@ static PyObject *__pyx_pw_11pybase16384_5_core_11_decode_into(PyObject *__pyx_se
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint8_t__const__(values[0], 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 62, __pyx_L3_error)
-    __pyx_v_dest = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint8_t(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_dest.memview)) __PYX_ERR(0, 62, __pyx_L3_error)
+    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t__const__(values[0], 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 64, __pyx_L3_error)
+    __pyx_v_dest = __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_dest.memview)) __PYX_ERR(0, 64, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_decode_into", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 62, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_decode_into", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 64, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pybase16384._core._decode_into", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3336,9 +3352,9 @@ static PyObject *__pyx_pf_11pybase16384_5_core_10_decode_into(CYTHON_UNUSED PyOb
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_decode_into", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_data.memview)) { __Pyx_RaiseUnboundLocalError("data"); __PYX_ERR(0, 62, __pyx_L1_error) }
-  if (unlikely(!__pyx_v_dest.memview)) { __Pyx_RaiseUnboundLocalError("dest"); __PYX_ERR(0, 62, __pyx_L1_error) }
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_11pybase16384_5_core__decode_into(__pyx_v_data, __pyx_v_dest, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
+  if (unlikely(!__pyx_v_data.memview)) { __Pyx_RaiseUnboundLocalError("data"); __PYX_ERR(0, 64, __pyx_L1_error) }
+  if (unlikely(!__pyx_v_dest.memview)) { __Pyx_RaiseUnboundLocalError("dest"); __PYX_ERR(0, 64, __pyx_L1_error) }
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_11pybase16384_5_core__decode_into(__pyx_v_data, __pyx_v_dest, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3357,18 +3373,764 @@ static PyObject *__pyx_pf_11pybase16384_5_core_10_decode_into(CYTHON_UNUSED PyOb
   return __pyx_r;
 }
 
-/* "pybase16384/_core.pyx":74
+/* "pybase16384/_core.pyx":75
+ *                                       <int> output_buf_size)
  * 
+ * cpdef inline bytes _encode_parallel(const uint8_t[::1] data):             # <<<<<<<<<<<<<<
+ *     cdef int threads = omp_get_num_procs()
+ *     cdef size_t length = data.shape[0]
+ */
+
+static PyObject *__pyx_pw_11pybase16384_5_core_13_encode_parallel(PyObject *__pyx_self, PyObject *__pyx_arg_data); /*proto*/
+static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__encode_parallel(__Pyx_memviewslice __pyx_v_data, CYTHON_UNUSED int __pyx_skip_dispatch) {
+  int __pyx_v_threads;
+  size_t __pyx_v_length;
+  size_t __pyx_v_chunk_size;
+  size_t __pyx_v_output_chunk_size;
+  size_t __pyx_v_mod;
+  size_t __pyx_v_output_size;
+  char *__pyx_v_output_buf;
+  int __pyx_v_i;
+  int __pyx_v_count;
+  PyObject *__pyx_v_ret = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  int __pyx_t_2;
+  int __pyx_t_3;
+  int __pyx_t_4;
+  size_t __pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("_encode_parallel", 0);
+
+  /* "pybase16384/_core.pyx":76
+ * 
+ * cpdef inline bytes _encode_parallel(const uint8_t[::1] data):
+ *     cdef int threads = omp_get_num_procs()             # <<<<<<<<<<<<<<
+ *     cdef size_t length = data.shape[0]
+ *     cdef size_t chunk_size = length / threads / 7 * 7 #  7
+ */
+  __pyx_v_threads = omp_get_num_procs();
+
+  /* "pybase16384/_core.pyx":77
+ * cpdef inline bytes _encode_parallel(const uint8_t[::1] data):
+ *     cdef int threads = omp_get_num_procs()
+ *     cdef size_t length = data.shape[0]             # <<<<<<<<<<<<<<
+ *     cdef size_t chunk_size = length / threads / 7 * 7 #  7
+ *     cdef size_t output_chunk_size = chunk_size / 7 * 8  # 7 8
+ */
+  __pyx_v_length = (__pyx_v_data.shape[0]);
+
+  /* "pybase16384/_core.pyx":78
+ *     cdef int threads = omp_get_num_procs()
+ *     cdef size_t length = data.shape[0]
+ *     cdef size_t chunk_size = length / threads / 7 * 7 #  7             # <<<<<<<<<<<<<<
+ *     cdef size_t output_chunk_size = chunk_size / 7 * 8  # 7 8
+ *     cdef size_t mod = length - chunk_size * threads #
+ */
+  __pyx_v_chunk_size = (((__pyx_v_length / ((size_t)__pyx_v_threads)) / 7) * 7);
+
+  /* "pybase16384/_core.pyx":79
+ *     cdef size_t length = data.shape[0]
+ *     cdef size_t chunk_size = length / threads / 7 * 7 #  7
+ *     cdef size_t output_chunk_size = chunk_size / 7 * 8  # 7 8             # <<<<<<<<<<<<<<
+ *     cdef size_t mod = length - chunk_size * threads #
+ *     cdef size_t output_size = <size_t> base16384.encode_len(<int> length) + 16
+ */
+  __pyx_v_output_chunk_size = ((__pyx_v_chunk_size / 7) * 8);
+
+  /* "pybase16384/_core.pyx":80
+ *     cdef size_t chunk_size = length / threads / 7 * 7 #  7
+ *     cdef size_t output_chunk_size = chunk_size / 7 * 8  # 7 8
+ *     cdef size_t mod = length - chunk_size * threads #             # <<<<<<<<<<<<<<
+ *     cdef size_t output_size = <size_t> base16384.encode_len(<int> length) + 16
+ * 
+ */
+  __pyx_v_mod = (__pyx_v_length - (__pyx_v_chunk_size * __pyx_v_threads));
+
+  /* "pybase16384/_core.pyx":81
+ *     cdef size_t output_chunk_size = chunk_size / 7 * 8  # 7 8
+ *     cdef size_t mod = length - chunk_size * threads #
+ *     cdef size_t output_size = <size_t> base16384.encode_len(<int> length) + 16             # <<<<<<<<<<<<<<
+ * 
+ *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)  # 16
+ */
+  __pyx_v_output_size = (((size_t)encode_len(((int)__pyx_v_length))) + 16);
+
+  /* "pybase16384/_core.pyx":83
+ *     cdef size_t output_size = <size_t> base16384.encode_len(<int> length) + 16
+ * 
+ *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)  # 16             # <<<<<<<<<<<<<<
+ *     if output_buf == NULL:
+ *         raise MemoryError
+ */
+  __pyx_v_output_buf = ((char *)PyMem_Malloc(__pyx_v_output_size));
+
+  /* "pybase16384/_core.pyx":84
+ * 
+ *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)  # 16
+ *     if output_buf == NULL:             # <<<<<<<<<<<<<<
+ *         raise MemoryError
+ *     cdef int i
+ */
+  __pyx_t_1 = ((__pyx_v_output_buf == NULL) != 0);
+  if (unlikely(__pyx_t_1)) {
+
+    /* "pybase16384/_core.pyx":85
+ *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)  # 16
+ *     if output_buf == NULL:
+ *         raise MemoryError             # <<<<<<<<<<<<<<
+ *     cdef int i
+ *     for i in prange(threads, nogil=True, schedule="guided"):
+ */
+    PyErr_NoMemory(); __PYX_ERR(0, 85, __pyx_L1_error)
+
+    /* "pybase16384/_core.pyx":84
+ * 
+ *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)  # 16
+ *     if output_buf == NULL:             # <<<<<<<<<<<<<<
+ *         raise MemoryError
+ *     cdef int i
+ */
+  }
+
+  /* "pybase16384/_core.pyx":87
+ *         raise MemoryError
+ *     cdef int i
+ *     for i in prange(threads, nogil=True, schedule="guided"):             # <<<<<<<<<<<<<<
+ *         base16384.encode(<const char *> &data[i*chunk_size],
+ *                                           <int>chunk_size,
+ */
+  {
+      #ifdef WITH_THREAD
+      PyThreadState *_save;
+      Py_UNBLOCK_THREADS
+      __Pyx_FastGIL_Remember();
+      #endif
+      /*try:*/ {
+        __pyx_t_2 = __pyx_v_threads;
+        if ((1 == 0)) abort();
+        {
+            #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
+                #undef likely
+                #undef unlikely
+                #define likely(x)   (x)
+                #define unlikely(x) (x)
+            #endif
+            __pyx_t_4 = (__pyx_t_2 - 0 + 1 - 1/abs(1)) / 1;
+            if (__pyx_t_4 > 0)
+            {
+                #ifdef _OPENMP
+                #pragma omp parallel private(__pyx_t_5)
+                #endif /* _OPENMP */
+                {
+                    #ifdef _OPENMP
+                    #pragma omp for firstprivate(__pyx_v_i) lastprivate(__pyx_v_i) schedule(guided)
+                    #endif /* _OPENMP */
+                    for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_4; __pyx_t_3++){
+                        {
+                            __pyx_v_i = (int)(0 + 1 * __pyx_t_3);
+
+                            /* "pybase16384/_core.pyx":88
+ *     cdef int i
+ *     for i in prange(threads, nogil=True, schedule="guided"):
+ *         base16384.encode(<const char *> &data[i*chunk_size],             # <<<<<<<<<<<<<<
+ *                                           <int>chunk_size,
+ *                                           &output_buf[i*output_chunk_size],
+ */
+                            __pyx_t_5 = (__pyx_v_i * __pyx_v_chunk_size);
+
+                            /* "pybase16384/_core.pyx":91
+ *                                           <int>chunk_size,
+ *                                           &output_buf[i*output_chunk_size],
+ *                                           <int>output_chunk_size)  # encode             # <<<<<<<<<<<<<<
+ *     cdef int count
+ *     if mod!=0:
+ */
+                            (void)(encode(((char const *)(&(*((uint8_t const  *) ( /* dim=0 */ ((char *) (((uint8_t const  *) __pyx_v_data.data) + __pyx_t_5)) ))))), ((int)__pyx_v_chunk_size), (&(__pyx_v_output_buf[(__pyx_v_i * __pyx_v_output_chunk_size)])), ((int)__pyx_v_output_chunk_size)));
+                        }
+                    }
+                }
+            }
+        }
+        #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
+            #undef likely
+            #undef unlikely
+            #define likely(x)   __builtin_expect(!!(x), 1)
+            #define unlikely(x) __builtin_expect(!!(x), 0)
+        #endif
+      }
+
+      /* "pybase16384/_core.pyx":87
+ *         raise MemoryError
+ *     cdef int i
+ *     for i in prange(threads, nogil=True, schedule="guided"):             # <<<<<<<<<<<<<<
+ *         base16384.encode(<const char *> &data[i*chunk_size],
+ *                                           <int>chunk_size,
+ */
+      /*finally:*/ {
+        /*normal exit:*/{
+          #ifdef WITH_THREAD
+          __Pyx_FastGIL_Forget();
+          Py_BLOCK_THREADS
+          #endif
+          goto __pyx_L6;
+        }
+        __pyx_L6:;
+      }
+  }
+
+  /* "pybase16384/_core.pyx":93
+ *                                           <int>output_chunk_size)  # encode
+ *     cdef int count
+ *     if mod!=0:             # <<<<<<<<<<<<<<
+ *         count = base16384.encode(<const char *> &data[length - mod],
+ *                                 <int>mod,
+ */
+  __pyx_t_1 = ((__pyx_v_mod != 0) != 0);
+  if (__pyx_t_1) {
+
+    /* "pybase16384/_core.pyx":94
+ *     cdef int count
+ *     if mod!=0:
+ *         count = base16384.encode(<const char *> &data[length - mod],             # <<<<<<<<<<<<<<
+ *                                 <int>mod,
+ *                                 &output_buf[threads * output_chunk_size],
+ */
+    __pyx_t_5 = (__pyx_v_length - __pyx_v_mod);
+
+    /* "pybase16384/_core.pyx":97
+ *                                 <int>mod,
+ *                                 &output_buf[threads * output_chunk_size],
+ *                                  <int>(output_size - threads * output_chunk_size))  #             # <<<<<<<<<<<<<<
+ *     else:
+ *         count = 0
+ */
+    __pyx_v_count = encode(((char const *)(&(*((uint8_t const  *) ( /* dim=0 */ ((char *) (((uint8_t const  *) __pyx_v_data.data) + __pyx_t_5)) ))))), ((int)__pyx_v_mod), (&(__pyx_v_output_buf[(__pyx_v_threads * __pyx_v_output_chunk_size)])), ((int)(__pyx_v_output_size - (__pyx_v_threads * __pyx_v_output_chunk_size))));
+
+    /* "pybase16384/_core.pyx":93
+ *                                           <int>output_chunk_size)  # encode
+ *     cdef int count
+ *     if mod!=0:             # <<<<<<<<<<<<<<
+ *         count = base16384.encode(<const char *> &data[length - mod],
+ *                                 <int>mod,
+ */
+    goto __pyx_L13;
+  }
+
+  /* "pybase16384/_core.pyx":99
+ *                                  <int>(output_size - threads * output_chunk_size))  #
+ *     else:
+ *         count = 0             # <<<<<<<<<<<<<<
+ * 
+ *     ret = <bytes> output_buf[:threads * output_chunk_size + count]
+ */
+  /*else*/ {
+    __pyx_v_count = 0;
+  }
+  __pyx_L13:;
+
+  /* "pybase16384/_core.pyx":101
+ *         count = 0
+ * 
+ *     ret = <bytes> output_buf[:threads * output_chunk_size + count]             # <<<<<<<<<<<<<<
+ *     PyMem_Free(output_buf)
+ *     return ret
+ */
+  __pyx_t_6 = __Pyx_PyBytes_FromStringAndSize(__pyx_v_output_buf + 0, ((__pyx_v_threads * __pyx_v_output_chunk_size) + __pyx_v_count) - 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 101, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_7 = __pyx_t_6;
+  __Pyx_INCREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_v_ret = ((PyObject*)__pyx_t_7);
+  __pyx_t_7 = 0;
+
+  /* "pybase16384/_core.pyx":102
+ * 
+ *     ret = <bytes> output_buf[:threads * output_chunk_size + count]
+ *     PyMem_Free(output_buf)             # <<<<<<<<<<<<<<
+ *     return ret
+ * 
+ */
+  PyMem_Free(__pyx_v_output_buf);
+
+  /* "pybase16384/_core.pyx":103
+ *     ret = <bytes> output_buf[:threads * output_chunk_size + count]
+ *     PyMem_Free(output_buf)
+ *     return ret             # <<<<<<<<<<<<<<
+ * 
+ * cpdef inline bytes _decode_parallel(const uint8_t[::1] data):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_ret);
+  __pyx_r = __pyx_v_ret;
+  goto __pyx_L0;
+
+  /* "pybase16384/_core.pyx":75
+ *                                       <int> output_buf_size)
+ * 
+ * cpdef inline bytes _encode_parallel(const uint8_t[::1] data):             # <<<<<<<<<<<<<<
+ *     cdef int threads = omp_get_num_procs()
+ *     cdef size_t length = data.shape[0]
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_AddTraceback("pybase16384._core._encode_parallel", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_ret);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_11pybase16384_5_core_13_encode_parallel(PyObject *__pyx_self, PyObject *__pyx_arg_data); /*proto*/
+static char __pyx_doc_11pybase16384_5_core_12_encode_parallel[] = "_encode_parallel(const uint8_t[::1] data) -> bytes";
+static PyObject *__pyx_pw_11pybase16384_5_core_13_encode_parallel(PyObject *__pyx_self, PyObject *__pyx_arg_data) {
+  __Pyx_memviewslice __pyx_v_data = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("_encode_parallel (wrapper)", 0);
+  assert(__pyx_arg_data); {
+    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t__const__(__pyx_arg_data, 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 75, __pyx_L3_error)
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("pybase16384._core._encode_parallel", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_11pybase16384_5_core_12_encode_parallel(__pyx_self, __pyx_v_data);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_11pybase16384_5_core_12_encode_parallel(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_data) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("_encode_parallel", 0);
+  __Pyx_XDECREF(__pyx_r);
+  if (unlikely(!__pyx_v_data.memview)) { __Pyx_RaiseUnboundLocalError("data"); __PYX_ERR(0, 75, __pyx_L1_error) }
+  __pyx_t_1 = __pyx_f_11pybase16384_5_core__encode_parallel(__pyx_v_data, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("pybase16384._core._encode_parallel", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_data, 1);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pybase16384/_core.pyx":105
+ *     return ret
+ * 
+ * cpdef inline bytes _decode_parallel(const uint8_t[::1] data):             # <<<<<<<<<<<<<<
+ *     cdef int threads = omp_get_num_procs()
+ *     cdef size_t length = data.shape[0]
+ */
+
+static PyObject *__pyx_pw_11pybase16384_5_core_15_decode_parallel(PyObject *__pyx_self, PyObject *__pyx_arg_data); /*proto*/
+static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__decode_parallel(__Pyx_memviewslice __pyx_v_data, CYTHON_UNUSED int __pyx_skip_dispatch) {
+  int __pyx_v_threads;
+  size_t __pyx_v_length;
+  size_t __pyx_v_chunk_size;
+  size_t __pyx_v_output_chunk_size;
+  size_t __pyx_v_mod;
+  size_t __pyx_v_output_size;
+  char *__pyx_v_output_buf;
+  int __pyx_v_i;
+  int __pyx_v_count;
+  PyObject *__pyx_v_ret = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  int __pyx_t_2;
+  int __pyx_t_3;
+  int __pyx_t_4;
+  size_t __pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("_decode_parallel", 0);
+
+  /* "pybase16384/_core.pyx":106
+ * 
+ * cpdef inline bytes _decode_parallel(const uint8_t[::1] data):
+ *     cdef int threads = omp_get_num_procs()             # <<<<<<<<<<<<<<
+ *     cdef size_t length = data.shape[0]
+ *     cdef size_t chunk_size = length / threads / 8 * 8  #  8
+ */
+  __pyx_v_threads = omp_get_num_procs();
+
+  /* "pybase16384/_core.pyx":107
+ * cpdef inline bytes _decode_parallel(const uint8_t[::1] data):
+ *     cdef int threads = omp_get_num_procs()
+ *     cdef size_t length = data.shape[0]             # <<<<<<<<<<<<<<
+ *     cdef size_t chunk_size = length / threads / 8 * 8  #  8
+ *     cdef size_t output_chunk_size = chunk_size / 8 * 7  # 8 7
+ */
+  __pyx_v_length = (__pyx_v_data.shape[0]);
+
+  /* "pybase16384/_core.pyx":108
+ *     cdef int threads = omp_get_num_procs()
+ *     cdef size_t length = data.shape[0]
+ *     cdef size_t chunk_size = length / threads / 8 * 8  #  8             # <<<<<<<<<<<<<<
+ *     cdef size_t output_chunk_size = chunk_size / 8 * 7  # 8 7
+ *     cdef size_t mod = length - chunk_size * threads  #
+ */
+  __pyx_v_chunk_size = (((__pyx_v_length / ((size_t)__pyx_v_threads)) / 8) * 8);
+
+  /* "pybase16384/_core.pyx":109
+ *     cdef size_t length = data.shape[0]
+ *     cdef size_t chunk_size = length / threads / 8 * 8  #  8
+ *     cdef size_t output_chunk_size = chunk_size / 8 * 7  # 8 7             # <<<<<<<<<<<<<<
+ *     cdef size_t mod = length - chunk_size * threads  #
+ *     cdef size_t output_size = <size_t> base16384.decode_len(<int> length, 0) + 16
+ */
+  __pyx_v_output_chunk_size = ((__pyx_v_chunk_size / 8) * 7);
+
+  /* "pybase16384/_core.pyx":110
+ *     cdef size_t chunk_size = length / threads / 8 * 8  #  8
+ *     cdef size_t output_chunk_size = chunk_size / 8 * 7  # 8 7
+ *     cdef size_t mod = length - chunk_size * threads  #             # <<<<<<<<<<<<<<
+ *     cdef size_t output_size = <size_t> base16384.decode_len(<int> length, 0) + 16
+ * 
+ */
+  __pyx_v_mod = (__pyx_v_length - (__pyx_v_chunk_size * __pyx_v_threads));
+
+  /* "pybase16384/_core.pyx":111
+ *     cdef size_t output_chunk_size = chunk_size / 8 * 7  # 8 7
+ *     cdef size_t mod = length - chunk_size * threads  #
+ *     cdef size_t output_size = <size_t> base16384.decode_len(<int> length, 0) + 16             # <<<<<<<<<<<<<<
+ * 
+ *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)  # 16
+ */
+  __pyx_v_output_size = (((size_t)decode_len(((int)__pyx_v_length), 0)) + 16);
+
+  /* "pybase16384/_core.pyx":113
+ *     cdef size_t output_size = <size_t> base16384.decode_len(<int> length, 0) + 16
+ * 
+ *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)  # 16             # <<<<<<<<<<<<<<
+ *     if output_buf == NULL:
+ *         raise MemoryError
+ */
+  __pyx_v_output_buf = ((char *)PyMem_Malloc(__pyx_v_output_size));
+
+  /* "pybase16384/_core.pyx":114
+ * 
+ *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)  # 16
+ *     if output_buf == NULL:             # <<<<<<<<<<<<<<
+ *         raise MemoryError
+ *     cdef int i
+ */
+  __pyx_t_1 = ((__pyx_v_output_buf == NULL) != 0);
+  if (unlikely(__pyx_t_1)) {
+
+    /* "pybase16384/_core.pyx":115
+ *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)  # 16
+ *     if output_buf == NULL:
+ *         raise MemoryError             # <<<<<<<<<<<<<<
+ *     cdef int i
+ *     for i in prange(threads, nogil=True, schedule="guided"):
+ */
+    PyErr_NoMemory(); __PYX_ERR(0, 115, __pyx_L1_error)
+
+    /* "pybase16384/_core.pyx":114
+ * 
+ *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)  # 16
+ *     if output_buf == NULL:             # <<<<<<<<<<<<<<
+ *         raise MemoryError
+ *     cdef int i
+ */
+  }
+
+  /* "pybase16384/_core.pyx":117
+ *         raise MemoryError
+ *     cdef int i
+ *     for i in prange(threads, nogil=True, schedule="guided"):             # <<<<<<<<<<<<<<
+ *         base16384.decode(<const char *> &data[i * chunk_size],
+ *                          <int> chunk_size,
+ */
+  {
+      #ifdef WITH_THREAD
+      PyThreadState *_save;
+      Py_UNBLOCK_THREADS
+      __Pyx_FastGIL_Remember();
+      #endif
+      /*try:*/ {
+        __pyx_t_2 = __pyx_v_threads;
+        if ((1 == 0)) abort();
+        {
+            #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
+                #undef likely
+                #undef unlikely
+                #define likely(x)   (x)
+                #define unlikely(x) (x)
+            #endif
+            __pyx_t_4 = (__pyx_t_2 - 0 + 1 - 1/abs(1)) / 1;
+            if (__pyx_t_4 > 0)
+            {
+                #ifdef _OPENMP
+                #pragma omp parallel private(__pyx_t_5)
+                #endif /* _OPENMP */
+                {
+                    #ifdef _OPENMP
+                    #pragma omp for firstprivate(__pyx_v_i) lastprivate(__pyx_v_i) schedule(guided)
+                    #endif /* _OPENMP */
+                    for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_4; __pyx_t_3++){
+                        {
+                            __pyx_v_i = (int)(0 + 1 * __pyx_t_3);
+
+                            /* "pybase16384/_core.pyx":118
+ *     cdef int i
+ *     for i in prange(threads, nogil=True, schedule="guided"):
+ *         base16384.decode(<const char *> &data[i * chunk_size],             # <<<<<<<<<<<<<<
+ *                          <int> chunk_size,
+ *                          &output_buf[i * output_chunk_size],
+ */
+                            __pyx_t_5 = (__pyx_v_i * __pyx_v_chunk_size);
+
+                            /* "pybase16384/_core.pyx":121
+ *                          <int> chunk_size,
+ *                          &output_buf[i * output_chunk_size],
+ *                          <int> output_chunk_size)  # encode             # <<<<<<<<<<<<<<
+ *     cdef int count
+ *     if mod != 0:
+ */
+                            (void)(decode(((char const *)(&(*((uint8_t const  *) ( /* dim=0 */ ((char *) (((uint8_t const  *) __pyx_v_data.data) + __pyx_t_5)) ))))), ((int)__pyx_v_chunk_size), (&(__pyx_v_output_buf[(__pyx_v_i * __pyx_v_output_chunk_size)])), ((int)__pyx_v_output_chunk_size)));
+                        }
+                    }
+                }
+            }
+        }
+        #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
+            #undef likely
+            #undef unlikely
+            #define likely(x)   __builtin_expect(!!(x), 1)
+            #define unlikely(x) __builtin_expect(!!(x), 0)
+        #endif
+      }
+
+      /* "pybase16384/_core.pyx":117
+ *         raise MemoryError
+ *     cdef int i
+ *     for i in prange(threads, nogil=True, schedule="guided"):             # <<<<<<<<<<<<<<
+ *         base16384.decode(<const char *> &data[i * chunk_size],
+ *                          <int> chunk_size,
+ */
+      /*finally:*/ {
+        /*normal exit:*/{
+          #ifdef WITH_THREAD
+          __Pyx_FastGIL_Forget();
+          Py_BLOCK_THREADS
+          #endif
+          goto __pyx_L6;
+        }
+        __pyx_L6:;
+      }
+  }
+
+  /* "pybase16384/_core.pyx":123
+ *                          <int> output_chunk_size)  # encode
+ *     cdef int count
+ *     if mod != 0:             # <<<<<<<<<<<<<<
+ *         count = base16384.decode(<const char *> &data[length - mod],
+ *                                  <int> mod,
+ */
+  __pyx_t_1 = ((__pyx_v_mod != 0) != 0);
+  if (__pyx_t_1) {
+
+    /* "pybase16384/_core.pyx":124
+ *     cdef int count
+ *     if mod != 0:
+ *         count = base16384.decode(<const char *> &data[length - mod],             # <<<<<<<<<<<<<<
+ *                                  <int> mod,
+ *                                  &output_buf[threads * output_chunk_size],
+ */
+    __pyx_t_5 = (__pyx_v_length - __pyx_v_mod);
+
+    /* "pybase16384/_core.pyx":127
+ *                                  <int> mod,
+ *                                  &output_buf[threads * output_chunk_size],
+ *                                  <int> (output_size - threads * output_chunk_size))  #             # <<<<<<<<<<<<<<
+ *     else:
+ *         count = 0
+ */
+    __pyx_v_count = decode(((char const *)(&(*((uint8_t const  *) ( /* dim=0 */ ((char *) (((uint8_t const  *) __pyx_v_data.data) + __pyx_t_5)) ))))), ((int)__pyx_v_mod), (&(__pyx_v_output_buf[(__pyx_v_threads * __pyx_v_output_chunk_size)])), ((int)(__pyx_v_output_size - (__pyx_v_threads * __pyx_v_output_chunk_size))));
+
+    /* "pybase16384/_core.pyx":123
+ *                          <int> output_chunk_size)  # encode
+ *     cdef int count
+ *     if mod != 0:             # <<<<<<<<<<<<<<
+ *         count = base16384.decode(<const char *> &data[length - mod],
+ *                                  <int> mod,
+ */
+    goto __pyx_L13;
+  }
+
+  /* "pybase16384/_core.pyx":129
+ *                                  <int> (output_size - threads * output_chunk_size))  #
+ *     else:
+ *         count = 0             # <<<<<<<<<<<<<<
+ * 
+ *     ret = <bytes> output_buf[:threads * output_chunk_size + count]
+ */
+  /*else*/ {
+    __pyx_v_count = 0;
+  }
+  __pyx_L13:;
+
+  /* "pybase16384/_core.pyx":131
+ *         count = 0
+ * 
+ *     ret = <bytes> output_buf[:threads * output_chunk_size + count]             # <<<<<<<<<<<<<<
+ *     PyMem_Free(output_buf)
+ *     return ret
+ */
+  __pyx_t_6 = __Pyx_PyBytes_FromStringAndSize(__pyx_v_output_buf + 0, ((__pyx_v_threads * __pyx_v_output_chunk_size) + __pyx_v_count) - 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 131, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_7 = __pyx_t_6;
+  __Pyx_INCREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_v_ret = ((PyObject*)__pyx_t_7);
+  __pyx_t_7 = 0;
+
+  /* "pybase16384/_core.pyx":132
+ * 
+ *     ret = <bytes> output_buf[:threads * output_chunk_size + count]
+ *     PyMem_Free(output_buf)             # <<<<<<<<<<<<<<
+ *     return ret
+ * 
+ */
+  PyMem_Free(__pyx_v_output_buf);
+
+  /* "pybase16384/_core.pyx":133
+ *     ret = <bytes> output_buf[:threads * output_chunk_size + count]
+ *     PyMem_Free(output_buf)
+ *     return ret             # <<<<<<<<<<<<<<
+ * 
+ * cpdef inline void encode_file(object input,
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_ret);
+  __pyx_r = __pyx_v_ret;
+  goto __pyx_L0;
+
+  /* "pybase16384/_core.pyx":105
+ *     return ret
+ * 
+ * cpdef inline bytes _decode_parallel(const uint8_t[::1] data):             # <<<<<<<<<<<<<<
+ *     cdef int threads = omp_get_num_procs()
+ *     cdef size_t length = data.shape[0]
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_AddTraceback("pybase16384._core._decode_parallel", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_ret);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_11pybase16384_5_core_15_decode_parallel(PyObject *__pyx_self, PyObject *__pyx_arg_data); /*proto*/
+static char __pyx_doc_11pybase16384_5_core_14_decode_parallel[] = "_decode_parallel(const uint8_t[::1] data) -> bytes";
+static PyObject *__pyx_pw_11pybase16384_5_core_15_decode_parallel(PyObject *__pyx_self, PyObject *__pyx_arg_data) {
+  __Pyx_memviewslice __pyx_v_data = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("_decode_parallel (wrapper)", 0);
+  assert(__pyx_arg_data); {
+    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t__const__(__pyx_arg_data, 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 105, __pyx_L3_error)
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("pybase16384._core._decode_parallel", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_11pybase16384_5_core_14_decode_parallel(__pyx_self, __pyx_v_data);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_11pybase16384_5_core_14_decode_parallel(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_data) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("_decode_parallel", 0);
+  __Pyx_XDECREF(__pyx_r);
+  if (unlikely(!__pyx_v_data.memview)) { __Pyx_RaiseUnboundLocalError("data"); __PYX_ERR(0, 105, __pyx_L1_error) }
+  __pyx_t_1 = __pyx_f_11pybase16384_5_core__decode_parallel(__pyx_v_data, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("pybase16384._core._decode_parallel", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_data, 1);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pybase16384/_core.pyx":135
+ *     return ret
  * 
  * cpdef inline void encode_file(object input,             # <<<<<<<<<<<<<<
  *                        object output,
  *                        bint write_head = False,
  */
 
-static PyObject *__pyx_pw_11pybase16384_5_core_13encode_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_11pybase16384_5_core_17encode_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__pyx_v_input, PyObject *__pyx_v_output, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_11pybase16384_5_core_encode_file *__pyx_optional_args) {
 
-  /* "pybase16384/_core.pyx":76
+  /* "pybase16384/_core.pyx":137
  * cpdef inline void encode_file(object input,
  *                        object output,
  *                        bint write_head = False,             # <<<<<<<<<<<<<<
@@ -3412,7 +4174,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
   __Pyx_INCREF(__pyx_v_input);
   __Pyx_INCREF(__pyx_v_output);
 
-  /* "pybase16384/_core.pyx":78
+  /* "pybase16384/_core.pyx":139
  *                        bint write_head = False,
  *                        int32_t buf_rate = 10) with gil:
  *     if not PyFile_Check(input):             # <<<<<<<<<<<<<<
@@ -3422,26 +4184,26 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
   __pyx_t_1 = ((!(__pyx_f_11pybase16384_5_core_PyFile_Check(__pyx_v_input) != 0)) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "pybase16384/_core.pyx":79
+    /* "pybase16384/_core.pyx":140
  *                        int32_t buf_rate = 10) with gil:
  *     if not PyFile_Check(input):
  *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)             # <<<<<<<<<<<<<<
  *     if not PyFile_Check(output):
  *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_input)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_input)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_input_except_a_file_like_object, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 79, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_input_except_a_file_like_object, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 79, __pyx_L1_error)
+    __PYX_ERR(0, 140, __pyx_L1_error)
 
-    /* "pybase16384/_core.pyx":78
+    /* "pybase16384/_core.pyx":139
  *                        bint write_head = False,
  *                        int32_t buf_rate = 10) with gil:
  *     if not PyFile_Check(input):             # <<<<<<<<<<<<<<
@@ -3450,7 +4212,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
   }
 
-  /* "pybase16384/_core.pyx":80
+  /* "pybase16384/_core.pyx":141
  *     if not PyFile_Check(input):
  *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
  *     if not PyFile_Check(output):             # <<<<<<<<<<<<<<
@@ -3460,26 +4222,26 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
   __pyx_t_1 = ((!(__pyx_f_11pybase16384_5_core_PyFile_Check(__pyx_v_output) != 0)) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "pybase16384/_core.pyx":81
+    /* "pybase16384/_core.pyx":142
  *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
  *     if not PyFile_Check(output):
  *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)             # <<<<<<<<<<<<<<
  *     if buf_rate <= 0:
  *         buf_rate = 1
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_output)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_output)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 142, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_output_except_a_file_like_object, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 81, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_output_except_a_file_like_object, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 142, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 142, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 81, __pyx_L1_error)
+    __PYX_ERR(0, 142, __pyx_L1_error)
 
-    /* "pybase16384/_core.pyx":80
+    /* "pybase16384/_core.pyx":141
  *     if not PyFile_Check(input):
  *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
  *     if not PyFile_Check(output):             # <<<<<<<<<<<<<<
@@ -3488,7 +4250,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
   }
 
-  /* "pybase16384/_core.pyx":82
+  /* "pybase16384/_core.pyx":143
  *     if not PyFile_Check(output):
  *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
  *     if buf_rate <= 0:             # <<<<<<<<<<<<<<
@@ -3498,7 +4260,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
   __pyx_t_1 = ((__pyx_v_buf_rate <= 0) != 0);
   if (__pyx_t_1) {
 
-    /* "pybase16384/_core.pyx":83
+    /* "pybase16384/_core.pyx":144
  *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
  *     if buf_rate <= 0:
  *         buf_rate = 1             # <<<<<<<<<<<<<<
@@ -3507,7 +4269,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
     __pyx_v_buf_rate = 1;
 
-    /* "pybase16384/_core.pyx":82
+    /* "pybase16384/_core.pyx":143
  *     if not PyFile_Check(output):
  *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
  *     if buf_rate <= 0:             # <<<<<<<<<<<<<<
@@ -3516,7 +4278,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
   }
 
-  /* "pybase16384/_core.pyx":85
+  /* "pybase16384/_core.pyx":146
  *         buf_rate = 1
  * 
  *     if write_head:             # <<<<<<<<<<<<<<
@@ -3526,14 +4288,14 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
   __pyx_t_1 = (__pyx_v_write_head != 0);
   if (__pyx_t_1) {
 
-    /* "pybase16384/_core.pyx":86
+    /* "pybase16384/_core.pyx":147
  * 
  *     if write_head:
  *         output.write(b'\xfe\xff')             # <<<<<<<<<<<<<<
  * 
  *     cdef int32_t current_buf_len = buf_rate * 7  #
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_output, __pyx_n_s_write); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 86, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_output, __pyx_n_s_write); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -3547,12 +4309,12 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
     }
     __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_kp_b__2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_kp_b__2);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pybase16384/_core.pyx":85
+    /* "pybase16384/_core.pyx":146
  *         buf_rate = 1
  * 
  *     if write_head:             # <<<<<<<<<<<<<<
@@ -3561,7 +4323,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
   }
 
-  /* "pybase16384/_core.pyx":88
+  /* "pybase16384/_core.pyx":149
  *         output.write(b'\xfe\xff')
  * 
  *     cdef int32_t current_buf_len = buf_rate * 7  #             # <<<<<<<<<<<<<<
@@ -3570,7 +4332,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
   __pyx_v_current_buf_len = (__pyx_v_buf_rate * 7);
 
-  /* "pybase16384/_core.pyx":89
+  /* "pybase16384/_core.pyx":150
  * 
  *     cdef int32_t current_buf_len = buf_rate * 7  #
  *     cdef size_t output_size = <size_t> base16384.encode_len(<int> current_buf_len) + 16 # encode_len 16             # <<<<<<<<<<<<<<
@@ -3579,7 +4341,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
   __pyx_v_output_size = (((size_t)encode_len(((int)__pyx_v_current_buf_len))) + 16);
 
-  /* "pybase16384/_core.pyx":90
+  /* "pybase16384/_core.pyx":151
  *     cdef int32_t current_buf_len = buf_rate * 7  #
  *     cdef size_t output_size = <size_t> base16384.encode_len(<int> current_buf_len) + 16 # encode_len 16
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)             # <<<<<<<<<<<<<<
@@ -3588,7 +4350,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
   __pyx_v_output_buf = ((char *)PyMem_Malloc(__pyx_v_output_size));
 
-  /* "pybase16384/_core.pyx":91
+  /* "pybase16384/_core.pyx":152
  *     cdef size_t output_size = <size_t> base16384.encode_len(<int> current_buf_len) + 16 # encode_len 16
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)
  *     if output_buf == NULL:             # <<<<<<<<<<<<<<
@@ -3598,16 +4360,16 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
   __pyx_t_1 = ((__pyx_v_output_buf == NULL) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "pybase16384/_core.pyx":92
+    /* "pybase16384/_core.pyx":153
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)
  *     if output_buf == NULL:
  *         raise MemoryError             # <<<<<<<<<<<<<<
  * 
  *     cdef Py_ssize_t size
  */
-    PyErr_NoMemory(); __PYX_ERR(0, 92, __pyx_L1_error)
+    PyErr_NoMemory(); __PYX_ERR(0, 153, __pyx_L1_error)
 
-    /* "pybase16384/_core.pyx":91
+    /* "pybase16384/_core.pyx":152
  *     cdef size_t output_size = <size_t> base16384.encode_len(<int> current_buf_len) + 16 # encode_len 16
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)
  *     if output_buf == NULL:             # <<<<<<<<<<<<<<
@@ -3616,7 +4378,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
   }
 
-  /* "pybase16384/_core.pyx":95
+  /* "pybase16384/_core.pyx":156
  * 
  *     cdef Py_ssize_t size
  *     cdef uint8_t first_check = 1  #  bytes             # <<<<<<<<<<<<<<
@@ -3625,7 +4387,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
   __pyx_v_first_check = 1;
 
-  /* "pybase16384/_core.pyx":96
+  /* "pybase16384/_core.pyx":157
  *     cdef Py_ssize_t size
  *     cdef uint8_t first_check = 1  #  bytes
  *     cdef int count = 0             # <<<<<<<<<<<<<<
@@ -3634,7 +4396,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
   __pyx_v_count = 0;
 
-  /* "pybase16384/_core.pyx":97
+  /* "pybase16384/_core.pyx":158
  *     cdef uint8_t first_check = 1  #  bytes
  *     cdef int count = 0
  *     while True:             # <<<<<<<<<<<<<<
@@ -3643,16 +4405,16 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
   while (1) {
 
-    /* "pybase16384/_core.pyx":98
+    /* "pybase16384/_core.pyx":159
  *     cdef int count = 0
  *     while True:
  *         chunk = input.read(current_buf_len)             # <<<<<<<<<<<<<<
  *         if first_check:
  *             first_check = 0
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_read); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 98, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_read); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyInt_From_int32_t(__pyx_v_current_buf_len); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 98, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_From_int32_t(__pyx_v_current_buf_len); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -3667,13 +4429,13 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
     __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 98, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_XDECREF_SET(__pyx_v_chunk, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "pybase16384/_core.pyx":99
+    /* "pybase16384/_core.pyx":160
  *     while True:
  *         chunk = input.read(current_buf_len)
  *         if first_check:             # <<<<<<<<<<<<<<
@@ -3683,7 +4445,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
     __pyx_t_1 = (__pyx_v_first_check != 0);
     if (__pyx_t_1) {
 
-      /* "pybase16384/_core.pyx":100
+      /* "pybase16384/_core.pyx":161
  *         chunk = input.read(current_buf_len)
  *         if first_check:
  *             first_check = 0             # <<<<<<<<<<<<<<
@@ -3692,7 +4454,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
       __pyx_v_first_check = 0;
 
-      /* "pybase16384/_core.pyx":101
+      /* "pybase16384/_core.pyx":162
  *         if first_check:
  *             first_check = 0
  *             if not PyBytes_Check(chunk):             # <<<<<<<<<<<<<<
@@ -3702,29 +4464,29 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
       __pyx_t_1 = ((!(PyBytes_Check(__pyx_v_chunk) != 0)) != 0);
       if (unlikely(__pyx_t_1)) {
 
-        /* "pybase16384/_core.pyx":102
+        /* "pybase16384/_core.pyx":163
  *             first_check = 0
  *             if not PyBytes_Check(chunk):
  *                 raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")             # <<<<<<<<<<<<<<
  *         size = PyBytes_Size(chunk)
  *         if <int32_t> size < current_buf_len:  #
  */
-        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_input)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 102, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_input)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 163, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_3 = __Pyx_PyObject_FormatSimple(__pyx_t_2, __pyx_empty_unicode); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 102, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_FormatSimple(__pyx_t_2, __pyx_empty_unicode); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 163, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_2 = __Pyx_PyUnicode_Concat(__pyx_kp_u_input_must_be_a_file_like_rb_obj, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 102, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyUnicode_Concat(__pyx_kp_u_input_must_be_a_file_like_rb_obj, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 163, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 102, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 163, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_Raise(__pyx_t_3, 0, 0, 0);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __PYX_ERR(0, 102, __pyx_L1_error)
+        __PYX_ERR(0, 163, __pyx_L1_error)
 
-        /* "pybase16384/_core.pyx":101
+        /* "pybase16384/_core.pyx":162
  *         if first_check:
  *             first_check = 0
  *             if not PyBytes_Check(chunk):             # <<<<<<<<<<<<<<
@@ -3733,7 +4495,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
       }
 
-      /* "pybase16384/_core.pyx":99
+      /* "pybase16384/_core.pyx":160
  *     while True:
  *         chunk = input.read(current_buf_len)
  *         if first_check:             # <<<<<<<<<<<<<<
@@ -3742,17 +4504,17 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
     }
 
-    /* "pybase16384/_core.pyx":103
+    /* "pybase16384/_core.pyx":164
  *             if not PyBytes_Check(chunk):
  *                 raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
  *         size = PyBytes_Size(chunk)             # <<<<<<<<<<<<<<
  *         if <int32_t> size < current_buf_len:  #
  *             if buf_rate > 1:  #   7  encode
  */
-    __pyx_t_6 = PyBytes_Size(__pyx_v_chunk); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1L))) __PYX_ERR(0, 103, __pyx_L1_error)
+    __pyx_t_6 = PyBytes_Size(__pyx_v_chunk); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1L))) __PYX_ERR(0, 164, __pyx_L1_error)
     __pyx_v_size = __pyx_t_6;
 
-    /* "pybase16384/_core.pyx":104
+    /* "pybase16384/_core.pyx":165
  *                 raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
  *         size = PyBytes_Size(chunk)
  *         if <int32_t> size < current_buf_len:  #             # <<<<<<<<<<<<<<
@@ -3762,7 +4524,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
     __pyx_t_1 = ((((int32_t)__pyx_v_size) < __pyx_v_current_buf_len) != 0);
     if (__pyx_t_1) {
 
-      /* "pybase16384/_core.pyx":105
+      /* "pybase16384/_core.pyx":166
  *         size = PyBytes_Size(chunk)
  *         if <int32_t> size < current_buf_len:  #
  *             if buf_rate > 1:  #   7  encode             # <<<<<<<<<<<<<<
@@ -3772,7 +4534,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
       __pyx_t_1 = ((__pyx_v_buf_rate > 1) != 0);
       if (__pyx_t_1) {
 
-        /* "pybase16384/_core.pyx":106
+        /* "pybase16384/_core.pyx":167
  *         if <int32_t> size < current_buf_len:  #
  *             if buf_rate > 1:  #   7  encode
  *                 buf_rate = buf_rate / 2             # <<<<<<<<<<<<<<
@@ -3781,7 +4543,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
         __pyx_v_buf_rate = (((long)__pyx_v_buf_rate) / 2);
 
-        /* "pybase16384/_core.pyx":107
+        /* "pybase16384/_core.pyx":168
  *             if buf_rate > 1:  #   7  encode
  *                 buf_rate = buf_rate / 2
  *                 current_buf_len = buf_rate * 7             # <<<<<<<<<<<<<<
@@ -3790,16 +4552,16 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
         __pyx_v_current_buf_len = (__pyx_v_buf_rate * 7);
 
-        /* "pybase16384/_core.pyx":108
+        /* "pybase16384/_core.pyx":169
  *                 buf_rate = buf_rate / 2
  *                 current_buf_len = buf_rate * 7
  *                 input.seek(-size, 1)             # <<<<<<<<<<<<<<
  *                 continue
  * 
  */
-        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_seek); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_seek); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 169, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_4 = PyInt_FromSsize_t((-__pyx_v_size)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 108, __pyx_L1_error)
+        __pyx_t_4 = PyInt_FromSsize_t((-__pyx_v_size)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 169, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __pyx_t_5 = NULL;
         __pyx_t_7 = 0;
@@ -3816,7 +4578,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_2)) {
           PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_4, __pyx_int_1};
-          __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 108, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 169, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -3825,14 +4587,14 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
           PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_4, __pyx_int_1};
-          __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 108, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 169, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         } else
         #endif
         {
-          __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 108, __pyx_L1_error)
+          __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 169, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           if (__pyx_t_5) {
             __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -3843,14 +4605,14 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
           __Pyx_GIVEREF(__pyx_int_1);
           PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_int_1);
           __pyx_t_4 = 0;
-          __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 108, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 169, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         }
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-        /* "pybase16384/_core.pyx":109
+        /* "pybase16384/_core.pyx":170
  *                 current_buf_len = buf_rate * 7
  *                 input.seek(-size, 1)
  *                 continue             # <<<<<<<<<<<<<<
@@ -3859,7 +4621,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
         goto __pyx_L8_continue;
 
-        /* "pybase16384/_core.pyx":105
+        /* "pybase16384/_core.pyx":166
  *         size = PyBytes_Size(chunk)
  *         if <int32_t> size < current_buf_len:  #
  *             if buf_rate > 1:  #   7  encode             # <<<<<<<<<<<<<<
@@ -3868,7 +4630,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
       }
 
-      /* "pybase16384/_core.pyx":104
+      /* "pybase16384/_core.pyx":165
  *                 raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
  *         size = PyBytes_Size(chunk)
  *         if <int32_t> size < current_buf_len:  #             # <<<<<<<<<<<<<<
@@ -3877,26 +4639,26 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
     }
 
-    /* "pybase16384/_core.pyx":111
+    /* "pybase16384/_core.pyx":172
  *                 continue
  * 
  *         count = base16384.encode(<const char*>PyBytes_AsString(chunk), <int>size, output_buf, <int> output_size)             # <<<<<<<<<<<<<<
  *         output.write(<bytes>output_buf[:count])
  *         if size < 7:
  */
-    __pyx_t_9 = PyBytes_AsString(__pyx_v_chunk); if (unlikely(__pyx_t_9 == ((char *)NULL))) __PYX_ERR(0, 111, __pyx_L1_error)
+    __pyx_t_9 = PyBytes_AsString(__pyx_v_chunk); if (unlikely(__pyx_t_9 == ((char *)NULL))) __PYX_ERR(0, 172, __pyx_L1_error)
     __pyx_v_count = encode(((char const *)__pyx_t_9), ((int)__pyx_v_size), __pyx_v_output_buf, ((int)__pyx_v_output_size));
 
-    /* "pybase16384/_core.pyx":112
+    /* "pybase16384/_core.pyx":173
  * 
  *         count = base16384.encode(<const char*>PyBytes_AsString(chunk), <int>size, output_buf, <int> output_size)
  *         output.write(<bytes>output_buf[:count])             # <<<<<<<<<<<<<<
  *         if size < 7:
  *             break
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_output, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_output, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 173, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_8 = __Pyx_PyBytes_FromStringAndSize(__pyx_v_output_buf + 0, __pyx_v_count - 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 112, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyBytes_FromStringAndSize(__pyx_v_output_buf + 0, __pyx_v_count - 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 173, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -3911,12 +4673,12 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
     __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_8) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_8);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 112, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 173, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pybase16384/_core.pyx":113
+    /* "pybase16384/_core.pyx":174
  *         count = base16384.encode(<const char*>PyBytes_AsString(chunk), <int>size, output_buf, <int> output_size)
  *         output.write(<bytes>output_buf[:count])
  *         if size < 7:             # <<<<<<<<<<<<<<
@@ -3926,7 +4688,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
     __pyx_t_1 = ((__pyx_v_size < 7) != 0);
     if (__pyx_t_1) {
 
-      /* "pybase16384/_core.pyx":114
+      /* "pybase16384/_core.pyx":175
  *         output.write(<bytes>output_buf[:count])
  *         if size < 7:
  *             break             # <<<<<<<<<<<<<<
@@ -3935,7 +4697,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
       goto __pyx_L9_break;
 
-      /* "pybase16384/_core.pyx":113
+      /* "pybase16384/_core.pyx":174
  *         count = base16384.encode(<const char*>PyBytes_AsString(chunk), <int>size, output_buf, <int> output_size)
  *         output.write(<bytes>output_buf[:count])
  *         if size < 7:             # <<<<<<<<<<<<<<
@@ -3947,7 +4709,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
   }
   __pyx_L9_break:;
 
-  /* "pybase16384/_core.pyx":115
+  /* "pybase16384/_core.pyx":176
  *         if size < 7:
  *             break
  *     PyMem_Free(output_buf)             # <<<<<<<<<<<<<<
@@ -3956,8 +4718,8 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
  */
   PyMem_Free(__pyx_v_output_buf);
 
-  /* "pybase16384/_core.pyx":74
- * 
+  /* "pybase16384/_core.pyx":135
+ *     return ret
  * 
  * cpdef inline void encode_file(object input,             # <<<<<<<<<<<<<<
  *                        object output,
@@ -3984,9 +4746,9 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_encode_file(PyObject *__p
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_11pybase16384_5_core_13encode_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_11pybase16384_5_core_12encode_file[] = "encode_file(input, output, bool write_head=False, int32_t buf_rate=10) -> void";
-static PyObject *__pyx_pw_11pybase16384_5_core_13encode_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_11pybase16384_5_core_17encode_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_11pybase16384_5_core_16encode_file[] = "encode_file(input, output, bool write_head=False, int32_t buf_rate=10) -> void";
+static PyObject *__pyx_pw_11pybase16384_5_core_17encode_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_input = 0;
   PyObject *__pyx_v_output = 0;
   int __pyx_v_write_head;
@@ -4024,7 +4786,7 @@ static PyObject *__pyx_pw_11pybase16384_5_core_13encode_file(PyObject *__pyx_sel
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_output)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("encode_file", 0, 2, 4, 1); __PYX_ERR(0, 74, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("encode_file", 0, 2, 4, 1); __PYX_ERR(0, 135, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -4040,7 +4802,7 @@ static PyObject *__pyx_pw_11pybase16384_5_core_13encode_file(PyObject *__pyx_sel
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "encode_file") < 0)) __PYX_ERR(0, 74, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "encode_file") < 0)) __PYX_ERR(0, 135, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -4057,10 +4819,10 @@ static PyObject *__pyx_pw_11pybase16384_5_core_13encode_file(PyObject *__pyx_sel
     __pyx_v_input = values[0];
     __pyx_v_output = values[1];
     if (values[2]) {
-      __pyx_v_write_head = __Pyx_PyObject_IsTrue(values[2]); if (unlikely((__pyx_v_write_head == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 76, __pyx_L3_error)
+      __pyx_v_write_head = __Pyx_PyObject_IsTrue(values[2]); if (unlikely((__pyx_v_write_head == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 137, __pyx_L3_error)
     } else {
 
-      /* "pybase16384/_core.pyx":76
+      /* "pybase16384/_core.pyx":137
  * cpdef inline void encode_file(object input,
  *                        object output,
  *                        bint write_head = False,             # <<<<<<<<<<<<<<
@@ -4070,23 +4832,23 @@ static PyObject *__pyx_pw_11pybase16384_5_core_13encode_file(PyObject *__pyx_sel
       __pyx_v_write_head = ((int)0);
     }
     if (values[3]) {
-      __pyx_v_buf_rate = __Pyx_PyInt_As_int32_t(values[3]); if (unlikely((__pyx_v_buf_rate == ((int32_t)-1)) && PyErr_Occurred())) __PYX_ERR(0, 77, __pyx_L3_error)
+      __pyx_v_buf_rate = __Pyx_PyInt_As_int32_t(values[3]); if (unlikely((__pyx_v_buf_rate == ((int32_t)-1)) && PyErr_Occurred())) __PYX_ERR(0, 138, __pyx_L3_error)
     } else {
       __pyx_v_buf_rate = ((int32_t)10);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("encode_file", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 74, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("encode_file", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 135, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pybase16384._core.encode_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_11pybase16384_5_core_12encode_file(__pyx_self, __pyx_v_input, __pyx_v_output, __pyx_v_write_head, __pyx_v_buf_rate);
+  __pyx_r = __pyx_pf_11pybase16384_5_core_16encode_file(__pyx_self, __pyx_v_input, __pyx_v_output, __pyx_v_write_head, __pyx_v_buf_rate);
 
-  /* "pybase16384/_core.pyx":74
- * 
+  /* "pybase16384/_core.pyx":135
+ *     return ret
  * 
  * cpdef inline void encode_file(object input,             # <<<<<<<<<<<<<<
  *                        object output,
@@ -4098,7 +4860,7 @@ static PyObject *__pyx_pw_11pybase16384_5_core_13encode_file(PyObject *__pyx_sel
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_11pybase16384_5_core_12encode_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input, PyObject *__pyx_v_output, int __pyx_v_write_head, int32_t __pyx_v_buf_rate) {
+static PyObject *__pyx_pf_11pybase16384_5_core_16encode_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input, PyObject *__pyx_v_output, int __pyx_v_write_head, int32_t __pyx_v_buf_rate) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   struct __pyx_opt_args_11pybase16384_5_core_encode_file __pyx_t_1;
@@ -4112,7 +4874,7 @@ static PyObject *__pyx_pf_11pybase16384_5_core_12encode_file(CYTHON_UNUSED PyObj
   __pyx_t_1.write_head = __pyx_v_write_head;
   __pyx_t_1.buf_rate = __pyx_v_buf_rate;
   __pyx_f_11pybase16384_5_core_encode_file(__pyx_v_input, __pyx_v_output, 0, &__pyx_t_1); 
-  __pyx_t_2 = __Pyx_void_to_None(NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_void_to_None(NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
@@ -4129,7 +4891,7 @@ static PyObject *__pyx_pf_11pybase16384_5_core_12encode_file(CYTHON_UNUSED PyObj
   return __pyx_r;
 }
 
-/* "pybase16384/_core.pyx":117
+/* "pybase16384/_core.pyx":178
  *     PyMem_Free(output_buf)
  * 
  * cpdef inline void decode_file(object input,             # <<<<<<<<<<<<<<
@@ -4137,7 +4899,7 @@ static PyObject *__pyx_pf_11pybase16384_5_core_12encode_file(CYTHON_UNUSED PyObj
  *                        int32_t buf_rate = 10) with gil:
  */
 
-static PyObject *__pyx_pw_11pybase16384_5_core_15decode_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_11pybase16384_5_core_19decode_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__pyx_v_input, PyObject *__pyx_v_output, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_11pybase16384_5_core_decode_file *__pyx_optional_args) {
   int32_t __pyx_v_buf_rate = ((int32_t)10);
   PyObject *__pyx_v_chunk = NULL;
@@ -4172,7 +4934,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
   __Pyx_INCREF(__pyx_v_input);
   __Pyx_INCREF(__pyx_v_output);
 
-  /* "pybase16384/_core.pyx":120
+  /* "pybase16384/_core.pyx":181
  *                        object output,
  *                        int32_t buf_rate = 10) with gil:
  *     if not PyFile_Check(input):             # <<<<<<<<<<<<<<
@@ -4182,26 +4944,26 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
   __pyx_t_1 = ((!(__pyx_f_11pybase16384_5_core_PyFile_Check(__pyx_v_input) != 0)) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "pybase16384/_core.pyx":121
+    /* "pybase16384/_core.pyx":182
  *                        int32_t buf_rate = 10) with gil:
  *     if not PyFile_Check(input):
  *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)             # <<<<<<<<<<<<<<
  *     if not PyFile_Check(output):
  *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_input)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 121, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_input)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_input_except_a_file_like_object, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 121, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_input_except_a_file_like_object, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 121, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 121, __pyx_L1_error)
+    __PYX_ERR(0, 182, __pyx_L1_error)
 
-    /* "pybase16384/_core.pyx":120
+    /* "pybase16384/_core.pyx":181
  *                        object output,
  *                        int32_t buf_rate = 10) with gil:
  *     if not PyFile_Check(input):             # <<<<<<<<<<<<<<
@@ -4210,7 +4972,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  */
   }
 
-  /* "pybase16384/_core.pyx":122
+  /* "pybase16384/_core.pyx":183
  *     if not PyFile_Check(input):
  *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
  *     if not PyFile_Check(output):             # <<<<<<<<<<<<<<
@@ -4220,26 +4982,26 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
   __pyx_t_1 = ((!(__pyx_f_11pybase16384_5_core_PyFile_Check(__pyx_v_output) != 0)) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "pybase16384/_core.pyx":123
+    /* "pybase16384/_core.pyx":184
  *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
  *     if not PyFile_Check(output):
  *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)             # <<<<<<<<<<<<<<
  *     if buf_rate <= 0:
  *         buf_rate = 1
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_output)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 123, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_output)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 184, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_output_except_a_file_like_object, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 123, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_output_except_a_file_like_object, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 184, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 123, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 184, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 123, __pyx_L1_error)
+    __PYX_ERR(0, 184, __pyx_L1_error)
 
-    /* "pybase16384/_core.pyx":122
+    /* "pybase16384/_core.pyx":183
  *     if not PyFile_Check(input):
  *         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
  *     if not PyFile_Check(output):             # <<<<<<<<<<<<<<
@@ -4248,7 +5010,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  */
   }
 
-  /* "pybase16384/_core.pyx":124
+  /* "pybase16384/_core.pyx":185
  *     if not PyFile_Check(output):
  *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
  *     if buf_rate <= 0:             # <<<<<<<<<<<<<<
@@ -4258,7 +5020,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
   __pyx_t_1 = ((__pyx_v_buf_rate <= 0) != 0);
   if (__pyx_t_1) {
 
-    /* "pybase16384/_core.pyx":125
+    /* "pybase16384/_core.pyx":186
  *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
  *     if buf_rate <= 0:
  *         buf_rate = 1             # <<<<<<<<<<<<<<
@@ -4267,7 +5029,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  */
     __pyx_v_buf_rate = 1;
 
-    /* "pybase16384/_core.pyx":124
+    /* "pybase16384/_core.pyx":185
  *     if not PyFile_Check(output):
  *         raise TypeError("output except a file-like object, got %s" % type(output).__name__)
  *     if buf_rate <= 0:             # <<<<<<<<<<<<<<
@@ -4276,14 +5038,14 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  */
   }
 
-  /* "pybase16384/_core.pyx":127
+  /* "pybase16384/_core.pyx":188
  *         buf_rate = 1
  * 
  *     chunk = input.read(1)  # type: bytes             # <<<<<<<<<<<<<<
  *     if not PyBytes_Check(chunk):
  *         raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_read); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 127, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_read); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 188, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -4297,13 +5059,13 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
   }
   __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_int_1) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_int_1);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 127, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 188, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_chunk = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "pybase16384/_core.pyx":128
+  /* "pybase16384/_core.pyx":189
  * 
  *     chunk = input.read(1)  # type: bytes
  *     if not PyBytes_Check(chunk):             # <<<<<<<<<<<<<<
@@ -4313,29 +5075,29 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
   __pyx_t_1 = ((!(PyBytes_Check(__pyx_v_chunk) != 0)) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "pybase16384/_core.pyx":129
+    /* "pybase16384/_core.pyx":190
  *     chunk = input.read(1)  # type: bytes
  *     if not PyBytes_Check(chunk):
  *         raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")             # <<<<<<<<<<<<<<
  *     if chunk == b"\xfe":  #
  *         input.read(1)
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_input)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 129, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_input)), __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 190, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyObject_FormatSimple(__pyx_t_2, __pyx_empty_unicode); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 129, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_FormatSimple(__pyx_t_2, __pyx_empty_unicode); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 190, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyUnicode_Concat(__pyx_kp_u_input_must_be_a_file_like_rb_obj, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 129, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyUnicode_Concat(__pyx_kp_u_input_must_be_a_file_like_rb_obj, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 190, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 129, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 190, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 129, __pyx_L1_error)
+    __PYX_ERR(0, 190, __pyx_L1_error)
 
-    /* "pybase16384/_core.pyx":128
+    /* "pybase16384/_core.pyx":189
  * 
  *     chunk = input.read(1)  # type: bytes
  *     if not PyBytes_Check(chunk):             # <<<<<<<<<<<<<<
@@ -4344,24 +5106,24 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  */
   }
 
-  /* "pybase16384/_core.pyx":130
+  /* "pybase16384/_core.pyx":191
  *     if not PyBytes_Check(chunk):
  *         raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
  *     if chunk == b"\xfe":  #             # <<<<<<<<<<<<<<
  *         input.read(1)
  *     else:
  */
-  __pyx_t_1 = (__Pyx_PyBytes_Equals(__pyx_v_chunk, __pyx_kp_b__3, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyBytes_Equals(__pyx_v_chunk, __pyx_kp_b__3, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 191, __pyx_L1_error)
   if (__pyx_t_1) {
 
-    /* "pybase16384/_core.pyx":131
+    /* "pybase16384/_core.pyx":192
  *         raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
  *     if chunk == b"\xfe":  #
  *         input.read(1)             # <<<<<<<<<<<<<<
  *     else:
  *         input.seek(0, 0)  #
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_read); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 131, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_read); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 192, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -4375,12 +5137,12 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
     }
     __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_int_1) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_int_1);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 131, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 192, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pybase16384/_core.pyx":130
+    /* "pybase16384/_core.pyx":191
  *     if not PyBytes_Check(chunk):
  *         raise TypeError(f"input must be a file-like rb object, got {type(input).__name__}")
  *     if chunk == b"\xfe":  #             # <<<<<<<<<<<<<<
@@ -4390,7 +5152,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
     goto __pyx_L7;
   }
 
-  /* "pybase16384/_core.pyx":133
+  /* "pybase16384/_core.pyx":194
  *         input.read(1)
  *     else:
  *         input.seek(0, 0)  #             # <<<<<<<<<<<<<<
@@ -4398,16 +5160,16 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  *     cdef int32_t current_buf_len = buf_rate * 8
  */
   /*else*/ {
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_seek); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 133, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_seek); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 194, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 133, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 194, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
   __pyx_L7:;
 
-  /* "pybase16384/_core.pyx":135
+  /* "pybase16384/_core.pyx":196
  *         input.seek(0, 0)  #
  * 
  *     cdef int32_t current_buf_len = buf_rate * 8             # <<<<<<<<<<<<<<
@@ -4416,7 +5178,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  */
   __pyx_v_current_buf_len = (__pyx_v_buf_rate * 8);
 
-  /* "pybase16384/_core.pyx":136
+  /* "pybase16384/_core.pyx":197
  * 
  *     cdef int32_t current_buf_len = buf_rate * 8
  *     cdef size_t output_size = <size_t> base16384.decode_len(<int> current_buf_len, 0) + 16             # <<<<<<<<<<<<<<
@@ -4425,7 +5187,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  */
   __pyx_v_output_size = (((size_t)decode_len(((int)__pyx_v_current_buf_len), 0)) + 16);
 
-  /* "pybase16384/_core.pyx":137
+  /* "pybase16384/_core.pyx":198
  *     cdef int32_t current_buf_len = buf_rate * 8
  *     cdef size_t output_size = <size_t> base16384.decode_len(<int> current_buf_len, 0) + 16
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)             # <<<<<<<<<<<<<<
@@ -4434,7 +5196,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  */
   __pyx_v_output_buf = ((char *)PyMem_Malloc(__pyx_v_output_size));
 
-  /* "pybase16384/_core.pyx":138
+  /* "pybase16384/_core.pyx":199
  *     cdef size_t output_size = <size_t> base16384.decode_len(<int> current_buf_len, 0) + 16
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)
  *     if output_buf == NULL:             # <<<<<<<<<<<<<<
@@ -4444,16 +5206,16 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
   __pyx_t_1 = ((__pyx_v_output_buf == NULL) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "pybase16384/_core.pyx":139
+    /* "pybase16384/_core.pyx":200
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)
  *     if output_buf == NULL:
  *         raise MemoryError             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t size
  *     cdef int count = 0
  */
-    PyErr_NoMemory(); __PYX_ERR(0, 139, __pyx_L1_error)
+    PyErr_NoMemory(); __PYX_ERR(0, 200, __pyx_L1_error)
 
-    /* "pybase16384/_core.pyx":138
+    /* "pybase16384/_core.pyx":199
  *     cdef size_t output_size = <size_t> base16384.decode_len(<int> current_buf_len, 0) + 16
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)
  *     if output_buf == NULL:             # <<<<<<<<<<<<<<
@@ -4462,7 +5224,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  */
   }
 
-  /* "pybase16384/_core.pyx":141
+  /* "pybase16384/_core.pyx":202
  *         raise MemoryError
  *     cdef Py_ssize_t size
  *     cdef int count = 0             # <<<<<<<<<<<<<<
@@ -4471,7 +5233,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  */
   __pyx_v_count = 0;
 
-  /* "pybase16384/_core.pyx":142
+  /* "pybase16384/_core.pyx":203
  *     cdef Py_ssize_t size
  *     cdef int count = 0
  *     while True:             # <<<<<<<<<<<<<<
@@ -4480,16 +5242,16 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  */
   while (1) {
 
-    /* "pybase16384/_core.pyx":143
+    /* "pybase16384/_core.pyx":204
  *     cdef int count = 0
  *     while True:
  *         chunk = input.read(current_buf_len)  # 8             # <<<<<<<<<<<<<<
  *         size = PyBytes_Size(chunk)
  *         if size == 0:
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_read); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 143, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_read); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 204, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyInt_From_int32_t(__pyx_v_current_buf_len); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 143, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_From_int32_t(__pyx_v_current_buf_len); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 204, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -4504,23 +5266,23 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
     __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 143, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 204, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF_SET(__pyx_v_chunk, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "pybase16384/_core.pyx":144
+    /* "pybase16384/_core.pyx":205
  *     while True:
  *         chunk = input.read(current_buf_len)  # 8
  *         size = PyBytes_Size(chunk)             # <<<<<<<<<<<<<<
  *         if size == 0:
  *             break
  */
-    __pyx_t_6 = PyBytes_Size(__pyx_v_chunk); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1L))) __PYX_ERR(0, 144, __pyx_L1_error)
+    __pyx_t_6 = PyBytes_Size(__pyx_v_chunk); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1L))) __PYX_ERR(0, 205, __pyx_L1_error)
     __pyx_v_size = __pyx_t_6;
 
-    /* "pybase16384/_core.pyx":145
+    /* "pybase16384/_core.pyx":206
  *         chunk = input.read(current_buf_len)  # 8
  *         size = PyBytes_Size(chunk)
  *         if size == 0:             # <<<<<<<<<<<<<<
@@ -4530,7 +5292,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
     __pyx_t_1 = ((__pyx_v_size == 0) != 0);
     if (__pyx_t_1) {
 
-      /* "pybase16384/_core.pyx":146
+      /* "pybase16384/_core.pyx":207
  *         size = PyBytes_Size(chunk)
  *         if size == 0:
  *             break             # <<<<<<<<<<<<<<
@@ -4539,7 +5301,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  */
       goto __pyx_L10_break;
 
-      /* "pybase16384/_core.pyx":145
+      /* "pybase16384/_core.pyx":206
  *         chunk = input.read(current_buf_len)  # 8
  *         size = PyBytes_Size(chunk)
  *         if size == 0:             # <<<<<<<<<<<<<<
@@ -4548,7 +5310,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  */
     }
 
-    /* "pybase16384/_core.pyx":147
+    /* "pybase16384/_core.pyx":208
  *         if size == 0:
  *             break
  *         if <int32_t> size < current_buf_len:  #             # <<<<<<<<<<<<<<
@@ -4558,7 +5320,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
     __pyx_t_1 = ((((int32_t)__pyx_v_size) < __pyx_v_current_buf_len) != 0);
     if (__pyx_t_1) {
 
-      /* "pybase16384/_core.pyx":148
+      /* "pybase16384/_core.pyx":209
  *             break
  *         if <int32_t> size < current_buf_len:  #
  *             if buf_rate > 1:  #             # <<<<<<<<<<<<<<
@@ -4568,7 +5330,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
       __pyx_t_1 = ((__pyx_v_buf_rate > 1) != 0);
       if (__pyx_t_1) {
 
-        /* "pybase16384/_core.pyx":149
+        /* "pybase16384/_core.pyx":210
  *         if <int32_t> size < current_buf_len:  #
  *             if buf_rate > 1:  #
  *                 buf_rate = buf_rate / 2  #             # <<<<<<<<<<<<<<
@@ -4577,7 +5339,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  */
         __pyx_v_buf_rate = (((long)__pyx_v_buf_rate) / 2);
 
-        /* "pybase16384/_core.pyx":150
+        /* "pybase16384/_core.pyx":211
  *             if buf_rate > 1:  #
  *                 buf_rate = buf_rate / 2  #
  *                 current_buf_len = buf_rate * 8             # <<<<<<<<<<<<<<
@@ -4586,16 +5348,16 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  */
         __pyx_v_current_buf_len = (__pyx_v_buf_rate * 8);
 
-        /* "pybase16384/_core.pyx":151
+        /* "pybase16384/_core.pyx":212
  *                 buf_rate = buf_rate / 2  #
  *                 current_buf_len = buf_rate * 8
  *                 input.seek(-size, 1)             # <<<<<<<<<<<<<<
  *                 continue
  *         tmp = input.read(2)  # type: bytes
  */
-        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_seek); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 151, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_seek); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 212, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_4 = PyInt_FromSsize_t((-__pyx_v_size)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 151, __pyx_L1_error)
+        __pyx_t_4 = PyInt_FromSsize_t((-__pyx_v_size)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 212, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __pyx_t_5 = NULL;
         __pyx_t_7 = 0;
@@ -4612,7 +5374,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_4, __pyx_int_1};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 151, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 212, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -4621,14 +5383,14 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_4, __pyx_int_1};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 151, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 212, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         } else
         #endif
         {
-          __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 151, __pyx_L1_error)
+          __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 212, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           if (__pyx_t_5) {
             __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -4639,14 +5401,14 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
           __Pyx_GIVEREF(__pyx_int_1);
           PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_int_1);
           __pyx_t_4 = 0;
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 151, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 212, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         }
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-        /* "pybase16384/_core.pyx":152
+        /* "pybase16384/_core.pyx":213
  *                 current_buf_len = buf_rate * 8
  *                 input.seek(-size, 1)
  *                 continue             # <<<<<<<<<<<<<<
@@ -4655,7 +5417,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  */
         goto __pyx_L9_continue;
 
-        /* "pybase16384/_core.pyx":148
+        /* "pybase16384/_core.pyx":209
  *             break
  *         if <int32_t> size < current_buf_len:  #
  *             if buf_rate > 1:  #             # <<<<<<<<<<<<<<
@@ -4664,7 +5426,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  */
       }
 
-      /* "pybase16384/_core.pyx":147
+      /* "pybase16384/_core.pyx":208
  *         if size == 0:
  *             break
  *         if <int32_t> size < current_buf_len:  #             # <<<<<<<<<<<<<<
@@ -4673,14 +5435,14 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  */
     }
 
-    /* "pybase16384/_core.pyx":153
+    /* "pybase16384/_core.pyx":214
  *                 input.seek(-size, 1)
  *                 continue
  *         tmp = input.read(2)  # type: bytes             # <<<<<<<<<<<<<<
  *         if PyBytes_Size(tmp) == 2:
  *             if tmp[0] == 61:  # = stream   8n+2
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_read); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_read); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 214, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -4694,52 +5456,52 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
     }
     __pyx_t_2 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_8, __pyx_int_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_int_2);
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 153, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 214, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_XDECREF_SET(__pyx_v_tmp, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "pybase16384/_core.pyx":154
+    /* "pybase16384/_core.pyx":215
  *                 continue
  *         tmp = input.read(2)  # type: bytes
  *         if PyBytes_Size(tmp) == 2:             # <<<<<<<<<<<<<<
  *             if tmp[0] == 61:  # = stream   8n+2
  *                 chunk += tmp
  */
-    __pyx_t_6 = PyBytes_Size(__pyx_v_tmp); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1L))) __PYX_ERR(0, 154, __pyx_L1_error)
+    __pyx_t_6 = PyBytes_Size(__pyx_v_tmp); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1L))) __PYX_ERR(0, 215, __pyx_L1_error)
     __pyx_t_1 = ((__pyx_t_6 == 2) != 0);
     if (__pyx_t_1) {
 
-      /* "pybase16384/_core.pyx":155
+      /* "pybase16384/_core.pyx":216
  *         tmp = input.read(2)  # type: bytes
  *         if PyBytes_Size(tmp) == 2:
  *             if tmp[0] == 61:  # = stream   8n+2             # <<<<<<<<<<<<<<
  *                 chunk += tmp
  *                 size += 2
  */
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_tmp, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 155, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_tmp, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 216, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_3 = __Pyx_PyInt_EqObjC(__pyx_t_2, __pyx_int_61, 61, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 155, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_EqObjC(__pyx_t_2, __pyx_int_61, 61, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 216, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 155, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 216, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_1) {
 
-        /* "pybase16384/_core.pyx":156
+        /* "pybase16384/_core.pyx":217
  *         if PyBytes_Size(tmp) == 2:
  *             if tmp[0] == 61:  # = stream   8n+2
  *                 chunk += tmp             # <<<<<<<<<<<<<<
  *                 size += 2
  *             else:
  */
-        __pyx_t_3 = PyNumber_InPlaceAdd(__pyx_v_chunk, __pyx_v_tmp); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 156, __pyx_L1_error)
+        __pyx_t_3 = PyNumber_InPlaceAdd(__pyx_v_chunk, __pyx_v_tmp); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 217, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF_SET(__pyx_v_chunk, __pyx_t_3);
         __pyx_t_3 = 0;
 
-        /* "pybase16384/_core.pyx":157
+        /* "pybase16384/_core.pyx":218
  *             if tmp[0] == 61:  # = stream   8n+2
  *                 chunk += tmp
  *                 size += 2             # <<<<<<<<<<<<<<
@@ -4748,7 +5510,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  */
         __pyx_v_size = (__pyx_v_size + 2);
 
-        /* "pybase16384/_core.pyx":155
+        /* "pybase16384/_core.pyx":216
  *         tmp = input.read(2)  # type: bytes
  *         if PyBytes_Size(tmp) == 2:
  *             if tmp[0] == 61:  # = stream   8n+2             # <<<<<<<<<<<<<<
@@ -4758,7 +5520,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
         goto __pyx_L15;
       }
 
-      /* "pybase16384/_core.pyx":159
+      /* "pybase16384/_core.pyx":220
  *                 size += 2
  *             else:
  *                 input.seek(-2, 1)             # <<<<<<<<<<<<<<
@@ -4766,16 +5528,16 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  *         count = base16384.decode(<const char *> PyBytes_AsString(chunk), <int> size, output_buf, <int> output_size)
  */
       /*else*/ {
-        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_seek); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 159, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_input, __pyx_n_s_seek); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 220, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 159, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 220, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       }
       __pyx_L15:;
 
-      /* "pybase16384/_core.pyx":154
+      /* "pybase16384/_core.pyx":215
  *                 continue
  *         tmp = input.read(2)  # type: bytes
  *         if PyBytes_Size(tmp) == 2:             # <<<<<<<<<<<<<<
@@ -4784,26 +5546,26 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  */
     }
 
-    /* "pybase16384/_core.pyx":161
+    /* "pybase16384/_core.pyx":222
  *                 input.seek(-2, 1)
  * 
  *         count = base16384.decode(<const char *> PyBytes_AsString(chunk), <int> size, output_buf, <int> output_size)             # <<<<<<<<<<<<<<
  *         output.write(<bytes>output_buf[:count])
  *     PyMem_Free(output_buf)
  */
-    __pyx_t_9 = PyBytes_AsString(__pyx_v_chunk); if (unlikely(__pyx_t_9 == ((char *)NULL))) __PYX_ERR(0, 161, __pyx_L1_error)
+    __pyx_t_9 = PyBytes_AsString(__pyx_v_chunk); if (unlikely(__pyx_t_9 == ((char *)NULL))) __PYX_ERR(0, 222, __pyx_L1_error)
     __pyx_v_count = decode(((char const *)__pyx_t_9), ((int)__pyx_v_size), __pyx_v_output_buf, ((int)__pyx_v_output_size));
 
-    /* "pybase16384/_core.pyx":162
+    /* "pybase16384/_core.pyx":223
  * 
  *         count = base16384.decode(<const char *> PyBytes_AsString(chunk), <int> size, output_buf, <int> output_size)
  *         output.write(<bytes>output_buf[:count])             # <<<<<<<<<<<<<<
  *     PyMem_Free(output_buf)
  * 
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_output, __pyx_n_s_write); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 162, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_output, __pyx_n_s_write); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 223, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_8 = __Pyx_PyBytes_FromStringAndSize(__pyx_v_output_buf + 0, __pyx_v_count - 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 162, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyBytes_FromStringAndSize(__pyx_v_output_buf + 0, __pyx_v_count - 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 223, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -4818,7 +5580,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
     __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_t_8) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_8);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 162, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 223, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -4826,7 +5588,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
   }
   __pyx_L10_break:;
 
-  /* "pybase16384/_core.pyx":163
+  /* "pybase16384/_core.pyx":224
  *         count = base16384.decode(<const char *> PyBytes_AsString(chunk), <int> size, output_buf, <int> output_size)
  *         output.write(<bytes>output_buf[:count])
  *     PyMem_Free(output_buf)             # <<<<<<<<<<<<<<
@@ -4835,7 +5597,7 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
  */
   PyMem_Free(__pyx_v_output_buf);
 
-  /* "pybase16384/_core.pyx":117
+  /* "pybase16384/_core.pyx":178
  *     PyMem_Free(output_buf)
  * 
  * cpdef inline void decode_file(object input,             # <<<<<<<<<<<<<<
@@ -4864,9 +5626,9 @@ static CYTHON_INLINE void __pyx_f_11pybase16384_5_core_decode_file(PyObject *__p
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_11pybase16384_5_core_15decode_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_11pybase16384_5_core_14decode_file[] = "decode_file(input, output, int32_t buf_rate=10) -> void";
-static PyObject *__pyx_pw_11pybase16384_5_core_15decode_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_11pybase16384_5_core_19decode_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_11pybase16384_5_core_18decode_file[] = "decode_file(input, output, int32_t buf_rate=10) -> void";
+static PyObject *__pyx_pw_11pybase16384_5_core_19decode_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_input = 0;
   PyObject *__pyx_v_output = 0;
   int32_t __pyx_v_buf_rate;
@@ -4901,7 +5663,7 @@ static PyObject *__pyx_pw_11pybase16384_5_core_15decode_file(PyObject *__pyx_sel
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_output)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("decode_file", 0, 2, 3, 1); __PYX_ERR(0, 117, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("decode_file", 0, 2, 3, 1); __PYX_ERR(0, 178, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -4911,7 +5673,7 @@ static PyObject *__pyx_pw_11pybase16384_5_core_15decode_file(PyObject *__pyx_sel
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "decode_file") < 0)) __PYX_ERR(0, 117, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "decode_file") < 0)) __PYX_ERR(0, 178, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -4926,27 +5688,27 @@ static PyObject *__pyx_pw_11pybase16384_5_core_15decode_file(PyObject *__pyx_sel
     __pyx_v_input = values[0];
     __pyx_v_output = values[1];
     if (values[2]) {
-      __pyx_v_buf_rate = __Pyx_PyInt_As_int32_t(values[2]); if (unlikely((__pyx_v_buf_rate == ((int32_t)-1)) && PyErr_Occurred())) __PYX_ERR(0, 119, __pyx_L3_error)
+      __pyx_v_buf_rate = __Pyx_PyInt_As_int32_t(values[2]); if (unlikely((__pyx_v_buf_rate == ((int32_t)-1)) && PyErr_Occurred())) __PYX_ERR(0, 180, __pyx_L3_error)
     } else {
       __pyx_v_buf_rate = ((int32_t)10);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("decode_file", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 117, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("decode_file", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 178, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pybase16384._core.decode_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_11pybase16384_5_core_14decode_file(__pyx_self, __pyx_v_input, __pyx_v_output, __pyx_v_buf_rate);
+  __pyx_r = __pyx_pf_11pybase16384_5_core_18decode_file(__pyx_self, __pyx_v_input, __pyx_v_output, __pyx_v_buf_rate);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_11pybase16384_5_core_14decode_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input, PyObject *__pyx_v_output, int32_t __pyx_v_buf_rate) {
+static PyObject *__pyx_pf_11pybase16384_5_core_18decode_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input, PyObject *__pyx_v_output, int32_t __pyx_v_buf_rate) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   struct __pyx_opt_args_11pybase16384_5_core_decode_file __pyx_t_1;
@@ -4959,7 +5721,7 @@ static PyObject *__pyx_pf_11pybase16384_5_core_14decode_file(CYTHON_UNUSED PyObj
   __pyx_t_1.__pyx_n = 1;
   __pyx_t_1.buf_rate = __pyx_v_buf_rate;
   __pyx_f_11pybase16384_5_core_decode_file(__pyx_v_input, __pyx_v_output, 0, &__pyx_t_1); 
-  __pyx_t_2 = __Pyx_void_to_None(NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_void_to_None(NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 178, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
@@ -4976,20 +5738,20 @@ static PyObject *__pyx_pf_11pybase16384_5_core_14decode_file(CYTHON_UNUSED PyObj
   return __pyx_r;
 }
 
-/* "pybase16384/_core.pyx":165
+/* "pybase16384/_core.pyx":226
  *     PyMem_Free(output_buf)
  * 
  * cpdef inline bint is_64bits():             # <<<<<<<<<<<<<<
  *     return base16384.pybase16384_64bits()
  */
 
-static PyObject *__pyx_pw_11pybase16384_5_core_17is_64bits(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_11pybase16384_5_core_21is_64bits(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
 static CYTHON_INLINE int __pyx_f_11pybase16384_5_core_is_64bits(CYTHON_UNUSED int __pyx_skip_dispatch) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("is_64bits", 0);
 
-  /* "pybase16384/_core.pyx":166
+  /* "pybase16384/_core.pyx":227
  * 
  * cpdef inline bint is_64bits():
  *     return base16384.pybase16384_64bits()             # <<<<<<<<<<<<<<
@@ -4997,7 +5759,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core_is_64bits(CYTHON_UNUSED in
   __pyx_r = pybase16384_64bits();
   goto __pyx_L0;
 
-  /* "pybase16384/_core.pyx":165
+  /* "pybase16384/_core.pyx":226
  *     PyMem_Free(output_buf)
  * 
  * cpdef inline bint is_64bits():             # <<<<<<<<<<<<<<
@@ -5011,20 +5773,20 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core_is_64bits(CYTHON_UNUSED in
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_11pybase16384_5_core_17is_64bits(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_11pybase16384_5_core_16is_64bits[] = "is_64bits() -> bool";
-static PyObject *__pyx_pw_11pybase16384_5_core_17is_64bits(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_11pybase16384_5_core_21is_64bits(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_11pybase16384_5_core_20is_64bits[] = "is_64bits() -> bool";
+static PyObject *__pyx_pw_11pybase16384_5_core_21is_64bits(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("is_64bits (wrapper)", 0);
-  __pyx_r = __pyx_pf_11pybase16384_5_core_16is_64bits(__pyx_self);
+  __pyx_r = __pyx_pf_11pybase16384_5_core_20is_64bits(__pyx_self);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_11pybase16384_5_core_16is_64bits(CYTHON_UNUSED PyObject *__pyx_self) {
+static PyObject *__pyx_pf_11pybase16384_5_core_20is_64bits(CYTHON_UNUSED PyObject *__pyx_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -5033,7 +5795,7 @@ static PyObject *__pyx_pf_11pybase16384_5_core_16is_64bits(CYTHON_UNUSED PyObjec
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_64bits", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_f_11pybase16384_5_core_is_64bits(0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 165, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_f_11pybase16384_5_core_is_64bits(0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -18790,9 +19552,11 @@ static PyMethodDef __pyx_methods[] = {
   {"_decode", (PyCFunction)__pyx_pw_11pybase16384_5_core_7_decode, METH_O, __pyx_doc_11pybase16384_5_core_6_decode},
   {"_encode_into", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_11pybase16384_5_core_9_encode_into, METH_VARARGS|METH_KEYWORDS, __pyx_doc_11pybase16384_5_core_8_encode_into},
   {"_decode_into", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_11pybase16384_5_core_11_decode_into, METH_VARARGS|METH_KEYWORDS, __pyx_doc_11pybase16384_5_core_10_decode_into},
-  {"encode_file", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_11pybase16384_5_core_13encode_file, METH_VARARGS|METH_KEYWORDS, __pyx_doc_11pybase16384_5_core_12encode_file},
-  {"decode_file", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_11pybase16384_5_core_15decode_file, METH_VARARGS|METH_KEYWORDS, __pyx_doc_11pybase16384_5_core_14decode_file},
-  {"is_64bits", (PyCFunction)__pyx_pw_11pybase16384_5_core_17is_64bits, METH_NOARGS, __pyx_doc_11pybase16384_5_core_16is_64bits},
+  {"_encode_parallel", (PyCFunction)__pyx_pw_11pybase16384_5_core_13_encode_parallel, METH_O, __pyx_doc_11pybase16384_5_core_12_encode_parallel},
+  {"_decode_parallel", (PyCFunction)__pyx_pw_11pybase16384_5_core_15_decode_parallel, METH_O, __pyx_doc_11pybase16384_5_core_14_decode_parallel},
+  {"encode_file", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_11pybase16384_5_core_17encode_file, METH_VARARGS|METH_KEYWORDS, __pyx_doc_11pybase16384_5_core_16encode_file},
+  {"decode_file", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_11pybase16384_5_core_19decode_file, METH_VARARGS|METH_KEYWORDS, __pyx_doc_11pybase16384_5_core_18decode_file},
+  {"is_64bits", (PyCFunction)__pyx_pw_11pybase16384_5_core_21is_64bits, METH_NOARGS, __pyx_doc_11pybase16384_5_core_20is_64bits},
   {0, 0, 0, 0}
 };
 
@@ -18944,9 +19708,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(0, 28, __pyx_L1_error)
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 56, __pyx_L1_error)
-  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 140, __pyx_L1_error)
   __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(1, 151, __pyx_L1_error)
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(1, 180, __pyx_L1_error)
   __pyx_builtin_Ellipsis = __Pyx_GetBuiltinName(__pyx_n_s_Ellipsis); if (!__pyx_builtin_Ellipsis) __PYX_ERR(1, 404, __pyx_L1_error)
@@ -18961,36 +19725,36 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "pybase16384/_core.pyx":56
+  /* "pybase16384/_core.pyx":58
  *     cdef size_t output_buf_size = dest.shape[0]
  *     if output_buf_size < output_size:
  *         raise ValueError("Buffer is too small to hold result")             # <<<<<<<<<<<<<<
  *     return base16384.encode(<const char *> &data[0],
  *                                       <int> input_size,
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_Buffer_is_too_small_to_hold_resu); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_Buffer_is_too_small_to_hold_resu); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "pybase16384/_core.pyx":133
+  /* "pybase16384/_core.pyx":194
  *         input.read(1)
  *     else:
  *         input.seek(0, 0)  #             # <<<<<<<<<<<<<<
  * 
  *     cdef int32_t current_buf_len = buf_rate * 8
  */
-  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_0); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_0); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 194, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
-  /* "pybase16384/_core.pyx":159
+  /* "pybase16384/_core.pyx":220
  *                 size += 2
  *             else:
  *                 input.seek(-2, 1)             # <<<<<<<<<<<<<<
  * 
  *         count = base16384.decode(<const char *> PyBytes_AsString(chunk), <int> size, output_buf, <int> output_size)
  */
-  __pyx_tuple__5 = PyTuple_Pack(2, __pyx_int_neg_2, __pyx_int_1); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 159, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(2, __pyx_int_neg_2, __pyx_int_1); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 220, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
@@ -19258,6 +20022,13 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 }
 
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
+  /* InitThreads.init */
+  #ifdef WITH_THREAD
+PyEval_InitThreads();
+#endif
+
+if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1, __pyx_L1_error)
+
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -22940,17 +23711,40 @@ __pyx_fail:
 }
 
 /* ObjectToMemviewSlice */
-  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint8_t(PyObject *obj, int writable_flag) {
+  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t__const__(PyObject *obj, int writable_flag) {
     __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
     __Pyx_BufFmt_StackElem stack[1];
-    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED) };
+    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_CONTIG) };
     int retcode;
     if (obj == Py_None) {
         result.memview = (struct __pyx_memoryview_obj *) Py_None;
         return result;
     }
-    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, 0,
-                                                 PyBUF_RECORDS_RO | writable_flag, 1,
+    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, __Pyx_IS_C_CONTIG,
+                                                 (PyBUF_C_CONTIGUOUS | PyBUF_FORMAT) | writable_flag, 1,
+                                                 &__Pyx_TypeInfo_nn_uint8_t__const__, stack,
+                                                 &result, obj);
+    if (unlikely(retcode == -1))
+        goto __pyx_fail;
+    return result;
+__pyx_fail:
+    result.memview = NULL;
+    result.data = NULL;
+    return result;
+}
+
+/* ObjectToMemviewSlice */
+  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t(PyObject *obj, int writable_flag) {
+    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
+    __Pyx_BufFmt_StackElem stack[1];
+    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_CONTIG) };
+    int retcode;
+    if (obj == Py_None) {
+        result.memview = (struct __pyx_memoryview_obj *) Py_None;
+        return result;
+    }
+    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, __Pyx_IS_C_CONTIG,
+                                                 (PyBUF_C_CONTIGUOUS | PyBUF_FORMAT) | writable_flag, 1,
                                                  &__Pyx_TypeInfo_nn_uint8_t, stack,
                                                  &result, obj);
     if (unlikely(retcode == -1))

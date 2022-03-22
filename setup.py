@@ -34,12 +34,22 @@ else:
 system = platform.system()
 if system == "Windows":
     macro_base = [("_WIN64", None)]
+    extra_compile_args = ['/openmp']
+    extra_link_args = ['/openmp']
 elif system == "Linux":
     macro_base = [("__linux__", None)]
+    extra_compile_args = ['-fopenmp']
+    extra_link_args = ['-fopenmp']
 elif system == "Darwin":
     macro_base = [("__MAC_10_0", None)]
+    os.system("brew install libomp")
+    os.system("brew install clang-omp")
+    extra_compile_args = ['-fopenmp']
+    extra_link_args = []
 else:
     macro_base = []
+    extra_compile_args = ['-fopenmp']
+    extra_link_args = ['-fopenmp']
 
 if sys.byteorder != "little":
     macro_base.append(("WORDS_BIGENDIAN", None))
@@ -54,8 +64,9 @@ extensions = [
     Extension("pybase16384._core", ["pybase16384/_core.pyx", f'./base16384/base14{CPUBIT}.c', "./base16384/base14.c"],
               include_dirs=[f"./base16384"],
               library_dirs=[f"./base16384"],
-              define_macros=macro_base
-              ),
+              define_macros=macro_base,
+              extra_compile_args=extra_compile_args,
+              extra_link_args=extra_link_args)
 ]
 
 

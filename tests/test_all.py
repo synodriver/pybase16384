@@ -1,5 +1,6 @@
 from unittest import TestCase
 import unittest
+import time
 import sys
 from random import randint
 
@@ -36,6 +37,27 @@ class Test(TestCase):
             self.assertEqual(bs.is_64bits(), True)
         else:
             self.assertEqual(bs.is_64bits(), False)
+
+    def test_parallel(self):
+        for i in range(10000):
+            length = randint(1, 1000)
+            value = bytes([randint(0, 255) for _ in range(length)])
+            data = bs._encode_parallel(value)
+            data2 = bs._encode(value)
+            self.assertEqual(data, data2)
+
+            # self.assertEqual(bs.decode(data2), bs._decode_parallel(data2))
+
+    def test_speed(self):
+        value = bytes(5000000)
+        start = time.time()
+        for i in range(1):
+            data = bs._encode_parallel(value)
+        print(f"multithread {time.time()-start}")
+        start = time.time()
+        for i in range(1):
+            data2 = bs._encode(value)
+        print(f"single {time.time() - start}")
 
 
 if __name__ == "__main__":
