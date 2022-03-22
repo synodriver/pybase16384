@@ -20,7 +20,7 @@ cpdef inline int encode_len(int dlen):
 cpdef inline int decode_len(int dlen, int offset):
     return base16384.decode_len(dlen, offset)
 
-cpdef inline bytes _encode(const uint8_t[:] data):
+cpdef inline bytes _encode(const uint8_t[::1] data):
     cdef size_t length = data.shape[0]
     cdef size_t output_size = <size_t>base16384.encode_len(<int>length) + 16
     cdef char *output_buf = <char*>PyMem_Malloc(output_size)
@@ -34,7 +34,7 @@ cpdef inline bytes _encode(const uint8_t[:] data):
     PyMem_Free(output_buf)
     return ret
 
-cpdef inline bytes _decode(const uint8_t[:] data):
+cpdef inline bytes _decode(const uint8_t[::1] data):
     cdef size_t length = data.shape[0]
     cdef size_t output_size = <size_t>base16384.decode_len(<int>length, 0) + 16
     cdef char *output_buf = <char *> PyMem_Malloc(output_size)
@@ -48,7 +48,7 @@ cpdef inline bytes _decode(const uint8_t[:] data):
     PyMem_Free(output_buf)
     return ret
 
-cpdef inline int _encode_into(const uint8_t[:] data, uint8_t[:] dest):
+cpdef inline int _encode_into(const uint8_t[::1] data, uint8_t[::1] dest):
     cdef size_t input_size = data.shape[0]
     cdef size_t output_size = <size_t> base16384.encode_len(<int> input_size)
     cdef size_t output_buf_size = dest.shape[0]
@@ -59,7 +59,7 @@ cpdef inline int _encode_into(const uint8_t[:] data, uint8_t[:] dest):
                                       <char *> &dest[0],
                                       <int> output_buf_size)
 
-cpdef inline int _decode_into(const uint8_t[:] data, uint8_t[:] dest):
+cpdef inline int _decode_into(const uint8_t[::1] data, uint8_t[::1] dest):
     cdef size_t input_size = data.shape[0]
     cdef size_t output_size = <size_t> base16384.decode_len(<int> input_size, 0)
     cdef size_t output_buf_size = dest.shape[0]
