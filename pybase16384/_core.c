@@ -1824,10 +1824,10 @@ static int __Pyx_ValidateAndInit_memviewslice(
                 PyObject *original_obj);
 
 /* ObjectToMemviewSlice.proto */
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint8_t__const__(PyObject *, int writable_flag);
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t__const__(PyObject *, int writable_flag);
 
 /* ObjectToMemviewSlice.proto */
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint8_t(PyObject *, int writable_flag);
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t(PyObject *, int writable_flag);
 
 /* MemviewSliceCopyTemplate.proto */
 static __Pyx_memviewslice
@@ -2455,7 +2455,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core_decode_len(int __pyx_v_dle
  * cpdef inline int decode_len(int dlen, int offset):
  *     return base16384.decode_len(dlen, offset)             # <<<<<<<<<<<<<<
  * 
- * cpdef inline bytes _encode(const uint8_t[:] data):
+ * cpdef inline bytes _encode(const uint8_t[::1] data):
  */
   __pyx_r = decode_len(__pyx_v_dlen, __pyx_v_offset);
   goto __pyx_L0;
@@ -2568,7 +2568,7 @@ static PyObject *__pyx_pf_11pybase16384_5_core_2decode_len(CYTHON_UNUSED PyObjec
 /* "pybase16384/_core.pyx":23
  *     return base16384.decode_len(dlen, offset)
  * 
- * cpdef inline bytes _encode(const uint8_t[:] data):             # <<<<<<<<<<<<<<
+ * cpdef inline bytes _encode(const uint8_t[::1] data):             # <<<<<<<<<<<<<<
  *     cdef size_t length = data.shape[0]
  *     cdef size_t output_size = <size_t>base16384.encode_len(<int>length) + 16
  */
@@ -2591,7 +2591,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__encode(__Pyx_memvie
 
   /* "pybase16384/_core.pyx":24
  * 
- * cpdef inline bytes _encode(const uint8_t[:] data):
+ * cpdef inline bytes _encode(const uint8_t[::1] data):
  *     cdef size_t length = data.shape[0]             # <<<<<<<<<<<<<<
  *     cdef size_t output_size = <size_t>base16384.encode_len(<int>length) + 16
  *     cdef bytes output_buf = PyBytes_FromStringAndSize(NULL, <Py_ssize_t>output_size)
@@ -2599,7 +2599,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__encode(__Pyx_memvie
   __pyx_v_length = (__pyx_v_data.shape[0]);
 
   /* "pybase16384/_core.pyx":25
- * cpdef inline bytes _encode(const uint8_t[:] data):
+ * cpdef inline bytes _encode(const uint8_t[::1] data):
  *     cdef size_t length = data.shape[0]
  *     cdef size_t output_size = <size_t>base16384.encode_len(<int>length) + 16             # <<<<<<<<<<<<<<
  *     cdef bytes output_buf = PyBytes_FromStringAndSize(NULL, <Py_ssize_t>output_size)
@@ -2644,14 +2644,14 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__encode(__Pyx_memvie
  *                                       <int>length,
  *                                       PyBytes_AsString(output_buf),
  */
-  __pyx_v_count = encode(((char const *)(&(*((uint8_t const  *) ( /* dim=0 */ (__pyx_v_data.data + __pyx_t_2 * __pyx_v_data.strides[0]) ))))), ((int)__pyx_v_length), __pyx_t_3, ((int)__pyx_v_output_size));
+  __pyx_v_count = encode(((char const *)(&(*((uint8_t const  *) ( /* dim=0 */ ((char *) (((uint8_t const  *) __pyx_v_data.data) + __pyx_t_2)) ))))), ((int)__pyx_v_length), __pyx_t_3, ((int)__pyx_v_output_size));
 
   /* "pybase16384/_core.pyx":31
  *                                       PyBytes_AsString(output_buf),
  *                                       <int>output_size) # encode
  *     return output_buf[:count]             # <<<<<<<<<<<<<<
  * 
- * cpdef inline bytes _decode(const uint8_t[:] data):
+ * cpdef inline bytes _decode(const uint8_t[::1] data):
  */
   __Pyx_XDECREF(__pyx_r);
   if (unlikely(__pyx_v_output_buf == Py_None)) {
@@ -2667,7 +2667,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__encode(__Pyx_memvie
   /* "pybase16384/_core.pyx":23
  *     return base16384.decode_len(dlen, offset)
  * 
- * cpdef inline bytes _encode(const uint8_t[:] data):             # <<<<<<<<<<<<<<
+ * cpdef inline bytes _encode(const uint8_t[::1] data):             # <<<<<<<<<<<<<<
  *     cdef size_t length = data.shape[0]
  *     cdef size_t output_size = <size_t>base16384.encode_len(<int>length) + 16
  */
@@ -2686,7 +2686,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__encode(__Pyx_memvie
 
 /* Python wrapper */
 static PyObject *__pyx_pw_11pybase16384_5_core_5_encode(PyObject *__pyx_self, PyObject *__pyx_arg_data); /*proto*/
-static char __pyx_doc_11pybase16384_5_core_4_encode[] = "_encode(const uint8_t[:] data) -> bytes";
+static char __pyx_doc_11pybase16384_5_core_4_encode[] = "_encode(const uint8_t[::1] data) -> bytes";
 static PyObject *__pyx_pw_11pybase16384_5_core_5_encode(PyObject *__pyx_self, PyObject *__pyx_arg_data) {
   __Pyx_memviewslice __pyx_v_data = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_lineno = 0;
@@ -2696,7 +2696,7 @@ static PyObject *__pyx_pw_11pybase16384_5_core_5_encode(PyObject *__pyx_self, Py
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_encode (wrapper)", 0);
   assert(__pyx_arg_data); {
-    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint8_t__const__(__pyx_arg_data, 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 23, __pyx_L3_error)
+    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t__const__(__pyx_arg_data, 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 23, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -2742,7 +2742,7 @@ static PyObject *__pyx_pf_11pybase16384_5_core_4_encode(CYTHON_UNUSED PyObject *
 /* "pybase16384/_core.pyx":33
  *     return output_buf[:count]
  * 
- * cpdef inline bytes _decode(const uint8_t[:] data):             # <<<<<<<<<<<<<<
+ * cpdef inline bytes _decode(const uint8_t[::1] data):             # <<<<<<<<<<<<<<
  *     cdef size_t length = data.shape[0]
  *     cdef size_t output_size = <size_t>base16384.decode_len(<int>length, 0) + 16
  */
@@ -2765,7 +2765,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__decode(__Pyx_memvie
 
   /* "pybase16384/_core.pyx":34
  * 
- * cpdef inline bytes _decode(const uint8_t[:] data):
+ * cpdef inline bytes _decode(const uint8_t[::1] data):
  *     cdef size_t length = data.shape[0]             # <<<<<<<<<<<<<<
  *     cdef size_t output_size = <size_t>base16384.decode_len(<int>length, 0) + 16
  *     cdef bytes output_buf = PyBytes_FromStringAndSize(NULL, <Py_ssize_t>output_size)
@@ -2773,7 +2773,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__decode(__Pyx_memvie
   __pyx_v_length = (__pyx_v_data.shape[0]);
 
   /* "pybase16384/_core.pyx":35
- * cpdef inline bytes _decode(const uint8_t[:] data):
+ * cpdef inline bytes _decode(const uint8_t[::1] data):
  *     cdef size_t length = data.shape[0]
  *     cdef size_t output_size = <size_t>base16384.decode_len(<int>length, 0) + 16             # <<<<<<<<<<<<<<
  *     cdef bytes output_buf = PyBytes_FromStringAndSize(NULL, <Py_ssize_t>output_size)
@@ -2818,14 +2818,14 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__decode(__Pyx_memvie
  *                                       <int> length,
  *                                       PyBytes_AsString(output_buf),
  */
-  __pyx_v_count = decode(((char const *)(&(*((uint8_t const  *) ( /* dim=0 */ (__pyx_v_data.data + __pyx_t_2 * __pyx_v_data.strides[0]) ))))), ((int)__pyx_v_length), __pyx_t_3, ((int)__pyx_v_output_size));
+  __pyx_v_count = decode(((char const *)(&(*((uint8_t const  *) ( /* dim=0 */ ((char *) (((uint8_t const  *) __pyx_v_data.data) + __pyx_t_2)) ))))), ((int)__pyx_v_length), __pyx_t_3, ((int)__pyx_v_output_size));
 
   /* "pybase16384/_core.pyx":41
  *                                       PyBytes_AsString(output_buf),
  *                                       <int> output_size)  # decode
  *     return output_buf[:count]             # <<<<<<<<<<<<<<
  * 
- * cpdef inline int _encode_into(const uint8_t[:] data, uint8_t[:] dest):
+ * cpdef inline int _encode_into(const uint8_t[::1] data, uint8_t[::1] dest):
  */
   __Pyx_XDECREF(__pyx_r);
   if (unlikely(__pyx_v_output_buf == Py_None)) {
@@ -2841,7 +2841,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__decode(__Pyx_memvie
   /* "pybase16384/_core.pyx":33
  *     return output_buf[:count]
  * 
- * cpdef inline bytes _decode(const uint8_t[:] data):             # <<<<<<<<<<<<<<
+ * cpdef inline bytes _decode(const uint8_t[::1] data):             # <<<<<<<<<<<<<<
  *     cdef size_t length = data.shape[0]
  *     cdef size_t output_size = <size_t>base16384.decode_len(<int>length, 0) + 16
  */
@@ -2860,7 +2860,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_5_core__decode(__Pyx_memvie
 
 /* Python wrapper */
 static PyObject *__pyx_pw_11pybase16384_5_core_7_decode(PyObject *__pyx_self, PyObject *__pyx_arg_data); /*proto*/
-static char __pyx_doc_11pybase16384_5_core_6_decode[] = "_decode(const uint8_t[:] data) -> bytes";
+static char __pyx_doc_11pybase16384_5_core_6_decode[] = "_decode(const uint8_t[::1] data) -> bytes";
 static PyObject *__pyx_pw_11pybase16384_5_core_7_decode(PyObject *__pyx_self, PyObject *__pyx_arg_data) {
   __Pyx_memviewslice __pyx_v_data = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_lineno = 0;
@@ -2870,7 +2870,7 @@ static PyObject *__pyx_pw_11pybase16384_5_core_7_decode(PyObject *__pyx_self, Py
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_decode (wrapper)", 0);
   assert(__pyx_arg_data); {
-    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint8_t__const__(__pyx_arg_data, 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 33, __pyx_L3_error)
+    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t__const__(__pyx_arg_data, 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 33, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -2916,7 +2916,7 @@ static PyObject *__pyx_pf_11pybase16384_5_core_6_decode(CYTHON_UNUSED PyObject *
 /* "pybase16384/_core.pyx":43
  *     return output_buf[:count]
  * 
- * cpdef inline int _encode_into(const uint8_t[:] data, uint8_t[:] dest):             # <<<<<<<<<<<<<<
+ * cpdef inline int _encode_into(const uint8_t[::1] data, uint8_t[::1] dest):             # <<<<<<<<<<<<<<
  *     cdef size_t input_size = data.shape[0]
  *     cdef size_t output_size = <size_t> base16384.encode_len(<int> input_size)
  */
@@ -2939,7 +2939,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__encode_into(__Pyx_memview
 
   /* "pybase16384/_core.pyx":44
  * 
- * cpdef inline int _encode_into(const uint8_t[:] data, uint8_t[:] dest):
+ * cpdef inline int _encode_into(const uint8_t[::1] data, uint8_t[::1] dest):
  *     cdef size_t input_size = data.shape[0]             # <<<<<<<<<<<<<<
  *     cdef size_t output_size = <size_t> base16384.encode_len(<int> input_size)
  *     cdef size_t output_buf_size = dest.shape[0]
@@ -2947,7 +2947,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__encode_into(__Pyx_memview
   __pyx_v_input_size = (__pyx_v_data.shape[0]);
 
   /* "pybase16384/_core.pyx":45
- * cpdef inline int _encode_into(const uint8_t[:] data, uint8_t[:] dest):
+ * cpdef inline int _encode_into(const uint8_t[::1] data, uint8_t[::1] dest):
  *     cdef size_t input_size = data.shape[0]
  *     cdef size_t output_size = <size_t> base16384.encode_len(<int> input_size)             # <<<<<<<<<<<<<<
  *     cdef size_t output_buf_size = dest.shape[0]
@@ -3021,13 +3021,13 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__encode_into(__Pyx_memview
  *                                       <int> input_size,
  *                                       <char *> &dest[0],
  */
-  __pyx_r = encode(((char const *)(&(*((uint8_t const  *) ( /* dim=0 */ (__pyx_v_data.data + __pyx_t_3 * __pyx_v_data.strides[0]) ))))), ((int)__pyx_v_input_size), ((char *)(&(*((uint8_t *) ( /* dim=0 */ (__pyx_v_dest.data + __pyx_t_4 * __pyx_v_dest.strides[0]) ))))), ((int)__pyx_v_output_buf_size));
+  __pyx_r = encode(((char const *)(&(*((uint8_t const  *) ( /* dim=0 */ ((char *) (((uint8_t const  *) __pyx_v_data.data) + __pyx_t_3)) ))))), ((int)__pyx_v_input_size), ((char *)(&(*((uint8_t *) ( /* dim=0 */ ((char *) (((uint8_t *) __pyx_v_dest.data) + __pyx_t_4)) ))))), ((int)__pyx_v_output_buf_size));
   goto __pyx_L0;
 
   /* "pybase16384/_core.pyx":43
  *     return output_buf[:count]
  * 
- * cpdef inline int _encode_into(const uint8_t[:] data, uint8_t[:] dest):             # <<<<<<<<<<<<<<
+ * cpdef inline int _encode_into(const uint8_t[::1] data, uint8_t[::1] dest):             # <<<<<<<<<<<<<<
  *     cdef size_t input_size = data.shape[0]
  *     cdef size_t output_size = <size_t> base16384.encode_len(<int> input_size)
  */
@@ -3044,7 +3044,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__encode_into(__Pyx_memview
 
 /* Python wrapper */
 static PyObject *__pyx_pw_11pybase16384_5_core_9_encode_into(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_11pybase16384_5_core_8_encode_into[] = "_encode_into(const uint8_t[:] data, uint8_t[:] dest) -> int";
+static char __pyx_doc_11pybase16384_5_core_8_encode_into[] = "_encode_into(const uint8_t[::1] data, uint8_t[::1] dest) -> int";
 static PyObject *__pyx_pw_11pybase16384_5_core_9_encode_into(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   __Pyx_memviewslice __pyx_v_data = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_dest = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -3089,8 +3089,8 @@ static PyObject *__pyx_pw_11pybase16384_5_core_9_encode_into(PyObject *__pyx_sel
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint8_t__const__(values[0], 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 43, __pyx_L3_error)
-    __pyx_v_dest = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint8_t(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_dest.memview)) __PYX_ERR(0, 43, __pyx_L3_error)
+    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t__const__(values[0], 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 43, __pyx_L3_error)
+    __pyx_v_dest = __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_dest.memview)) __PYX_ERR(0, 43, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -3140,7 +3140,7 @@ static PyObject *__pyx_pf_11pybase16384_5_core_8_encode_into(CYTHON_UNUSED PyObj
 /* "pybase16384/_core.pyx":54
  *                                       <int> output_buf_size)
  * 
- * cpdef inline int _decode_into(const uint8_t[:] data, uint8_t[:] dest):             # <<<<<<<<<<<<<<
+ * cpdef inline int _decode_into(const uint8_t[::1] data, uint8_t[::1] dest):             # <<<<<<<<<<<<<<
  *     cdef size_t input_size = data.shape[0]
  *     cdef size_t output_size = <size_t> base16384.decode_len(<int> input_size, 0)
  */
@@ -3163,7 +3163,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__decode_into(__Pyx_memview
 
   /* "pybase16384/_core.pyx":55
  * 
- * cpdef inline int _decode_into(const uint8_t[:] data, uint8_t[:] dest):
+ * cpdef inline int _decode_into(const uint8_t[::1] data, uint8_t[::1] dest):
  *     cdef size_t input_size = data.shape[0]             # <<<<<<<<<<<<<<
  *     cdef size_t output_size = <size_t> base16384.decode_len(<int> input_size, 0)
  *     cdef size_t output_buf_size = dest.shape[0]
@@ -3171,7 +3171,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__decode_into(__Pyx_memview
   __pyx_v_input_size = (__pyx_v_data.shape[0]);
 
   /* "pybase16384/_core.pyx":56
- * cpdef inline int _decode_into(const uint8_t[:] data, uint8_t[:] dest):
+ * cpdef inline int _decode_into(const uint8_t[::1] data, uint8_t[::1] dest):
  *     cdef size_t input_size = data.shape[0]
  *     cdef size_t output_size = <size_t> base16384.decode_len(<int> input_size, 0)             # <<<<<<<<<<<<<<
  *     cdef size_t output_buf_size = dest.shape[0]
@@ -3245,13 +3245,13 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__decode_into(__Pyx_memview
  *                                       <int> input_size,
  *                                       <char *> &dest[0],
  */
-  __pyx_r = decode(((char const *)(&(*((uint8_t const  *) ( /* dim=0 */ (__pyx_v_data.data + __pyx_t_3 * __pyx_v_data.strides[0]) ))))), ((int)__pyx_v_input_size), ((char *)(&(*((uint8_t *) ( /* dim=0 */ (__pyx_v_dest.data + __pyx_t_4 * __pyx_v_dest.strides[0]) ))))), ((int)__pyx_v_output_buf_size));
+  __pyx_r = decode(((char const *)(&(*((uint8_t const  *) ( /* dim=0 */ ((char *) (((uint8_t const  *) __pyx_v_data.data) + __pyx_t_3)) ))))), ((int)__pyx_v_input_size), ((char *)(&(*((uint8_t *) ( /* dim=0 */ ((char *) (((uint8_t *) __pyx_v_dest.data) + __pyx_t_4)) ))))), ((int)__pyx_v_output_buf_size));
   goto __pyx_L0;
 
   /* "pybase16384/_core.pyx":54
  *                                       <int> output_buf_size)
  * 
- * cpdef inline int _decode_into(const uint8_t[:] data, uint8_t[:] dest):             # <<<<<<<<<<<<<<
+ * cpdef inline int _decode_into(const uint8_t[::1] data, uint8_t[::1] dest):             # <<<<<<<<<<<<<<
  *     cdef size_t input_size = data.shape[0]
  *     cdef size_t output_size = <size_t> base16384.decode_len(<int> input_size, 0)
  */
@@ -3268,7 +3268,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core__decode_into(__Pyx_memview
 
 /* Python wrapper */
 static PyObject *__pyx_pw_11pybase16384_5_core_11_decode_into(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_11pybase16384_5_core_10_decode_into[] = "_decode_into(const uint8_t[:] data, uint8_t[:] dest) -> int";
+static char __pyx_doc_11pybase16384_5_core_10_decode_into[] = "_decode_into(const uint8_t[::1] data, uint8_t[::1] dest) -> int";
 static PyObject *__pyx_pw_11pybase16384_5_core_11_decode_into(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   __Pyx_memviewslice __pyx_v_data = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_dest = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -3313,8 +3313,8 @@ static PyObject *__pyx_pw_11pybase16384_5_core_11_decode_into(PyObject *__pyx_se
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint8_t__const__(values[0], 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 54, __pyx_L3_error)
-    __pyx_v_dest = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint8_t(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_dest.memview)) __PYX_ERR(0, 54, __pyx_L3_error)
+    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t__const__(values[0], 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 54, __pyx_L3_error)
+    __pyx_v_dest = __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_dest.memview)) __PYX_ERR(0, 54, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -4985,6 +4985,7 @@ static PyObject *__pyx_pf_11pybase16384_5_core_14decode_file(CYTHON_UNUSED PyObj
  * 
  * cpdef inline bint is_64bits():             # <<<<<<<<<<<<<<
  *     return base16384.pybase16384_64bits()
+ * 
  */
 
 static PyObject *__pyx_pw_11pybase16384_5_core_17is_64bits(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
@@ -4997,6 +4998,8 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core_is_64bits(CYTHON_UNUSED in
  * 
  * cpdef inline bint is_64bits():
  *     return base16384.pybase16384_64bits()             # <<<<<<<<<<<<<<
+ * 
+ * 
  */
   __pyx_r = pybase16384_64bits();
   goto __pyx_L0;
@@ -5006,6 +5009,7 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core_is_64bits(CYTHON_UNUSED in
  * 
  * cpdef inline bint is_64bits():             # <<<<<<<<<<<<<<
  *     return base16384.pybase16384_64bits()
+ * 
  */
 
   /* function exit code */
@@ -22937,17 +22941,17 @@ no_fail:
 }
 
 /* ObjectToMemviewSlice */
-  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint8_t__const__(PyObject *obj, int writable_flag) {
+  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t__const__(PyObject *obj, int writable_flag) {
     __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
     __Pyx_BufFmt_StackElem stack[1];
-    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED) };
+    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_CONTIG) };
     int retcode;
     if (obj == Py_None) {
         result.memview = (struct __pyx_memoryview_obj *) Py_None;
         return result;
     }
-    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, 0,
-                                                 PyBUF_RECORDS_RO | writable_flag, 1,
+    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, __Pyx_IS_C_CONTIG,
+                                                 (PyBUF_C_CONTIGUOUS | PyBUF_FORMAT) | writable_flag, 1,
                                                  &__Pyx_TypeInfo_nn_uint8_t__const__, stack,
                                                  &result, obj);
     if (unlikely(retcode == -1))
@@ -22960,17 +22964,17 @@ __pyx_fail:
 }
 
 /* ObjectToMemviewSlice */
-  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint8_t(PyObject *obj, int writable_flag) {
+  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t(PyObject *obj, int writable_flag) {
     __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
     __Pyx_BufFmt_StackElem stack[1];
-    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED) };
+    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_CONTIG) };
     int retcode;
     if (obj == Py_None) {
         result.memview = (struct __pyx_memoryview_obj *) Py_None;
         return result;
     }
-    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, 0,
-                                                 PyBUF_RECORDS_RO | writable_flag, 1,
+    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, __Pyx_IS_C_CONTIG,
+                                                 (PyBUF_C_CONTIGUOUS | PyBUF_FORMAT) | writable_flag, 1,
                                                  &__Pyx_TypeInfo_nn_uint8_t, stack,
                                                  &result, obj);
     if (unlikely(retcode == -1))
