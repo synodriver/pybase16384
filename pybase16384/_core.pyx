@@ -3,7 +3,7 @@
 from libc.stdint cimport uint8_t, int32_t
 
 from cpython.object cimport PyObject_HasAttrString
-from cpython.bytes cimport PyBytes_Check, PyBytes_AsString, PyBytes_Size
+from cpython.bytes cimport PyBytes_Check, PyBytes_AsString, PyBytes_Size, PyBytes_FromStringAndSize
 from cpython.mem cimport PyMem_Malloc, PyMem_Free
 
 from pybase16384 cimport base16384
@@ -23,30 +23,22 @@ cpdef inline int decode_len(int dlen, int offset):
 cpdef inline bytes _encode(const uint8_t[:] data):
     cdef size_t length = data.shape[0]
     cdef size_t output_size = <size_t>base16384.encode_len(<int>length) + 16
-    cdef char *output_buf = <char*>PyMem_Malloc(output_size)
-    if output_buf == NULL:
-        raise MemoryError
+    cdef bytes output_buf = PyBytes_FromStringAndSize(NULL, <Py_ssize_t>output_size)
     cdef int count = base16384.encode(<const char*> &data[0],
                                       <int>length,
-                                      output_buf,
+                                      PyBytes_AsString(output_buf),
                                       <int>output_size) # encode 整数倍的那个
-    ret = <bytes>output_buf[:count]
-    PyMem_Free(output_buf)
-    return ret
+    return output_buf[:count]
 
 cpdef inline bytes _decode(const uint8_t[:] data):
     cdef size_t length = data.shape[0]
     cdef size_t output_size = <size_t>base16384.decode_len(<int>length, 0) + 16
-    cdef char *output_buf = <char *> PyMem_Malloc(output_size)
-    if output_buf == NULL:
-        raise MemoryError
+    cdef bytes output_buf = PyBytes_FromStringAndSize(NULL, <Py_ssize_t>output_size)
     cdef int count = base16384.decode(<const char *> &data[0],
                                       <int> length,
-                                      output_buf,
+                                      PyBytes_AsString(output_buf),
                                       <int> output_size)  # decode
-    ret = <bytes> output_buf[:count]
-    PyMem_Free(output_buf)
-    return ret
+    return output_buf[:count]
 
 cpdef inline int _encode_into(const uint8_t[:] data, uint8_t[:] dest):
     cdef size_t input_size = data.shape[0]

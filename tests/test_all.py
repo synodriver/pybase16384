@@ -7,7 +7,7 @@ import pybase16384 as bs
 
 
 class Test(TestCase):
-    def test_fvarlength(self):
+    def test_varlength(self):
         value = b"="
         for i in range(1000):
             value += b"x"
@@ -36,6 +36,14 @@ class Test(TestCase):
             self.assertEqual(bs.is_64bits(), True)
         else:
             self.assertEqual(bs.is_64bits(), False)
+
+    def test_encode(self):
+        dst = bytearray(300)
+        for i in range(10000):
+            length = randint(1, 200)
+            value = bytes([randint(0, 255) for _ in range(length)])
+            cnt = bs._encode_into(value, dst)
+            self.assertEqual(bytes(dst[:cnt]), bs._encode(value))
 
 
 if __name__ == "__main__":
