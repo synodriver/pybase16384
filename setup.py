@@ -51,7 +51,7 @@ else:
 
 print(macro_base)
 extensions = [
-    Extension("pybase16384._core", ["pybase16384/_core.pyx", f'./base16384/base14{CPUBIT}.c', "./base16384/base14.c"],
+    Extension("pybase16384._core", ["pybase16384/_core.pyx", f'./base16384/base14{CPUBIT}.c'],
               include_dirs=[f"./base16384"],
               library_dirs=[f"./base16384"],
               define_macros=macro_base

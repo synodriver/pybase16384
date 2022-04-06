@@ -23,8 +23,7 @@
         "name": "pybase16384._core",
         "sources": [
             "pybase16384/_core.pyx",
-            "./base16384/base1464.c",
-            "./base16384/base14.c"
+            "./base16384/base1464.c"
         ]
     },
     "module_name": "pybase16384._core"
@@ -4985,7 +4984,6 @@ static PyObject *__pyx_pf_11pybase16384_5_core_14decode_file(CYTHON_UNUSED PyObj
  * 
  * cpdef inline bint is_64bits():             # <<<<<<<<<<<<<<
  *     return base16384.pybase16384_64bits()
- * 
  */
 
 static PyObject *__pyx_pw_11pybase16384_5_core_17is_64bits(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
@@ -4998,8 +4996,6 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core_is_64bits(CYTHON_UNUSED in
  * 
  * cpdef inline bint is_64bits():
  *     return base16384.pybase16384_64bits()             # <<<<<<<<<<<<<<
- * 
- * 
  */
   __pyx_r = pybase16384_64bits();
   goto __pyx_L0;
@@ -5009,7 +5005,6 @@ static CYTHON_INLINE int __pyx_f_11pybase16384_5_core_is_64bits(CYTHON_UNUSED in
  * 
  * cpdef inline bint is_64bits():             # <<<<<<<<<<<<<<
  *     return base16384.pybase16384_64bits()
- * 
  */
 
   /* function exit code */
