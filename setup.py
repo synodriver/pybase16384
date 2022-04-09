@@ -93,7 +93,7 @@ def main():
         install_requires=["cython"],
         license='GPLv3',
         classifiers=[
-            "Development Status :: 4 - Beta",
+            "Development Status :: 5 - Stable",
             "Operating System :: OS Independent",
             "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
             "Topic :: Security :: Cryptography",
