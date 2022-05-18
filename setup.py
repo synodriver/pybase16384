@@ -26,18 +26,14 @@ class build_ext_compiler_check(build_ext):
         super().build_extensions()
 
 
-if sys.maxsize > 2 ** 32:  # 64位
-    CPUBIT = 64
-else:
-    CPUBIT = 32
-
+CPUBIT = 64 if sys.maxsize > 2 ** 32 else 32
 system = platform.system()
-if system == "Windows":
-    macro_base = [("_WIN64", None)]
+if system == "Darwin":
+    macro_base = [("__MAC_10_0", None)]
 elif system == "Linux":
     macro_base = [("__linux__", None)]
-elif system == "Darwin":
-    macro_base = [("__MAC_10_0", None)]
+elif system == "Windows":
+    macro_base = [("_WIN64", None)]
 else:
     macro_base = []
 
@@ -51,11 +47,13 @@ else:
 
 print(macro_base)
 extensions = [
-    Extension("pybase16384._core", ["pybase16384/_core.pyx", f'./base16384/base14{CPUBIT}.c'],
-              include_dirs=[f"./base16384"],
-              library_dirs=[f"./base16384"],
-              define_macros=macro_base
-              ),
+    Extension(
+        "pybase16384._core",
+        ["pybase16384/_core.pyx", f'./base16384/base14{CPUBIT}.c'],
+        include_dirs=["./base16384"],
+        library_dirs=["./base16384"],
+        define_macros=macro_base,
+    )
 ]
 
 

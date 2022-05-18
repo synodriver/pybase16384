@@ -9,14 +9,14 @@ import pybase16384 as bs
 class Test(TestCase):
     def test_varlength(self):
         value = b"="
-        for i in range(1000):
+        for _ in range(1000):
             value += b"x"
             self.assertEqual(bs.decode(bs.encode(value)), value)
 
     def test_rand(self):
-        for i in range(10000):
+        for _ in range(10000):
             length = randint(1, 1000)
-            value = bytes([randint(0, 255) for _ in range(length)])
+            value = bytes(randint(0, 255) for _ in range(length))
             self.assertEqual(bs.decode(bs.encode(value)), value)
 
     def test_chn(self):
@@ -25,9 +25,9 @@ class Test(TestCase):
 
     def test_zerocopy(self):
         dst = bytearray(300)
-        for i in range(10000):
+        for _ in range(10000):
             length = randint(1, 200)
-            value = bytes([randint(0, 255) for _ in range(length)])
+            value = bytes(randint(0, 255) for _ in range(length))
             cnt = bs._encode_into(value, dst)
             self.assertEqual(bs.decode(dst[:cnt]), value)
 
@@ -39,9 +39,9 @@ class Test(TestCase):
 
     def test_encode(self):
         dst = bytearray(300)
-        for i in range(10000):
+        for _ in range(10000):
             length = randint(1, 200)
-            value = bytes([randint(0, 255) for _ in range(length)])
+            value = bytes(randint(0, 255) for _ in range(length))
             cnt = bs._encode_into(value, dst)
             self.assertEqual(bytes(dst[:cnt]), bs._encode(value))
 
