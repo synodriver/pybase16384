@@ -1,7 +1,7 @@
 # cython: language_level=3
 # cython: cdivision=True
 from libc.stdint cimport uint8_t, int32_t
-cdef extern from "base14.h" nogil:
+cdef extern from "base16384.h" nogil:
     # encode_len calc min buf size to fill encode result
     int encode_len(int dlen)
 # decode_len calc min buf size to fill decode result
