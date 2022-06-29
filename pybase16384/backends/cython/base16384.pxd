@@ -1,16 +1,18 @@
 # cython: language_level=3
 # cython: cdivision=True
-from libc.stdint cimport uint8_t, int32_t
+from libc.stdint cimport int32_t
+
+
 cdef extern from "base16384.h" nogil:
     # encode_len calc min buf size to fill encode result
-    int encode_len(int dlen)
+    int b14_encode_len "encode_len" (int dlen)
 # decode_len calc min buf size to fill decode result
-    int decode_len(int dlen, int offset)
+    int b14_decode_len "decode_len" (int dlen, int offset)
 
 # encode data and write result into buf
-    int encode(const char* data, int dlen, char* buf, int blen)
+    int b14_encode "encode" (const char* data, int dlen, char* buf, int blen)
 # decode data and write result into buf
-    int decode(const char* data, int dlen, char* buf, int blen)
+    int b14_decode "decode" (const char* data, int dlen, char* buf, int blen)
 
 cdef extern from * nogil:
     """

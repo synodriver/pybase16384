@@ -1,15 +1,31 @@
 from io import BytesIO
-from pybase16384._core import (_encode,
-                               _decode,
-                               _encode_into,
-                               _decode_into,
-                               encode_len,
-                               decode_len,
-                               encode_file,
-                               decode_file,
-                               is_64bits)
 
-__version__ = "0.2.3"
+try:
+    from pybase16384.backends.cython import (
+        _decode,
+        _decode_into,
+        _encode,
+        _encode_into,
+        decode_file,
+        decode_len,
+        encode_file,
+        encode_len,
+        is_64bits,
+    )
+except ImportError:
+    from pybase16384.backends.cffi import (
+        _decode,
+        _decode_into,
+        _encode,
+        _encode_into,
+        decode_file,
+        decode_len,
+        encode_file,
+        encode_len,
+        is_64bits,
+    )
+
+__version__ = "0.3.0.dev1"
 
 
 def encode(data: bytes) -> bytes:

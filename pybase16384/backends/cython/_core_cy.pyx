@@ -1,12 +1,12 @@
 # cython: language_level=3
 # cython: cdivision=True
-from libc.stdint cimport uint8_t, int32_t
-
+from cpython.bytes cimport PyBytes_AS_STRING, PyBytes_Check, PyBytes_Size
+from cpython.mem cimport PyMem_Free, PyMem_Malloc
 from cpython.object cimport PyObject_HasAttrString
-from cpython.bytes cimport PyBytes_Check, PyBytes_AS_STRING, PyBytes_Size
-from cpython.mem cimport PyMem_Malloc, PyMem_Free
+from libc.stdint cimport int32_t, uint8_t
 
-from pybase16384 cimport base16384
+from .base16384 cimport b14_encode_len, b14_decode_len, b14_encode, b14_decode, pybase16384_64bits
+
 
 cdef inline uint8_t PyFile_Check(object file):
     if PyObject_HasAttrString(file, "read") and PyObject_HasAttrString(file, "write") and PyObject_HasAttrString(file,
@@ -15,18 +15,18 @@ cdef inline uint8_t PyFile_Check(object file):
     return 0
 
 cpdef inline int encode_len(int dlen):
-    return base16384.encode_len(dlen)
+    return b14_encode_len(dlen)
 
 cpdef inline int decode_len(int dlen, int offset):
-    return base16384.decode_len(dlen, offset)
+    return b14_decode_len(dlen, offset)
 
 cpdef inline bytes _encode(const uint8_t[::1] data):
     cdef size_t length = data.shape[0]
-    cdef size_t output_size = <size_t>base16384.encode_len(<int>length) + 16
+    cdef size_t output_size = <size_t> b14_encode_len(<int>length) + 16
     cdef char *output_buf = <char*>PyMem_Malloc(output_size)
     if output_buf == NULL:
         raise MemoryError
-    cdef int count = base16384.encode(<const char*> &data[0],
+    cdef int count = b14_encode(<const char*> &data[0],
                                       <int>length,
                                       output_buf,
                                       <int>output_size) # encode 整数倍的那个
@@ -36,11 +36,11 @@ cpdef inline bytes _encode(const uint8_t[::1] data):
 
 cpdef inline bytes _decode(const uint8_t[::1] data):
     cdef size_t length = data.shape[0]
-    cdef size_t output_size = <size_t>base16384.decode_len(<int>length, 0) + 16
+    cdef size_t output_size = <size_t> b14_decode_len(<int>length, 0) + 16
     cdef char *output_buf = <char *> PyMem_Malloc(output_size)
     if output_buf == NULL:
         raise MemoryError
-    cdef int count = base16384.decode(<const char *> &data[0],
+    cdef int count = b14_decode(<const char *> &data[0],
                                       <int> length,
                                       output_buf,
                                       <int> output_size)  # decode
@@ -50,25 +50,25 @@ cpdef inline bytes _decode(const uint8_t[::1] data):
 
 cpdef inline int _encode_into(const uint8_t[::1] data, uint8_t[::1] dest):
     cdef size_t input_size = data.shape[0]
-    cdef size_t output_size = <size_t> base16384.encode_len(<int> input_size)
+    cdef size_t output_size = <size_t> b14_encode_len(<int> input_size)
     cdef size_t output_buf_size = dest.shape[0]
     if output_buf_size < output_size:
         raise ValueError("Buffer is too small to hold result")
-    return base16384.encode(<const char *> &data[0],
-                                      <int> input_size,
-                                      <char *> &dest[0],
-                                      <int> output_buf_size)
+    return b14_encode(<const char *> &data[0],
+                            <int> input_size,
+                            <char *> &dest[0],
+                            <int> output_buf_size)
 
 cpdef inline int _decode_into(const uint8_t[::1] data, uint8_t[::1] dest):
     cdef size_t input_size = data.shape[0]
-    cdef size_t output_size = <size_t> base16384.decode_len(<int> input_size, 0)
+    cdef size_t output_size = <size_t> b14_decode_len(<int> input_size, 0)
     cdef size_t output_buf_size = dest.shape[0]
     if output_buf_size < output_size:
         raise ValueError("Buffer is too small to hold result")
-    return base16384.decode(<const char *> &data[0],
-                                      <int> input_size,
-                                      <char *> &dest[0],
-                                      <int> output_buf_size)
+    return b14_decode(<const char *> &data[0],
+                            <int> input_size,
+                            <char *> &dest[0],
+                            <int> output_buf_size)
 
 
 cpdef inline void encode_file(object input,
@@ -86,7 +86,7 @@ cpdef inline void encode_file(object input,
         output.write(b'\xfe\xff')
 
     cdef int32_t current_buf_len = buf_rate * 7  # 一次读取这么多字节
-    cdef size_t output_size = <size_t> base16384.encode_len(<int> current_buf_len) + 16 # 因为encode_len不是单调的 这16备用
+    cdef size_t output_size = <size_t> b14_encode_len(<int> current_buf_len) + 16 # 因为encode_len不是单调的 这16备用
     cdef char *output_buf = <char *> PyMem_Malloc(output_size)
     if output_buf == NULL:
         raise MemoryError
@@ -108,7 +108,7 @@ cpdef inline void encode_file(object input,
                 input.seek(-size, 1)
                 continue
 
-        count = base16384.encode(<const char*>PyBytes_AS_STRING(chunk), <int>size, output_buf, <int> output_size)
+        count = b14_encode(<const char*>PyBytes_AS_STRING(chunk), <int>size, output_buf, <int> output_size)
         output.write(<bytes>output_buf[:count])
         if size < 7:
             break
@@ -133,7 +133,7 @@ cpdef inline void decode_file(object input,
         input.seek(0, 0)  # 没有头 回到开头
 
     cdef int32_t current_buf_len = buf_rate * 8
-    cdef size_t output_size = <size_t> base16384.decode_len(<int> current_buf_len, 0) + 16
+    cdef size_t output_size = <size_t> b14_decode_len(<int> current_buf_len, 0) + 16
     cdef char *output_buf = <char *> PyMem_Malloc(output_size)
     if output_buf == NULL:
         raise MemoryError
@@ -158,9 +158,9 @@ cpdef inline void decode_file(object input,
             else:
                 input.seek(-2, 1)
 
-        count = base16384.decode(<const char *> PyBytes_AS_STRING(chunk), <int> size, output_buf, <int> output_size)
+        count = b14_decode(<const char *> PyBytes_AS_STRING(chunk), <int> size, output_buf, <int> output_size)
         output.write(<bytes>output_buf[:count])
     PyMem_Free(output_buf)
 
 cpdef inline bint is_64bits():
-    return base16384.pybase16384_64bits()
+    return pybase16384_64bits()

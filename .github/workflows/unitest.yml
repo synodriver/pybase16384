@@ -29,7 +29,7 @@ jobs:
         pip install cython
     - name: build_whl
       run: |
-        python setup.py install
+        python setup.py install --use-cython --use-cffi
     - name: Test with unitest
       run: |
         cd tests
