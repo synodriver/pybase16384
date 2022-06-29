@@ -99,10 +99,10 @@ def is_64bits() -> bool: ...
 - ```_decode```在解码```b'='```开头的数据时***不安全***：***解释器异常***
 - ```_encode_into```和```_decode_into```直接操作缓冲区对象的底层指针，0拷贝，当然也和上面一样的问题，他们是没有检查的
 
-## v0.3更新
+### ✨  v0.3更新 ✨ 
 融合了 [CFFI](https://github.com/synodriver/pybase16384-cffi) 版本的成果，现在一个包可以同时在cpython和pypy上运行
 
-## 本机编译
+### 本机编译
 ```
 python -m pip install setuptools wheel cython cffi
 git clone https://github.com/synodriver/pybase16384
@@ -110,3 +110,6 @@ cd pybase16384
 git submodule update --init --recursive
 python setup.py bdist_wheel --use-cython --use-cffi
 ```
+
+### 后端选择
+默认由py实现决定，在cpython上自动选择cython后端，在pypy上自动选择cffi后端，使用```B14_USE_CFFI```环境变量可以强制选择cffi

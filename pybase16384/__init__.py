@@ -1,6 +1,21 @@
+import os
+import platform
 from io import BytesIO
 
-try:
+impl = platform.python_implementation()
+
+
+def _should_use_cffi() -> bool:
+    ev = os.getenv("B14_USE_CFFI")
+    if ev is not None:
+        return True
+    if impl == "CPython":
+        return False
+    else:
+        return True
+
+
+if not _should_use_cffi():
     from pybase16384.backends.cython import (
         _decode,
         _decode_into,
@@ -12,7 +27,7 @@ try:
         encode_len,
         is_64bits,
     )
-except ImportError:
+else:
     from pybase16384.backends.cffi import (
         _decode,
         _decode_into,

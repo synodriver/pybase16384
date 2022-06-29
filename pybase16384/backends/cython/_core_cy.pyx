@@ -5,7 +5,8 @@ from cpython.mem cimport PyMem_Free, PyMem_Malloc
 from cpython.object cimport PyObject_HasAttrString
 from libc.stdint cimport int32_t, uint8_t
 
-from .base16384 cimport b14_encode_len, b14_decode_len, b14_encode, b14_decode, pybase16384_64bits
+from .base16384 cimport (b14_decode, b14_decode_len, b14_encode,
+                         b14_encode_len, pybase16384_64bits)
 
 
 cdef inline uint8_t PyFile_Check(object file):

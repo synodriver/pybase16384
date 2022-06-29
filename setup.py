@@ -30,7 +30,7 @@ class build_ext_compiler_check(build_ext):
         super().build_extensions()
 
 
-if sys.maxsize > 2 ** 32:  # 64位
+if sys.maxsize > 2**32:  # 64位
     CPUBIT = 64
 else:
     CPUBIT = 32
@@ -145,6 +145,7 @@ def main():
             "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
             "Programming Language :: Python :: Implementation :: CPython",
+            "Programming Language :: Python :: Implementation :: PyPy",
         ],
         include_package_data=True,
         zip_safe=False,
