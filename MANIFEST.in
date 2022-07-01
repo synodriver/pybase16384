@@ -1,2 +1,3 @@
 recursive-include pybase16384  *
 recursive-include base16384 *
+include README.markdown
