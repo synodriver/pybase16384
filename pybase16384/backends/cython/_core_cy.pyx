@@ -15,10 +15,10 @@ cdef inline uint8_t PyFile_Check(object file):
         return 1
     return 0
 
-cpdef inline int encode_len(int dlen):
+cpdef inline int encode_len(int dlen) nogil:
     return b14_encode_len(dlen)
 
-cpdef inline int decode_len(int dlen, int offset):
+cpdef inline int decode_len(int dlen, int offset) nogil:
     return b14_decode_len(dlen, offset)
 
 cpdef inline bytes _encode(const uint8_t[::1] data):
@@ -27,10 +27,12 @@ cpdef inline bytes _encode(const uint8_t[::1] data):
     cdef char *output_buf = <char*>PyMem_Malloc(output_size)
     if output_buf == NULL:
         raise MemoryError
-    cdef int count = b14_encode(<const char*> &data[0],
-                                      <int>length,
-                                      output_buf,
-                                      <int>output_size) # encode 整数倍的那个
+    cdef int count
+    with nogil:
+        count = b14_encode(<const char*> &data[0],
+                                        <int>length,
+                                        output_buf,
+                                        <int>output_size) # encode 整数倍的那个
     ret = <bytes>output_buf[:count]
     PyMem_Free(output_buf)
     return ret
@@ -41,10 +43,12 @@ cpdef inline bytes _decode(const uint8_t[::1] data):
     cdef char *output_buf = <char *> PyMem_Malloc(output_size)
     if output_buf == NULL:
         raise MemoryError
-    cdef int count = b14_decode(<const char *> &data[0],
-                                      <int> length,
-                                      output_buf,
-                                      <int> output_size)  # decode
+    cdef int count
+    with nogil:
+        count = b14_decode(<const char *> &data[0],
+                                        <int> length,
+                                        output_buf,
+                                        <int> output_size)  # decode
     ret = <bytes> output_buf[:count]
     PyMem_Free(output_buf)
     return ret
@@ -55,10 +59,11 @@ cpdef inline int _encode_into(const uint8_t[::1] data, uint8_t[::1] dest):
     cdef size_t output_buf_size = dest.shape[0]
     if output_buf_size < output_size:
         raise ValueError("Buffer is too small to hold result")
-    return b14_encode(<const char *> &data[0],
-                            <int> input_size,
-                            <char *> &dest[0],
-                            <int> output_buf_size)
+    with nogil:
+        return b14_encode(<const char *> &data[0],
+                                <int> input_size,
+                                <char *> &dest[0],
+                                <int> output_buf_size)
 
 cpdef inline int _decode_into(const uint8_t[::1] data, uint8_t[::1] dest):
     cdef size_t input_size = data.shape[0]
@@ -66,16 +71,17 @@ cpdef inline int _decode_into(const uint8_t[::1] data, uint8_t[::1] dest):
     cdef size_t output_buf_size = dest.shape[0]
     if output_buf_size < output_size:
         raise ValueError("Buffer is too small to hold result")
-    return b14_decode(<const char *> &data[0],
-                            <int> input_size,
-                            <char *> &dest[0],
-                            <int> output_buf_size)
+    with nogil:
+        return b14_decode(<const char *> &data[0],
+                                <int> input_size,
+                                <char *> &dest[0],
+                                <int> output_buf_size)
 
 
 cpdef inline void encode_file(object input,
                        object output,
                        bint write_head = False,
-                       int32_t buf_rate = 10) with gil:
+                       int32_t buf_rate = 10):
     if not PyFile_Check(input):
         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
     if not PyFile_Check(output):
@@ -95,6 +101,7 @@ cpdef inline void encode_file(object input,
     cdef Py_ssize_t size
     cdef uint8_t first_check = 1  # 检查一次就行了 怎么可能出现第一次读出来是bytes 以后又变卦了的对象呢 不会吧不会吧
     cdef int count = 0
+    cdef const char *chunk_ptr
     while True:
         chunk = input.read(current_buf_len)
         if first_check:
@@ -108,8 +115,9 @@ cpdef inline void encode_file(object input,
                 current_buf_len = buf_rate * 7
                 input.seek(-size, 1)
                 continue
-
-        count = b14_encode(<const char*>PyBytes_AS_STRING(chunk), <int>size, output_buf, <int> output_size)
+        chunk_ptr = <const char*>PyBytes_AS_STRING(chunk)
+        with nogil:
+            count = b14_encode(chunk_ptr, <int>size, output_buf, <int> output_size)
         output.write(<bytes>output_buf[:count])
         if size < 7:
             break
@@ -117,7 +125,7 @@ cpdef inline void encode_file(object input,
 
 cpdef inline void decode_file(object input,
                        object output,
-                       int32_t buf_rate = 10) with gil:
+                       int32_t buf_rate = 10):
     if not PyFile_Check(input):
         raise TypeError("input except a file-like object, got %s" % type(input).__name__)
     if not PyFile_Check(output):
@@ -140,6 +148,7 @@ cpdef inline void decode_file(object input,
         raise MemoryError
     cdef Py_ssize_t size
     cdef int count = 0
+    cdef const char *chunk_ptr
     while True:
         chunk = input.read(current_buf_len)  # 8的倍数
         size = PyBytes_Size(chunk)
@@ -158,10 +167,11 @@ cpdef inline void decode_file(object input,
                 size += 2
             else:
                 input.seek(-2, 1)
-
-        count = b14_decode(<const char *> PyBytes_AS_STRING(chunk), <int> size, output_buf, <int> output_size)
+        chunk_ptr = <const char *> PyBytes_AS_STRING(chunk)
+        with nogil:
+            count = b14_decode(chunk_ptr, <int> size, output_buf, <int> output_size)
         output.write(<bytes>output_buf[:count])
     PyMem_Free(output_buf)
 
-cpdef inline bint is_64bits():
+cpdef inline bint is_64bits() nogil:
     return pybase16384_64bits()
