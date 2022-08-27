@@ -53,7 +53,7 @@ cpdef inline bytes _decode(const uint8_t[::1] data):
     PyMem_Free(output_buf)
     return ret
 
-cpdef inline int _encode_into(const uint8_t[::1] data, uint8_t[::1] dest):
+cpdef inline int _encode_into(const uint8_t[::1] data, uint8_t[::1] dest) except -1:
     cdef size_t input_size = data.shape[0]
     cdef size_t output_size = <size_t> b14_encode_len(<int> input_size)
     cdef size_t output_buf_size = dest.shape[0]
@@ -65,7 +65,7 @@ cpdef inline int _encode_into(const uint8_t[::1] data, uint8_t[::1] dest):
                                 <char *> &dest[0],
                                 <int> output_buf_size)
 
-cpdef inline int _decode_into(const uint8_t[::1] data, uint8_t[::1] dest):
+cpdef inline int _decode_into(const uint8_t[::1] data, uint8_t[::1] dest) except -1:
     cdef size_t input_size = data.shape[0]
     cdef size_t output_size = <size_t> b14_decode_len(<int> input_size, 0)
     cdef size_t output_buf_size = dest.shape[0]
@@ -78,7 +78,7 @@ cpdef inline int _decode_into(const uint8_t[::1] data, uint8_t[::1] dest):
                                 <int> output_buf_size)
 
 
-cpdef inline void encode_file(object input,
+def encode_file(object input,
                        object output,
                        bint write_head = False,
                        int32_t buf_rate = 10):
@@ -123,7 +123,7 @@ cpdef inline void encode_file(object input,
             break
     PyMem_Free(output_buf)
 
-cpdef inline void decode_file(object input,
+def decode_file(object input,
                        object output,
                        int32_t buf_rate = 10):
     if not PyFile_Check(input):
