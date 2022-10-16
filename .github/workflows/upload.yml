@@ -29,6 +29,11 @@ jobs:
         pip install flake8 pytest
         pip install twine
         pip install cython
+    - name: check unistd
+      if: ${{ runner.os == 'Windows' }}
+      run: |
+        echo "prepare unistd.h"
+        python prepare_unistd.py
     - name: build_whl
       run: |
         python setup.py sdist bdist_wheel --use-cython --use-cffi
