@@ -30,18 +30,14 @@ class build_ext_compiler_check(build_ext):
         super().build_extensions()
 
 
-if sys.maxsize > 2**32:  # 64位
-    CPUBIT = 64
-else:
-    CPUBIT = 32
-
+CPUBIT = 64 if sys.maxsize > 2**32 else 32
 system = platform.system()
-if system == "Windows":
-    macro_base = [("_WIN64", None)]
+if system == "Darwin":
+    macro_base = [("__MAC_10_0", None)]
 elif system == "Linux":
     macro_base = [("__linux__", None)]
-elif system == "Darwin":
-    macro_base = [("__MAC_10_0", None)]
+elif system == "Windows":
+    macro_base = [("_WIN64", None)]
 else:
     macro_base = []
 
@@ -62,11 +58,12 @@ extensions = [
             f"./base16384/base14{CPUBIT}.c",
             "./base16384/file.c",
         ],
-        include_dirs=[f"./base16384"],
-        library_dirs=[f"./base16384"],
+        include_dirs=["./base16384"],
+        library_dirs=["./base16384"],
         define_macros=macro_base,
-    ),
+    )
 ]
+
 cffi_modules = ["pybase16384/backends/cffi/build.py:ffibuilder"]
 
 

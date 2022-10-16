@@ -1,23 +1,20 @@
 """
 Copyright (c) 2008-2021 synodriver <synodriver@gmail.com>
 """
+
 import platform
 import sys
 
 from cffi import FFI
 
-if sys.maxsize > 2**32:
-    CPUBIT = 64
-else:
-    CPUBIT = 32
-
+CPUBIT = 64 if sys.maxsize > 2**32 else 32
 system = platform.system()
-if system == "Windows":
-    macro_base = [("_WIN64", None)]
+if system == "Darwin":
+    macro_base = [("__MAC_10_0", None)]
 elif system == "Linux":
     macro_base = [("__linux__", None)]
-elif system == "Darwin":
-    macro_base = [("__MAC_10_0", None)]
+elif system == "Windows":
+    macro_base = [("_WIN64", None)]
 else:
     macro_base = []
 
