@@ -8,7 +8,9 @@ from pybase16384.backends.cython._core_cy import (
     _encode_into,
     decode_file,
     decode_len,
+    decode_local_file,
     encode_file,
     encode_len,
+    encode_local_file,
     is_64bits,
 )

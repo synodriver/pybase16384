@@ -1,15 +1,15 @@
 """
 Copyright (c) 2008-2021 synodriver <synodriver@gmail.com>
 """
-from io import BytesIO
+from pathlib import Path
 from typing import IO
 
 from pybase16384.backends.cffi._core_cffi import ffi, lib
 
 __version__ = "0.1.0"
 
-encode_len = lib.encode_len
-decode_len = lib.decode_len
+encode_len = lib.base16384_encode_len
+decode_len = lib.base16384_decode_len
 
 
 # -----------------low level api------------------------------
@@ -19,12 +19,14 @@ def _encode(data: bytes) -> bytes:
     output_buf = ffi.new(f"char[{output_size}]")
     if output_buf == ffi.NULL:
         raise MemoryError
-    count = lib.encode(ffi.from_buffer(data), length, output_buf, output_size)
+    count = lib.base16384_encode(ffi.from_buffer(data), length, output_buf, output_size)
     return ffi.unpack(output_buf, count)
 
 
 def _encode_into(data: bytes, out: bytearray) -> int:
-    return lib.encode(ffi.from_buffer(data), len(data), ffi.from_buffer(out), len(out))
+    return lib.base16384_encode(
+        ffi.from_buffer(data), len(data), ffi.from_buffer(out), len(out)
+    )
 
 
 def _decode(data: bytes) -> bytes:
@@ -33,12 +35,14 @@ def _decode(data: bytes) -> bytes:
     output_buf = ffi.new(f"char[{output_size}]")
     if output_buf == ffi.NULL:
         raise MemoryError
-    count = lib.decode(ffi.from_buffer(data), length, output_buf, output_size)
+    count = lib.base16384_decode(ffi.from_buffer(data), length, output_buf, output_size)
     return ffi.unpack(output_buf, count)
 
 
 def _decode_into(data: bytes, out: bytearray) -> int:
-    return lib.decode(ffi.from_buffer(data), len(data), ffi.from_buffer(out), len(out))
+    return lib.base16384_decode(
+        ffi.from_buffer(data), len(data), ffi.from_buffer(out), len(out)
+    )
 
 
 def is_64bits() -> bool:
@@ -88,7 +92,9 @@ def encode_file(input: IO, output: IO, write_head: bool = False, buf_rate: int =
                 input.seek(-size, 1)
                 continue
 
-        count = lib.encode(ffi.from_buffer(chunk), size, output_buf, output_size)
+        count = lib.base16384_encode(
+            ffi.from_buffer(chunk), size, output_buf, output_size
+        )
         output.write(ffi.unpack(output_buf, count))
         if size < 7:
             break
@@ -140,5 +146,57 @@ def decode_file(input: IO, output: IO, buf_rate: int = 10):
             else:
                 input.seek(-2, 1)
 
-        count = lib.decode(ffi.from_buffer(chunk), size, output_buf, output_size)
+        count = lib.base16384_decode(
+            ffi.from_buffer(chunk), size, output_buf, output_size
+        )
         output.write(ffi.unpack(output_buf, count))
+
+
+def ensure_bytes(inp) -> bytes:
+    if isinstance(inp, str):
+        return inp.encode()
+    elif isinstance(inp, bytes):
+        return inp
+    elif isinstance(inp, Path):
+        return str(inp).encode()
+    else:
+        return bytes(inp)
+
+
+def err_to_str(ret) -> str:
+    if ret == lib.base16384_err_get_file_size:
+        return "base16384_err_get_file_size"
+    elif ret == lib.base16384_err_fopen_output_file:
+        return "base16384_err_fopen_output_file"
+    elif ret == lib.base16384_err_fopen_input_file:
+        return "base16384_err_fopen_input_file"
+    elif ret == lib.base16384_err_write_file:
+        return "base16384_err_write_file"
+    elif ret == lib.base16384_err_open_input_file:
+        return "base16384_err_open_input_file"
+    elif ret == lib.base16384_err_map_input_file:
+        return "base16384_err_map_input_file"
+
+
+def encode_local_file(inp, out, encsize: int, decsize: int):
+    inp_name: bytes = ensure_bytes(inp)
+    out_name: bytes = ensure_bytes(out)
+    encbuf = ffi.new(f"char[{encsize}]")
+    decbuf = ffi.new(f"char[{decsize}]")
+    ret = lib.base16384_encode_file(
+        ffi.from_buffer(inp_name), ffi.from_buffer(out_name), encbuf, decbuf
+    )
+    if ret != lib.base16384_err_ok:
+        raise ValueError(err_to_str(ret))
+
+
+def decode_local_file(inp, out, encsize: int, decsize: int):
+    inp_name: bytes = ensure_bytes(inp)
+    out_name: bytes = ensure_bytes(out)
+    encbuf = ffi.new(f"char[{encsize}]")
+    decbuf = ffi.new(f"char[{decsize}]")
+    ret = lib.base16384_decode_file(
+        ffi.from_buffer(inp_name), ffi.from_buffer(out_name), encbuf, decbuf
+    )
+    if ret != lib.base16384_err_ok:
+        raise ValueError(err_to_str(ret))

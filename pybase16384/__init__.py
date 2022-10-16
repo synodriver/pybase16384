@@ -23,8 +23,10 @@ if not _should_use_cffi():
         _encode_into,
         decode_file,
         decode_len,
+        decode_local_file,
         encode_file,
         encode_len,
+        encode_local_file,
         is_64bits,
     )
 else:
@@ -35,8 +37,10 @@ else:
         _encode_into,
         decode_file,
         decode_len,
+        decode_local_file,
         encode_file,
         encode_len,
+        encode_local_file,
         is_64bits,
     )
 

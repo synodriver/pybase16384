@@ -57,7 +57,11 @@ print(macro_base)
 extensions = [
     Extension(
         "pybase16384.backends.cython._core_cy",
-        ["pybase16384/backends/cython/_core_cy.pyx", f"./base16384/base14{CPUBIT}.c"],
+        [
+            "pybase16384/backends/cython/_core_cy.pyx",
+            f"./base16384/base14{CPUBIT}.c",
+            "./base16384/file.c",
+        ],
         include_dirs=[f"./base16384"],
         library_dirs=[f"./base16384"],
         define_macros=macro_base,
@@ -122,7 +126,7 @@ def main():
         url="https://github.com/synodriver/pybase16384",
         packages=packages,
         keywords=["encode", "decode", "base16384"],
-        description="base16384 encode and decode",
+        description="fast base16384 encode and decode",
         long_description_content_type="text/markdown",
         long_description=dis,
         author="synodriver",
