@@ -32,10 +32,24 @@ else:
 ffibuilder = FFI()
 ffibuilder.cdef(
     """
-int encode_len(int dlen);
-int decode_len(int dlen, int offset);
-int encode(const char* data, int dlen, char* buf, int blen);
-int decode(const char* data, int dlen, char* buf, int blen);
+// base16384_err_t is the return value of base16384_en/decode_file
+enum base16384_err_t {
+	base16384_err_ok,
+	base16384_err_get_file_size,
+	base16384_err_fopen_output_file,
+	base16384_err_fopen_input_file,
+	base16384_err_write_file,
+	base16384_err_open_input_file,
+	base16384_err_map_input_file,
+};
+// base16384_err_t is the return value of base16384_en/decode_file
+typedef enum base16384_err_t base16384_err_t;
+int base16384_encode_len(int dlen);
+int base16384_decode_len(int dlen, int offset);
+int base16384_encode(const char* data, int dlen, char* buf, int blen);
+int base16384_decode(const char* data, int dlen, char* buf, int blen);
+base16384_err_t base16384_encode_file(const char* input, const char* output, char* encbuf, char* decbuf);
+base16384_err_t base16384_decode_file(const char* input, const char* output, char* encbuf, char* decbuf);
 int32_t pybase16384_64bits();
     """
 )
@@ -53,7 +67,7 @@ source = """
 ffibuilder.set_source(
     "pybase16384.backends.cffi._core_cffi",
     source,
-    sources=[f"./base16384/base14{CPUBIT}.c"],
+    sources=[f"./base16384/base14{CPUBIT}.c", "./base16384/file.c"],
     include_dirs=["./base16384"],
     define_macros=macro_base,
 )

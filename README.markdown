@@ -73,6 +73,10 @@ def decode_from_bytes(data: bytes) -> str: ...
 def decode_from_string(data: str) -> bytes: ...
 
 def decode_string(data: str) -> str: ...
+
+def encode_local_file(inp: Union[str, bytes, Path], out: Union[str, bytes, Path], encsize: int, decsize: int) -> None: ...
+
+def decode_local_file(inp: Union[str, bytes, Path], out: Union[str, bytes, Path], encsize: int, decsize: int) -> None: ...
 ```
 - write_head将显式指明编码出的文本格式(utf16be)，以便文本编辑器(如记事本)能够正确渲染，一般在写入文件时使用。
 
@@ -110,6 +114,7 @@ cd pybase16384
 git submodule update --init --recursive
 python setup.py bdist_wheel --use-cython --use-cffi
 ```
+- 为了在windows上编译，需要加点料，把 [这个](https://gist.github.com/synodriver/8f1afae7b1a221754cb04ce417dc7e4d) 放进msvc的目录
 
 ### 后端选择
 默认由py实现决定，在cpython上自动选择cython后端，在pypy上自动选择cffi后端，使用```B14_USE_CFFI```环境变量可以强制选择cffi
