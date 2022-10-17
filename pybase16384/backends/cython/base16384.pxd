@@ -1,6 +1,7 @@
 # cython: language_level=3
 # cython: cdivision=True
 from libc.stdint cimport int32_t
+from libc.stdio cimport FILE
 
 
 cdef extern from "base16384.h" nogil:
@@ -24,6 +25,21 @@ cdef extern from "base16384.h" nogil:
 
     base16384_err_t b14_encode_file "base16384_encode_file" (const char * input, const char * output, char * encbuf, char * decbuf)
     base16384_err_t b14_decode_file "base16384_decode_file" (const char * input, const char * output, char * encbuf, char * decbuf)
+
+    base16384_err_t b14_encode_fp "base16384_encode_fp" (FILE* input, FILE* output, char* encbuf, char* decbuf)
+
+    # base16384_encode_fd encodes input fd to output fd.
+    #    encbuf & decbuf must be no less than BASE16384_ENCBUFSZ & BASE16384_DECBUFSZ
+    base16384_err_t b14_encode_fd "base16384_encode_fd" (int input, int output, char* encbuf, char* decbuf)
+
+
+    # base16384_decode_fp decodes input file to output file.
+    #    encbuf & decbuf must be no less than BASE16384_ENCBUFSZ & BASE16384_DECBUFSZ
+    base16384_err_t b14_decode_fp "base16384_decode_fp"(FILE* input, FILE* output, char* encbuf, char* decbuf)
+
+    # base16384_decode_fd decodes input fd to output fd.
+    #    encbuf & decbuf must be no less than BASE16384_ENCBUFSZ & BASE16384_DECBUFSZ
+    base16384_err_t b14_decode_fd "base16384_decode_fd"(int input, int output, char* encbuf, char* decbuf)
 
 cdef extern from * nogil:
     """

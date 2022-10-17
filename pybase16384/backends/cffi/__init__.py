@@ -178,7 +178,7 @@ def err_to_str(ret) -> str:
         return "base16384_err_map_input_file"
 
 
-def encode_local_file(inp, out, encsize: int, decsize: int):
+def encode_local_file(inp, out, encsize: int, decsize: int) -> None:
     inp_name: bytes = ensure_bytes(inp)
     out_name: bytes = ensure_bytes(out)
     encbuf = ffi.new(f"char[{encsize}]")
@@ -190,7 +190,7 @@ def encode_local_file(inp, out, encsize: int, decsize: int):
         raise ValueError(err_to_str(ret))
 
 
-def decode_local_file(inp, out, encsize: int, decsize: int):
+def decode_local_file(inp, out, encsize: int, decsize: int) -> None:
     inp_name: bytes = ensure_bytes(inp)
     out_name: bytes = ensure_bytes(out)
     encbuf = ffi.new(f"char[{encsize}]")
@@ -198,5 +198,21 @@ def decode_local_file(inp, out, encsize: int, decsize: int):
     ret = lib.base16384_decode_file(
         ffi.from_buffer(inp_name), ffi.from_buffer(out_name), encbuf, decbuf
     )
+    if ret != lib.base16384_err_ok:
+        raise ValueError(err_to_str(ret))
+
+
+def encode_fd(inp: int, out: int, encsize: int, decsize: int) -> None:
+    encbuf = ffi.new(f"char[{encsize}]")
+    decbuf = ffi.new(f"char[{decsize}]")
+    ret = lib.base16384_encode_fd(inp, out, encbuf, decbuf)
+    if ret != lib.base16384_err_ok:
+        raise ValueError(err_to_str(ret))
+
+
+def decode_fd(inp: int, out: int, encsize: int, decsize: int) -> None:
+    encbuf = ffi.new(f"char[{encsize}]")
+    decbuf = ffi.new(f"char[{decsize}]")
+    ret = lib.base16384_decode_fd(inp, out, encbuf, decbuf)
     if ret != lib.base16384_err_ok:
         raise ValueError(err_to_str(ret))

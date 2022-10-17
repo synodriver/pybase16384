@@ -8,6 +8,8 @@ lib/
 /_skbuild/
 .idea/
 *.pyd
+*.pyc
+*.pyo
 *.exe
 *.dll
 *.lib

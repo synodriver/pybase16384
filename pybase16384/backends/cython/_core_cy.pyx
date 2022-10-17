@@ -6,12 +6,12 @@ from cpython.object cimport PyObject_HasAttrString
 from libc.stdint cimport int32_t, uint8_t
 
 from pybase16384.backends.cython.base16384 cimport (
-    b14_decode, b14_decode_file, b14_decode_len, b14_encode, b14_encode_file,
-    b14_encode_len, base16384_err_fopen_input_file,
-    base16384_err_fopen_output_file, base16384_err_get_file_size,
-    base16384_err_map_input_file, base16384_err_ok,
-    base16384_err_open_input_file, base16384_err_t, base16384_err_write_file,
-    pybase16384_64bits)
+    b14_decode, b14_decode_fd, b14_decode_file, b14_decode_len, b14_encode,
+    b14_encode_fd, b14_encode_file, b14_encode_len,
+    base16384_err_fopen_input_file, base16384_err_fopen_output_file,
+    base16384_err_get_file_size, base16384_err_map_input_file,
+    base16384_err_ok, base16384_err_open_input_file, base16384_err_t,
+    base16384_err_write_file, pybase16384_64bits)
 
 from pathlib import Path
 
@@ -252,6 +252,42 @@ cpdef inline decode_local_file(object inp, object out, size_t encsize, size_t de
         with nogil:
             ret = b14_decode_file(inp_name_ptr, out_name_ptr, encbuf, decbuf)
         if ret !=  base16384_err_ok:
+            raise ValueError(err_to_str(ret))
+    finally:
+        PyMem_Free(encbuf)
+        PyMem_Free(decbuf)
+
+cpdef inline encode_fd(int inp, int out, size_t encsize, size_t decsize):
+    cdef char * encbuf = <char *> PyMem_Malloc(encsize)
+    if encbuf == NULL:
+        raise MemoryError
+    cdef char * decbuf = <char *> PyMem_Malloc(decsize)
+    if decbuf == NULL:
+        PyMem_Free(encbuf)
+        raise MemoryError
+    cdef base16384_err_t ret
+    try:
+        with nogil:
+            ret = b14_encode_fd(inp, out, encbuf, decbuf)
+        if ret != base16384_err_ok:
+            raise ValueError(err_to_str(ret))
+    finally:
+        PyMem_Free(encbuf)
+        PyMem_Free(decbuf)
+
+cpdef inline decode_fd(int inp, int out, size_t encsize, size_t decsize):
+    cdef char * encbuf = <char *> PyMem_Malloc(encsize)
+    if encbuf == NULL:
+        raise MemoryError
+    cdef char * decbuf = <char *> PyMem_Malloc(decsize)
+    if decbuf == NULL:
+        PyMem_Free(encbuf)
+        raise MemoryError
+    cdef base16384_err_t ret
+    try:
+        with nogil:
+            ret = b14_decode_fd(inp, out, encbuf, decbuf)
+        if ret != base16384_err_ok:
             raise ValueError(err_to_str(ret))
     finally:
         PyMem_Free(encbuf)
