@@ -10,11 +10,14 @@ from pybase16384.backends.cython.base16384 cimport (
     b14_encode_fd, b14_encode_file, b14_encode_len,
     base16384_err_fopen_input_file, base16384_err_fopen_output_file,
     base16384_err_get_file_size, base16384_err_map_input_file,
-    base16384_err_ok, base16384_err_open_input_file, base16384_err_t,
+    base16384_err_ok, base16384_err_open_input_file, base16384_err_t, BASE16384_ENCBUFSZ,
+    BASE16384_DECBUFSZ,
     base16384_err_write_file, pybase16384_64bits)
 
 from pathlib import Path
 
+ENCBUFSZ = BASE16384_ENCBUFSZ
+DECBUFSZ = BASE16384_DECBUFSZ
 
 cdef inline bytes ensure_bytes(object inp):
     if isinstance(inp, unicode):

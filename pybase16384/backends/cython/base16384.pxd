@@ -5,6 +5,8 @@ from libc.stdio cimport FILE
 
 
 cdef extern from "base16384.h" nogil:
+    int BASE16384_ENCBUFSZ
+    int BASE16384_DECBUFSZ
     ctypedef enum base16384_err_t:
         base16384_err_ok
         base16384_err_get_file_size
