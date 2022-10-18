@@ -216,15 +216,15 @@ cdef inline str err_to_str(base16384_err_t ret):
     elif ret == base16384_err_map_input_file:
         return "base16384_err_map_input_file"
 
-cpdef inline encode_local_file(object inp, object out, size_t encsize, size_t decsize):
+cpdef inline encode_local_file(object inp, object out):
     cdef bytes inp_name = ensure_bytes(inp)
     cdef bytes out_name = ensure_bytes(out)
     cdef const char * inp_name_ptr = <const char *> inp_name
     cdef const char * out_name_ptr = <const char *> out_name
-    cdef char * encbuf = <char*>PyMem_Malloc(encsize)
+    cdef char * encbuf = <char*>PyMem_Malloc(<size_t>BASE16384_ENCBUFSZ)
     if encbuf == NULL:
         raise MemoryError
-    cdef char * decbuf = <char*>PyMem_Malloc(decsize)
+    cdef char * decbuf = <char*>PyMem_Malloc(<size_t>BASE16384_DECBUFSZ)
     if decbuf == NULL:
         PyMem_Free(encbuf)
         raise MemoryError
@@ -238,15 +238,15 @@ cpdef inline encode_local_file(object inp, object out, size_t encsize, size_t de
         PyMem_Free(encbuf)
         PyMem_Free(decbuf)
 
-cpdef inline decode_local_file(object inp, object out, size_t encsize, size_t decsize):
+cpdef inline decode_local_file(object inp, object out):
     cdef bytes inp_name = ensure_bytes(inp)
     cdef bytes out_name = ensure_bytes(out)
     cdef const char * inp_name_ptr = <const char *> inp_name
     cdef const char * out_name_ptr = <const char *> out_name
-    cdef char * encbuf = <char*>PyMem_Malloc(encsize)
+    cdef char * encbuf = <char*>PyMem_Malloc(<size_t>BASE16384_ENCBUFSZ)
     if encbuf == NULL:
         raise MemoryError
-    cdef char * decbuf = <char*>PyMem_Malloc(decsize)
+    cdef char * decbuf = <char*>PyMem_Malloc(<size_t>BASE16384_DECBUFSZ)
     if decbuf == NULL:
         PyMem_Free(encbuf)
         raise MemoryError
@@ -260,11 +260,11 @@ cpdef inline decode_local_file(object inp, object out, size_t encsize, size_t de
         PyMem_Free(encbuf)
         PyMem_Free(decbuf)
 
-cpdef inline encode_fd(int inp, int out, size_t encsize, size_t decsize):
-    cdef char * encbuf = <char *> PyMem_Malloc(encsize)
+cpdef inline encode_fd(int inp, int out):
+    cdef char * encbuf = <char *> PyMem_Malloc(<size_t>BASE16384_ENCBUFSZ)
     if encbuf == NULL:
         raise MemoryError
-    cdef char * decbuf = <char *> PyMem_Malloc(decsize)
+    cdef char * decbuf = <char *> PyMem_Malloc(<size_t>BASE16384_DECBUFSZ)
     if decbuf == NULL:
         PyMem_Free(encbuf)
         raise MemoryError
@@ -278,11 +278,11 @@ cpdef inline encode_fd(int inp, int out, size_t encsize, size_t decsize):
         PyMem_Free(encbuf)
         PyMem_Free(decbuf)
 
-cpdef inline decode_fd(int inp, int out, size_t encsize, size_t decsize):
-    cdef char * encbuf = <char *> PyMem_Malloc(encsize)
+cpdef inline decode_fd(int inp, int out):
+    cdef char * encbuf = <char *> PyMem_Malloc(<size_t>BASE16384_ENCBUFSZ)
     if encbuf == NULL:
         raise MemoryError
-    cdef char * decbuf = <char *> PyMem_Malloc(decsize)
+    cdef char * decbuf = <char *> PyMem_Malloc(<size_t>BASE16384_DECBUFSZ)
     if decbuf == NULL:
         PyMem_Free(encbuf)
         raise MemoryError

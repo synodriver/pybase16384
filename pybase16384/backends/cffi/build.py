@@ -68,6 +68,10 @@ base16384_err_t base16384_decode_fp(FILE* input, FILE* output, char* encbuf, cha
 base16384_err_t base16384_decode_fd(int input, int output, char* encbuf, char* decbuf);
 
 int32_t pybase16384_64bits();
+
+int get_encsize();
+
+int get_decsize();
     """
 )
 
@@ -79,6 +83,16 @@ source = """
 #else
 #define pybase16384_64bits() 1
 #endif
+
+int get_encsize()
+{
+    return BASE16384_ENCBUFSZ;
+}
+
+int get_decsize()
+{
+    return BASE16384_DECBUFSZ;
+}
 """
 
 ffibuilder.set_source(
