@@ -51,20 +51,21 @@ def is_64bits() -> bool:
 
 # ----------------------------
 def _check_file(file) -> bool:
-    if hasattr(file, "read") and hasattr(file, "write") and hasattr(file, "seek"):
-        return True
-    return False
+    return bool(
+        hasattr(file, "read")
+        and hasattr(file, "write")
+        and hasattr(file, "seek")
+    )
 
 
 def encode_file(input: IO, output: IO, write_head: bool = False, buf_rate: int = 10):
     if not _check_file(input):
-        raise TypeError(
-            "input except a file-like object, got %s" % type(input).__name__
-        )
+        raise TypeError(f"input except a file-like object, got {type(input).__name__}")
     if not _check_file(output):
         raise TypeError(
-            "output except a file-like object, got %s" % type(input).__name__
+            f"output except a file-like object, got {type(input).__name__}"
         )
+
     if buf_rate <= 0:
         buf_rate = 1
     if write_head:
@@ -85,12 +86,11 @@ def encode_file(input: IO, output: IO, write_head: bool = False, buf_rate: int =
                     f"input must be a file-like rb object, got {type(input).__name__}"
                 )
         size = len(chunk)
-        if size < current_buf_len:  # 数据不够了 要减小一次读取的量
-            if buf_rate > 1:  # 重新设置一次读取的大小 重新设置流的位置 当然要是已经是一次读取7字节了 那就不能再变小了 直接encode吧
-                buf_rate = buf_rate // 2
-                current_buf_len = buf_rate * 7
-                input.seek(-size, 1)
-                continue
+        if size < current_buf_len and buf_rate > 1:
+            buf_rate = buf_rate // 2
+            current_buf_len = buf_rate * 7
+            input.seek(-size, 1)
+            continue
 
         count = lib.base16384_encode(
             ffi.from_buffer(chunk), size, output_buf, output_size
@@ -102,13 +102,12 @@ def encode_file(input: IO, output: IO, write_head: bool = False, buf_rate: int =
 
 def decode_file(input: IO, output: IO, buf_rate: int = 10):
     if not _check_file(input):
-        raise TypeError(
-            "input except a file-like object, got %s" % type(input).__name__
-        )
+        raise TypeError(f"input except a file-like object, got {type(input).__name__}")
     if not _check_file(output):
         raise TypeError(
-            "output except a file-like object, got %s" % type(output).__name__
+            f"output except a file-like object, got {type(output).__name__}"
         )
+
     if buf_rate <= 0:
         buf_rate = 1
 
@@ -132,12 +131,11 @@ def decode_file(input: IO, output: IO, buf_rate: int = 10):
         size = len(chunk)
         if size == 0:
             break
-        if size < current_buf_len:  # 长度不够了
-            if buf_rate > 1:  # 还能继续变小
-                buf_rate = buf_rate // 2  # 重新设置一次读取的大小
-                current_buf_len = buf_rate * 8
-                input.seek(-size, 1)
-                continue
+        if size < current_buf_len and buf_rate > 1:
+            buf_rate = buf_rate // 2  # 重新设置一次读取的大小
+            current_buf_len = buf_rate * 8
+            input.seek(-size, 1)
+            continue
         tmp = input.read(2)  # type: bytes
         if len(tmp) == 2:
             if tmp[0] == 61:  # = stream完了   一次解码8n+2个字节
