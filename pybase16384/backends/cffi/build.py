@@ -50,7 +50,28 @@ int base16384_encode(const char* data, int dlen, char* buf, int blen);
 int base16384_decode(const char* data, int dlen, char* buf, int blen);
 base16384_err_t base16384_encode_file(const char* input, const char* output, char* encbuf, char* decbuf);
 base16384_err_t base16384_decode_file(const char* input, const char* output, char* encbuf, char* decbuf);
+
+// base16384_encode_fp encodes input file to output file.
+//    encbuf & decbuf must be no less than BASE16384_ENCBUFSZ & BASE16384_DECBUFSZ
+base16384_err_t base16384_encode_fp(FILE* input, FILE* output, char* encbuf, char* decbuf);
+
+// base16384_encode_fd encodes input fd to output fd.
+//    encbuf & decbuf must be no less than BASE16384_ENCBUFSZ & BASE16384_DECBUFSZ
+base16384_err_t base16384_encode_fd(int input, int output, char* encbuf, char* decbuf);
+
+// base16384_decode_fp decodes input file to output file.
+//    encbuf & decbuf must be no less than BASE16384_ENCBUFSZ & BASE16384_DECBUFSZ
+base16384_err_t base16384_decode_fp(FILE* input, FILE* output, char* encbuf, char* decbuf);
+
+// base16384_decode_fd decodes input fd to output fd.
+//    encbuf & decbuf must be no less than BASE16384_ENCBUFSZ & BASE16384_DECBUFSZ
+base16384_err_t base16384_decode_fd(int input, int output, char* encbuf, char* decbuf);
+
 int32_t pybase16384_64bits();
+
+int get_encsize();
+
+int get_decsize();
     """
 )
 
@@ -62,6 +83,16 @@ source = """
 #else
 #define pybase16384_64bits() 1
 #endif
+
+int get_encsize()
+{
+    return BASE16384_ENCBUFSZ;
+}
+
+int get_decsize()
+{
+    return BASE16384_DECBUFSZ;
+}
 """
 
 ffibuilder.set_source(
