@@ -23527,6 +23527,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core_de
  *     finally:
  *         PyMem_Free(encbuf)             # <<<<<<<<<<<<<<
  *         PyMem_Free(decbuf)
+ * 
  */
   /*finally:*/ {
     /*normal exit:*/{
@@ -23536,6 +23537,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core_de
  *     finally:
  *         PyMem_Free(encbuf)
  *         PyMem_Free(decbuf)             # <<<<<<<<<<<<<<
+ * 
  */
       PyMem_Free(__pyx_v_decbuf);
       goto __pyx_L7;
@@ -23563,6 +23565,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core_de
  *     finally:
  *         PyMem_Free(encbuf)             # <<<<<<<<<<<<<<
  *         PyMem_Free(decbuf)
+ * 
  */
         PyMem_Free(__pyx_v_encbuf);
 
@@ -23570,6 +23573,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core_de
  *     finally:
  *         PyMem_Free(encbuf)
  *         PyMem_Free(decbuf)             # <<<<<<<<<<<<<<
+ * 
  */
         PyMem_Free(__pyx_v_decbuf);
       }
