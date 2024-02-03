@@ -51,10 +51,10 @@ class Test(TestCase):
 
     def test_omp(self):
         for i in range(10000):
-            data = secrets.token_bytes(100)
-            encoded = bs._encode_parallel(data, 2)
+            data = secrets.token_bytes(1400)
+            encoded = bs._encode_parallel(data, 16)
             self.assertEqual(bs.encode(data), encoded)
-            decoded = bs._decode_parallel(encoded, 2)
+            decoded = bs._decode_parallel(encoded, 16)
             while decoded != data:
                 decoded = bs._decode_parallel(encoded, 2)  # fixme: 为什么没有幂等性
                 print("iter")

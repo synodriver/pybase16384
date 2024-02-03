@@ -1659,8 +1659,8 @@ struct __pyx_memoryviewslice_obj;
 struct __pyx_opt_args_11pybase16384_8backends_6cython_5_core__encode_parallel;
 struct __pyx_opt_args_11pybase16384_8backends_6cython_5_core__decode_parallel;
 
-/* "pybase16384/backends/cython/_core.pyx":301
- * from cython.parallel cimport prange
+/* "pybase16384/backends/cython/_core.pyx":302
+ * 
  * 
  * cpdef inline bytes _encode_parallel(const uint8_t[::1] data, int num_threads = 2):             # <<<<<<<<<<<<<<
  *     cdef size_t length = <size_t>data.shape[0]
@@ -1671,7 +1671,7 @@ struct __pyx_opt_args_11pybase16384_8backends_6cython_5_core__encode_parallel {
   int num_threads;
 };
 
-/* "pybase16384/backends/cython/_core.pyx":329
+/* "pybase16384/backends/cython/_core.pyx":330
  *         PyMem_Free(output_buf)
  * 
  * cpdef inline bytes _decode_parallel(const uint8_t[::1] data, int num_threads = 2):             # <<<<<<<<<<<<<<
@@ -23842,8 +23842,8 @@ static PyObject *__pyx_pf_11pybase16384_8backends_6cython_5_core_24decode_fd(CYT
   return __pyx_r;
 }
 
-/* "pybase16384/backends/cython/_core.pyx":301
- * from cython.parallel cimport prange
+/* "pybase16384/backends/cython/_core.pyx":302
+ * 
  * 
  * cpdef inline bytes _encode_parallel(const uint8_t[::1] data, int num_threads = 2):             # <<<<<<<<<<<<<<
  *     cdef size_t length = <size_t>data.shape[0]
@@ -23893,7 +23893,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
     }
   }
 
-  /* "pybase16384/backends/cython/_core.pyx":302
+  /* "pybase16384/backends/cython/_core.pyx":303
  * 
  * cpdef inline bytes _encode_parallel(const uint8_t[::1] data, int num_threads = 2):
  *     cdef size_t length = <size_t>data.shape[0]             # <<<<<<<<<<<<<<
@@ -23902,7 +23902,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
  */
   __pyx_v_length = ((size_t)(__pyx_v_data.shape[0]));
 
-  /* "pybase16384/backends/cython/_core.pyx":303
+  /* "pybase16384/backends/cython/_core.pyx":304
  * cpdef inline bytes _encode_parallel(const uint8_t[::1] data, int num_threads = 2):
  *     cdef size_t length = <size_t>data.shape[0]
  *     cdef size_t chunk_size = length / num_threads / 7 * 7 #  7             # <<<<<<<<<<<<<<
@@ -23911,7 +23911,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
  */
   __pyx_v_chunk_size = (((__pyx_v_length / ((size_t)__pyx_v_num_threads)) / 7) * 7);
 
-  /* "pybase16384/backends/cython/_core.pyx":304
+  /* "pybase16384/backends/cython/_core.pyx":305
  *     cdef size_t length = <size_t>data.shape[0]
  *     cdef size_t chunk_size = length / num_threads / 7 * 7 #  7
  *     cdef size_t output_chunk_size = chunk_size / 7 * 8  # 7 8             # <<<<<<<<<<<<<<
@@ -23920,7 +23920,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
  */
   __pyx_v_output_chunk_size = ((__pyx_v_chunk_size / 7) * 8);
 
-  /* "pybase16384/backends/cython/_core.pyx":305
+  /* "pybase16384/backends/cython/_core.pyx":306
  *     cdef size_t chunk_size = length / num_threads / 7 * 7 #  7
  *     cdef size_t output_chunk_size = chunk_size / 7 * 8  # 7 8
  *     cdef size_t mod = length - chunk_size * num_threads #  if chunk_size0             # <<<<<<<<<<<<<<
@@ -23929,7 +23929,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
  */
   __pyx_v_mod = (__pyx_v_length - (__pyx_v_chunk_size * __pyx_v_num_threads));
 
-  /* "pybase16384/backends/cython/_core.pyx":306
+  /* "pybase16384/backends/cython/_core.pyx":307
  *     cdef size_t output_chunk_size = chunk_size / 7 * 8  # 7 8
  *     cdef size_t mod = length - chunk_size * num_threads #  if chunk_size0
  *     cdef size_t output_size = <size_t> b14_encode_len(<int> length) + 16             # <<<<<<<<<<<<<<
@@ -23938,7 +23938,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
  */
   __pyx_v_output_size = (((size_t)base16384_encode_len(((int)__pyx_v_length))) + 16);
 
-  /* "pybase16384/backends/cython/_core.pyx":308
+  /* "pybase16384/backends/cython/_core.pyx":309
  *     cdef size_t output_size = <size_t> b14_encode_len(<int> length) + 16
  * 
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)  # 16             # <<<<<<<<<<<<<<
@@ -23947,7 +23947,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
  */
   __pyx_v_output_buf = ((char *)PyMem_Malloc(__pyx_v_output_size));
 
-  /* "pybase16384/backends/cython/_core.pyx":309
+  /* "pybase16384/backends/cython/_core.pyx":310
  * 
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)  # 16
  *     if output_buf == NULL:             # <<<<<<<<<<<<<<
@@ -23957,16 +23957,16 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
   __pyx_t_1 = (__pyx_v_output_buf == NULL);
   if (unlikely(__pyx_t_1)) {
 
-    /* "pybase16384/backends/cython/_core.pyx":310
+    /* "pybase16384/backends/cython/_core.pyx":311
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)  # 16
  *     if output_buf == NULL:
  *         raise MemoryError             # <<<<<<<<<<<<<<
  *     cdef int i, count
  *     try:
  */
-    PyErr_NoMemory(); __PYX_ERR(0, 310, __pyx_L1_error)
+    PyErr_NoMemory(); __PYX_ERR(0, 311, __pyx_L1_error)
 
-    /* "pybase16384/backends/cython/_core.pyx":309
+    /* "pybase16384/backends/cython/_core.pyx":310
  * 
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)  # 16
  *     if output_buf == NULL:             # <<<<<<<<<<<<<<
@@ -23975,7 +23975,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
  */
   }
 
-  /* "pybase16384/backends/cython/_core.pyx":312
+  /* "pybase16384/backends/cython/_core.pyx":313
  *         raise MemoryError
  *     cdef int i, count
  *     try:             # <<<<<<<<<<<<<<
@@ -23984,7 +23984,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
  */
   /*try:*/ {
 
-    /* "pybase16384/backends/cython/_core.pyx":313
+    /* "pybase16384/backends/cython/_core.pyx":314
  *     cdef int i, count
  *     try:
  *         if chunk_size > 0:             # <<<<<<<<<<<<<<
@@ -23994,7 +23994,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
     __pyx_t_1 = (__pyx_v_chunk_size > 0);
     if (__pyx_t_1) {
 
-      /* "pybase16384/backends/cython/_core.pyx":314
+      /* "pybase16384/backends/cython/_core.pyx":315
  *     try:
  *         if chunk_size > 0:
  *             for i in prange(num_threads, nogil=True, schedule="static", num_threads=num_threads):             # <<<<<<<<<<<<<<
@@ -24031,7 +24031,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
                             {
                                 __pyx_v_i = (int)(0 + 1 * __pyx_t_3);
 
-                                /* "pybase16384/backends/cython/_core.pyx":315
+                                /* "pybase16384/backends/cython/_core.pyx":316
  *         if chunk_size > 0:
  *             for i in prange(num_threads, nogil=True, schedule="static", num_threads=num_threads):
  *                 b14_encode(<const char *> &data[i*chunk_size],             # <<<<<<<<<<<<<<
@@ -24040,7 +24040,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
  */
                                 __pyx_t_5 = (__pyx_v_i * __pyx_v_chunk_size);
 
-                                /* "pybase16384/backends/cython/_core.pyx":317
+                                /* "pybase16384/backends/cython/_core.pyx":318
  *                 b14_encode(<const char *> &data[i*chunk_size],
  *                                                   <int>chunk_size,
  *                                                   &output_buf[i*output_chunk_size])  # encode             # <<<<<<<<<<<<<<
@@ -24061,7 +24061,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
             #endif
           }
 
-          /* "pybase16384/backends/cython/_core.pyx":314
+          /* "pybase16384/backends/cython/_core.pyx":315
  *     try:
  *         if chunk_size > 0:
  *             for i in prange(num_threads, nogil=True, schedule="static", num_threads=num_threads):             # <<<<<<<<<<<<<<
@@ -24080,7 +24080,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
           }
       }
 
-      /* "pybase16384/backends/cython/_core.pyx":313
+      /* "pybase16384/backends/cython/_core.pyx":314
  *     cdef int i, count
  *     try:
  *         if chunk_size > 0:             # <<<<<<<<<<<<<<
@@ -24089,7 +24089,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
  */
     }
 
-    /* "pybase16384/backends/cython/_core.pyx":318
+    /* "pybase16384/backends/cython/_core.pyx":319
  *                                                   <int>chunk_size,
  *                                                   &output_buf[i*output_chunk_size])  # encode
  *         if mod!=0:             # <<<<<<<<<<<<<<
@@ -24099,7 +24099,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
     __pyx_t_1 = (__pyx_v_mod != 0);
     if (__pyx_t_1) {
 
-      /* "pybase16384/backends/cython/_core.pyx":319
+      /* "pybase16384/backends/cython/_core.pyx":320
  *                                                   &output_buf[i*output_chunk_size])  # encode
  *         if mod!=0:
  *             count = b14_encode(<const char *> &data[length - mod],             # <<<<<<<<<<<<<<
@@ -24108,7 +24108,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
  */
       __pyx_t_5 = (__pyx_v_length - __pyx_v_mod);
 
-      /* "pybase16384/backends/cython/_core.pyx":321
+      /* "pybase16384/backends/cython/_core.pyx":322
  *             count = b14_encode(<const char *> &data[length - mod],
  *                                     <int>mod,
  *                                     &output_buf[num_threads * output_chunk_size])  #             # <<<<<<<<<<<<<<
@@ -24117,7 +24117,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
  */
       __pyx_v_count = base16384_encode(((char const *)(&(*((uint8_t const  *) ( /* dim=0 */ ((char *) (((uint8_t const  *) __pyx_v_data.data) + __pyx_t_5)) ))))), ((int)__pyx_v_mod), (&(__pyx_v_output_buf[(__pyx_v_num_threads * __pyx_v_output_chunk_size)])));
 
-      /* "pybase16384/backends/cython/_core.pyx":318
+      /* "pybase16384/backends/cython/_core.pyx":319
  *                                                   <int>chunk_size,
  *                                                   &output_buf[i*output_chunk_size])  # encode
  *         if mod!=0:             # <<<<<<<<<<<<<<
@@ -24127,7 +24127,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
       goto __pyx_L17;
     }
 
-    /* "pybase16384/backends/cython/_core.pyx":323
+    /* "pybase16384/backends/cython/_core.pyx":324
  *                                     &output_buf[num_threads * output_chunk_size])  #
  *         else:
  *             count = 0             # <<<<<<<<<<<<<<
@@ -24139,7 +24139,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
     }
     __pyx_L17:;
 
-    /* "pybase16384/backends/cython/_core.pyx":325
+    /* "pybase16384/backends/cython/_core.pyx":326
  *             count = 0
  * 
  *         return <bytes> output_buf[:num_threads * output_chunk_size + count]             # <<<<<<<<<<<<<<
@@ -24147,7 +24147,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
  *         PyMem_Free(output_buf)
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_6 = __Pyx_PyBytes_FromStringAndSize(__pyx_v_output_buf + 0, ((__pyx_v_num_threads * __pyx_v_output_chunk_size) + __pyx_v_count) - 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 325, __pyx_L5_error)
+    __pyx_t_6 = __Pyx_PyBytes_FromStringAndSize(__pyx_v_output_buf + 0, ((__pyx_v_num_threads * __pyx_v_output_chunk_size) + __pyx_v_count) - 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 326, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_INCREF(((PyObject*)__pyx_t_6));
     __pyx_r = ((PyObject*)__pyx_t_6);
@@ -24155,7 +24155,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
     goto __pyx_L4_return;
   }
 
-  /* "pybase16384/backends/cython/_core.pyx":327
+  /* "pybase16384/backends/cython/_core.pyx":328
  *         return <bytes> output_buf[:num_threads * output_chunk_size + count]
  *     finally:
  *         PyMem_Free(output_buf)             # <<<<<<<<<<<<<<
@@ -24205,8 +24205,8 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__e
     }
   }
 
-  /* "pybase16384/backends/cython/_core.pyx":301
- * from cython.parallel cimport prange
+  /* "pybase16384/backends/cython/_core.pyx":302
+ * 
  * 
  * cpdef inline bytes _encode_parallel(const uint8_t[::1] data, int num_threads = 2):             # <<<<<<<<<<<<<<
  *     cdef size_t length = <size_t>data.shape[0]
@@ -24281,19 +24281,19 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 301, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 302, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_num_threads);
           if (value) { values[1] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 301, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 302, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "_encode_parallel") < 0)) __PYX_ERR(0, 301, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "_encode_parallel") < 0)) __PYX_ERR(0, 302, __pyx_L3_error)
       }
     } else {
       switch (__pyx_nargs) {
@@ -24304,16 +24304,16 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t__const__(values[0], 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 301, __pyx_L3_error)
+    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t__const__(values[0], 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 302, __pyx_L3_error)
     if (values[1]) {
-      __pyx_v_num_threads = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_num_threads == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 301, __pyx_L3_error)
+      __pyx_v_num_threads = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_num_threads == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 302, __pyx_L3_error)
     } else {
       __pyx_v_num_threads = ((int)2);
     }
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_encode_parallel", 0, 1, 2, __pyx_nargs); __PYX_ERR(0, 301, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_encode_parallel", 0, 1, 2, __pyx_nargs); __PYX_ERR(0, 302, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -24352,10 +24352,10 @@ static PyObject *__pyx_pf_11pybase16384_8backends_6cython_5_core_26_encode_paral
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_encode_parallel", 1);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_data.memview)) { __Pyx_RaiseUnboundLocalError("data"); __PYX_ERR(0, 301, __pyx_L1_error) }
+  if (unlikely(!__pyx_v_data.memview)) { __Pyx_RaiseUnboundLocalError("data"); __PYX_ERR(0, 302, __pyx_L1_error) }
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.num_threads = __pyx_v_num_threads;
-  __pyx_t_1 = __pyx_f_11pybase16384_8backends_6cython_5_core__encode_parallel(__pyx_v_data, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 301, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_11pybase16384_8backends_6cython_5_core__encode_parallel(__pyx_v_data, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 302, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -24372,7 +24372,7 @@ static PyObject *__pyx_pf_11pybase16384_8backends_6cython_5_core_26_encode_paral
   return __pyx_r;
 }
 
-/* "pybase16384/backends/cython/_core.pyx":329
+/* "pybase16384/backends/cython/_core.pyx":330
  *         PyMem_Free(output_buf)
  * 
  * cpdef inline bytes _decode_parallel(const uint8_t[::1] data, int num_threads = 2):             # <<<<<<<<<<<<<<
@@ -24423,7 +24423,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
     }
   }
 
-  /* "pybase16384/backends/cython/_core.pyx":330
+  /* "pybase16384/backends/cython/_core.pyx":331
  * 
  * cpdef inline bytes _decode_parallel(const uint8_t[::1] data, int num_threads = 2):
  *     cdef size_t length = <size_t>data.shape[0]             # <<<<<<<<<<<<<<
@@ -24432,7 +24432,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
  */
   __pyx_v_length = ((size_t)(__pyx_v_data.shape[0]));
 
-  /* "pybase16384/backends/cython/_core.pyx":331
+  /* "pybase16384/backends/cython/_core.pyx":332
  * cpdef inline bytes _decode_parallel(const uint8_t[::1] data, int num_threads = 2):
  *     cdef size_t length = <size_t>data.shape[0]
  *     cdef size_t chunk_size = length / num_threads / 8 * 8  #  8             # <<<<<<<<<<<<<<
@@ -24441,7 +24441,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
  */
   __pyx_v_chunk_size = (((__pyx_v_length / ((size_t)__pyx_v_num_threads)) / 8) * 8);
 
-  /* "pybase16384/backends/cython/_core.pyx":332
+  /* "pybase16384/backends/cython/_core.pyx":333
  *     cdef size_t length = <size_t>data.shape[0]
  *     cdef size_t chunk_size = length / num_threads / 8 * 8  #  8
  *     cdef size_t output_chunk_size = chunk_size / 8 * 7  # 8 7             # <<<<<<<<<<<<<<
@@ -24450,7 +24450,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
  */
   __pyx_v_output_chunk_size = ((__pyx_v_chunk_size / 8) * 7);
 
-  /* "pybase16384/backends/cython/_core.pyx":333
+  /* "pybase16384/backends/cython/_core.pyx":334
  *     cdef size_t chunk_size = length / num_threads / 8 * 8  #  8
  *     cdef size_t output_chunk_size = chunk_size / 8 * 7  # 8 7
  *     cdef size_t mod = length - chunk_size * num_threads  #             # <<<<<<<<<<<<<<
@@ -24459,7 +24459,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
  */
   __pyx_v_mod = (__pyx_v_length - (__pyx_v_chunk_size * __pyx_v_num_threads));
 
-  /* "pybase16384/backends/cython/_core.pyx":334
+  /* "pybase16384/backends/cython/_core.pyx":335
  *     cdef size_t output_chunk_size = chunk_size / 8 * 7  # 8 7
  *     cdef size_t mod = length - chunk_size * num_threads  #
  *     cdef size_t output_size = <size_t> b14_decode_len(<int> length, 0) + 16             # <<<<<<<<<<<<<<
@@ -24468,7 +24468,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
  */
   __pyx_v_output_size = (((size_t)base16384_decode_len(((int)__pyx_v_length), 0)) + 16);
 
-  /* "pybase16384/backends/cython/_core.pyx":336
+  /* "pybase16384/backends/cython/_core.pyx":337
  *     cdef size_t output_size = <size_t> b14_decode_len(<int> length, 0) + 16
  * 
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)  # 16             # <<<<<<<<<<<<<<
@@ -24477,7 +24477,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
  */
   __pyx_v_output_buf = ((char *)PyMem_Malloc(__pyx_v_output_size));
 
-  /* "pybase16384/backends/cython/_core.pyx":337
+  /* "pybase16384/backends/cython/_core.pyx":338
  * 
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)  # 16
  *     if output_buf == NULL:             # <<<<<<<<<<<<<<
@@ -24487,16 +24487,16 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
   __pyx_t_1 = (__pyx_v_output_buf == NULL);
   if (unlikely(__pyx_t_1)) {
 
-    /* "pybase16384/backends/cython/_core.pyx":338
+    /* "pybase16384/backends/cython/_core.pyx":339
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)  # 16
  *     if output_buf == NULL:
  *         raise MemoryError             # <<<<<<<<<<<<<<
  *     cdef int i, count
  *     try:
  */
-    PyErr_NoMemory(); __PYX_ERR(0, 338, __pyx_L1_error)
+    PyErr_NoMemory(); __PYX_ERR(0, 339, __pyx_L1_error)
 
-    /* "pybase16384/backends/cython/_core.pyx":337
+    /* "pybase16384/backends/cython/_core.pyx":338
  * 
  *     cdef char *output_buf = <char *> PyMem_Malloc(output_size)  # 16
  *     if output_buf == NULL:             # <<<<<<<<<<<<<<
@@ -24505,7 +24505,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
  */
   }
 
-  /* "pybase16384/backends/cython/_core.pyx":340
+  /* "pybase16384/backends/cython/_core.pyx":341
  *         raise MemoryError
  *     cdef int i, count
  *     try:             # <<<<<<<<<<<<<<
@@ -24514,7 +24514,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
  */
   /*try:*/ {
 
-    /* "pybase16384/backends/cython/_core.pyx":341
+    /* "pybase16384/backends/cython/_core.pyx":342
  *     cdef int i, count
  *     try:
  *         if chunk_size > 0:             # <<<<<<<<<<<<<<
@@ -24524,7 +24524,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
     __pyx_t_1 = (__pyx_v_chunk_size > 0);
     if (__pyx_t_1) {
 
-      /* "pybase16384/backends/cython/_core.pyx":342
+      /* "pybase16384/backends/cython/_core.pyx":343
  *     try:
  *         if chunk_size > 0:
  *             for i in prange(num_threads, nogil=True, schedule="static", num_threads=num_threads):             # <<<<<<<<<<<<<<
@@ -24561,7 +24561,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
                             {
                                 __pyx_v_i = (int)(0 + 1 * __pyx_t_3);
 
-                                /* "pybase16384/backends/cython/_core.pyx":343
+                                /* "pybase16384/backends/cython/_core.pyx":344
  *         if chunk_size > 0:
  *             for i in prange(num_threads, nogil=True, schedule="static", num_threads=num_threads):
  *                 b14_decode(<const char *> &data[i * chunk_size],             # <<<<<<<<<<<<<<
@@ -24570,7 +24570,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
  */
                                 __pyx_t_5 = (__pyx_v_i * __pyx_v_chunk_size);
 
-                                /* "pybase16384/backends/cython/_core.pyx":345
+                                /* "pybase16384/backends/cython/_core.pyx":346
  *                 b14_decode(<const char *> &data[i * chunk_size],
  *                                  <int> chunk_size,
  *                                  &output_buf[i * output_chunk_size])  # encode             # <<<<<<<<<<<<<<
@@ -24591,7 +24591,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
             #endif
           }
 
-          /* "pybase16384/backends/cython/_core.pyx":342
+          /* "pybase16384/backends/cython/_core.pyx":343
  *     try:
  *         if chunk_size > 0:
  *             for i in prange(num_threads, nogil=True, schedule="static", num_threads=num_threads):             # <<<<<<<<<<<<<<
@@ -24610,7 +24610,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
           }
       }
 
-      /* "pybase16384/backends/cython/_core.pyx":341
+      /* "pybase16384/backends/cython/_core.pyx":342
  *     cdef int i, count
  *     try:
  *         if chunk_size > 0:             # <<<<<<<<<<<<<<
@@ -24619,7 +24619,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
  */
     }
 
-    /* "pybase16384/backends/cython/_core.pyx":346
+    /* "pybase16384/backends/cython/_core.pyx":347
  *                                  <int> chunk_size,
  *                                  &output_buf[i * output_chunk_size])  # encode
  *         if mod != 0:             # <<<<<<<<<<<<<<
@@ -24629,7 +24629,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
     __pyx_t_1 = (__pyx_v_mod != 0);
     if (__pyx_t_1) {
 
-      /* "pybase16384/backends/cython/_core.pyx":347
+      /* "pybase16384/backends/cython/_core.pyx":348
  *                                  &output_buf[i * output_chunk_size])  # encode
  *         if mod != 0:
  *             count = b14_decode(<const char *> &data[length - mod],             # <<<<<<<<<<<<<<
@@ -24638,7 +24638,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
  */
       __pyx_t_5 = (__pyx_v_length - __pyx_v_mod);
 
-      /* "pybase16384/backends/cython/_core.pyx":349
+      /* "pybase16384/backends/cython/_core.pyx":350
  *             count = b14_decode(<const char *> &data[length - mod],
  *                                      <int> mod,
  *                                      &output_buf[num_threads * output_chunk_size])  #             # <<<<<<<<<<<<<<
@@ -24647,7 +24647,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
  */
       __pyx_v_count = base16384_decode(((char const *)(&(*((uint8_t const  *) ( /* dim=0 */ ((char *) (((uint8_t const  *) __pyx_v_data.data) + __pyx_t_5)) ))))), ((int)__pyx_v_mod), (&(__pyx_v_output_buf[(__pyx_v_num_threads * __pyx_v_output_chunk_size)])));
 
-      /* "pybase16384/backends/cython/_core.pyx":346
+      /* "pybase16384/backends/cython/_core.pyx":347
  *                                  <int> chunk_size,
  *                                  &output_buf[i * output_chunk_size])  # encode
  *         if mod != 0:             # <<<<<<<<<<<<<<
@@ -24657,7 +24657,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
       goto __pyx_L17;
     }
 
-    /* "pybase16384/backends/cython/_core.pyx":351
+    /* "pybase16384/backends/cython/_core.pyx":352
  *                                      &output_buf[num_threads * output_chunk_size])  #
  *         else:
  *             count = 0             # <<<<<<<<<<<<<<
@@ -24669,7 +24669,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
     }
     __pyx_L17:;
 
-    /* "pybase16384/backends/cython/_core.pyx":353
+    /* "pybase16384/backends/cython/_core.pyx":354
  *             count = 0
  * 
  *         return <bytes> output_buf[:num_threads * output_chunk_size + count]             # <<<<<<<<<<<<<<
@@ -24677,7 +24677,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
  *         PyMem_Free(output_buf)
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_6 = __Pyx_PyBytes_FromStringAndSize(__pyx_v_output_buf + 0, ((__pyx_v_num_threads * __pyx_v_output_chunk_size) + __pyx_v_count) - 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 353, __pyx_L5_error)
+    __pyx_t_6 = __Pyx_PyBytes_FromStringAndSize(__pyx_v_output_buf + 0, ((__pyx_v_num_threads * __pyx_v_output_chunk_size) + __pyx_v_count) - 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 354, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_INCREF(((PyObject*)__pyx_t_6));
     __pyx_r = ((PyObject*)__pyx_t_6);
@@ -24685,7 +24685,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
     goto __pyx_L4_return;
   }
 
-  /* "pybase16384/backends/cython/_core.pyx":355
+  /* "pybase16384/backends/cython/_core.pyx":356
  *         return <bytes> output_buf[:num_threads * output_chunk_size + count]
  *     finally:
  *         PyMem_Free(output_buf)             # <<<<<<<<<<<<<<
@@ -24735,7 +24735,7 @@ static CYTHON_INLINE PyObject *__pyx_f_11pybase16384_8backends_6cython_5_core__d
     }
   }
 
-  /* "pybase16384/backends/cython/_core.pyx":329
+  /* "pybase16384/backends/cython/_core.pyx":330
  *         PyMem_Free(output_buf)
  * 
  * cpdef inline bytes _decode_parallel(const uint8_t[::1] data, int num_threads = 2):             # <<<<<<<<<<<<<<
@@ -24811,19 +24811,19 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 329, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 330, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_num_threads);
           if (value) { values[1] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 329, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 330, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "_decode_parallel") < 0)) __PYX_ERR(0, 329, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "_decode_parallel") < 0)) __PYX_ERR(0, 330, __pyx_L3_error)
       }
     } else {
       switch (__pyx_nargs) {
@@ -24834,16 +24834,16 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t__const__(values[0], 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 329, __pyx_L3_error)
+    __pyx_v_data = __Pyx_PyObject_to_MemoryviewSlice_dc_nn_uint8_t__const__(values[0], 0); if (unlikely(!__pyx_v_data.memview)) __PYX_ERR(0, 330, __pyx_L3_error)
     if (values[1]) {
-      __pyx_v_num_threads = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_num_threads == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 329, __pyx_L3_error)
+      __pyx_v_num_threads = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_num_threads == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 330, __pyx_L3_error)
     } else {
       __pyx_v_num_threads = ((int)2);
     }
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_decode_parallel", 0, 1, 2, __pyx_nargs); __PYX_ERR(0, 329, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_decode_parallel", 0, 1, 2, __pyx_nargs); __PYX_ERR(0, 330, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -24882,10 +24882,10 @@ static PyObject *__pyx_pf_11pybase16384_8backends_6cython_5_core_28_decode_paral
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_decode_parallel", 1);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_data.memview)) { __Pyx_RaiseUnboundLocalError("data"); __PYX_ERR(0, 329, __pyx_L1_error) }
+  if (unlikely(!__pyx_v_data.memview)) { __Pyx_RaiseUnboundLocalError("data"); __PYX_ERR(0, 330, __pyx_L1_error) }
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.num_threads = __pyx_v_num_threads;
-  __pyx_t_1 = __pyx_f_11pybase16384_8backends_6cython_5_core__decode_parallel(__pyx_v_data, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 329, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_11pybase16384_8backends_6cython_5_core__decode_parallel(__pyx_v_data, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 330, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -26369,29 +26369,29 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  */
   __pyx_codeobj__44 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__40, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pybase16384_backends_cython__cor, __pyx_n_s_decode_fd, 279, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__44)) __PYX_ERR(0, 279, __pyx_L1_error)
 
-  /* "pybase16384/backends/cython/_core.pyx":301
- * from cython.parallel cimport prange
+  /* "pybase16384/backends/cython/_core.pyx":302
+ * 
  * 
  * cpdef inline bytes _encode_parallel(const uint8_t[::1] data, int num_threads = 2):             # <<<<<<<<<<<<<<
  *     cdef size_t length = <size_t>data.shape[0]
  *     cdef size_t chunk_size = length / num_threads / 7 * 7 #  7
  */
-  __pyx_tuple__45 = PyTuple_Pack(2, __pyx_n_s_data, __pyx_n_s_num_threads); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 301, __pyx_L1_error)
+  __pyx_tuple__45 = PyTuple_Pack(2, __pyx_n_s_data, __pyx_n_s_num_threads); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 302, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__45);
   __Pyx_GIVEREF(__pyx_tuple__45);
-  __pyx_codeobj__46 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__45, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pybase16384_backends_cython__cor, __pyx_n_s_encode_parallel, 301, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__46)) __PYX_ERR(0, 301, __pyx_L1_error)
-  __pyx_tuple__47 = PyTuple_Pack(1, __pyx_int_2); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 301, __pyx_L1_error)
+  __pyx_codeobj__46 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__45, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pybase16384_backends_cython__cor, __pyx_n_s_encode_parallel, 302, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__46)) __PYX_ERR(0, 302, __pyx_L1_error)
+  __pyx_tuple__47 = PyTuple_Pack(1, __pyx_int_2); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 302, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__47);
   __Pyx_GIVEREF(__pyx_tuple__47);
 
-  /* "pybase16384/backends/cython/_core.pyx":329
+  /* "pybase16384/backends/cython/_core.pyx":330
  *         PyMem_Free(output_buf)
  * 
  * cpdef inline bytes _decode_parallel(const uint8_t[::1] data, int num_threads = 2):             # <<<<<<<<<<<<<<
  *     cdef size_t length = <size_t>data.shape[0]
  *     cdef size_t chunk_size = length / num_threads / 8 * 8  #  8
  */
-  __pyx_codeobj__48 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__45, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pybase16384_backends_cython__cor, __pyx_n_s_decode_parallel, 329, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__48)) __PYX_ERR(0, 329, __pyx_L1_error)
+  __pyx_codeobj__48 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__45, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pybase16384_backends_cython__cor, __pyx_n_s_decode_parallel, 330, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__48)) __PYX_ERR(0, 330, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -27720,30 +27720,30 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_decode_fd, __pyx_t_7) < 0) __PYX_ERR(0, 279, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "pybase16384/backends/cython/_core.pyx":301
- * from cython.parallel cimport prange
+  /* "pybase16384/backends/cython/_core.pyx":302
+ * 
  * 
  * cpdef inline bytes _encode_parallel(const uint8_t[::1] data, int num_threads = 2):             # <<<<<<<<<<<<<<
  *     cdef size_t length = <size_t>data.shape[0]
  *     cdef size_t chunk_size = length / num_threads / 7 * 7 #  7
  */
-  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_11pybase16384_8backends_6cython_5_core_27_encode_parallel, 0, __pyx_n_s_encode_parallel, NULL, __pyx_n_s_pybase16384_backends_cython__cor_2, __pyx_d, ((PyObject *)__pyx_codeobj__46)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 301, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_11pybase16384_8backends_6cython_5_core_27_encode_parallel, 0, __pyx_n_s_encode_parallel, NULL, __pyx_n_s_pybase16384_backends_cython__cor_2, __pyx_d, ((PyObject *)__pyx_codeobj__46)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 302, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_tuple__47);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_encode_parallel, __pyx_t_7) < 0) __PYX_ERR(0, 301, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_encode_parallel, __pyx_t_7) < 0) __PYX_ERR(0, 302, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "pybase16384/backends/cython/_core.pyx":329
+  /* "pybase16384/backends/cython/_core.pyx":330
  *         PyMem_Free(output_buf)
  * 
  * cpdef inline bytes _decode_parallel(const uint8_t[::1] data, int num_threads = 2):             # <<<<<<<<<<<<<<
  *     cdef size_t length = <size_t>data.shape[0]
  *     cdef size_t chunk_size = length / num_threads / 8 * 8  #  8
  */
-  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_11pybase16384_8backends_6cython_5_core_29_decode_parallel, 0, __pyx_n_s_decode_parallel, NULL, __pyx_n_s_pybase16384_backends_cython__cor_2, __pyx_d, ((PyObject *)__pyx_codeobj__48)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 329, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_11pybase16384_8backends_6cython_5_core_29_decode_parallel, 0, __pyx_n_s_decode_parallel, NULL, __pyx_n_s_pybase16384_backends_cython__cor_2, __pyx_d, ((PyObject *)__pyx_codeobj__48)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 330, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_tuple__47);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_decode_parallel, __pyx_t_7) < 0) __PYX_ERR(0, 329, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_decode_parallel, __pyx_t_7) < 0) __PYX_ERR(0, 330, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
   /* "pybase16384/backends/cython/_core.pyx":1

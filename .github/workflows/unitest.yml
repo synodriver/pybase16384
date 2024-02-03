@@ -28,11 +28,6 @@ jobs:
         python -m pip install --upgrade wheel
         pip install flake8 pytest
         pip install cython
-    - name: check unistd
-      if: ${{ runner.os == 'Windows' }}
-      run: |
-          echo "prepare unistd.h"
-          python prepare_unistd.py
     - name: build_whl
       run: |
         python setup.py install --use-cython --use-cffi
