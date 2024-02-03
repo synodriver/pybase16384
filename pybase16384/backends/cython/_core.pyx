@@ -53,8 +53,7 @@ cpdef inline bytes _encode(const uint8_t[::1] data):
     with nogil:
         count = b14_encode(<const char*> &data[0],
                                         <int>length,
-                                        output_buf,
-                                        <int>output_size) # encode 整数倍的那个
+                                        output_buf) # encode 整数倍的那个
     try:
         return <bytes>output_buf[:count]
     finally:
@@ -70,8 +69,7 @@ cpdef inline bytes _decode(const uint8_t[::1] data):
     with nogil:
         count = b14_decode(<const char *> &data[0],
                                         <int> length,
-                                        output_buf,
-                                        <int> output_size)  # decode
+                                        output_buf)  # decode
     try:
         return <bytes> output_buf[:count]
     finally:
@@ -86,8 +84,7 @@ cpdef inline int _encode_into(const uint8_t[::1] data, uint8_t[::1] dest) except
     with nogil:
         return b14_encode(<const char *> &data[0],
                                 <int> input_size,
-                                <char *> &dest[0],
-                                <int> output_buf_size)
+                                <char *> &dest[0])
 
 cpdef inline int _decode_into(const uint8_t[::1] data, uint8_t[::1] dest) except -1:
     cdef size_t input_size = data.shape[0]
@@ -98,8 +95,7 @@ cpdef inline int _decode_into(const uint8_t[::1] data, uint8_t[::1] dest) except
     with nogil:
         return b14_decode(<const char *> &data[0],
                                 <int> input_size,
-                                <char *> &dest[0],
-                                <int> output_buf_size)
+                                <char *> &dest[0])
 
 
 def encode_file(object input,
@@ -142,7 +138,7 @@ def encode_file(object input,
                     continue
             chunk_ptr = <const char*>PyBytes_AS_STRING(chunk)
             with nogil:
-                count = b14_encode(chunk_ptr, <int>size, output_buf, <int> output_size)
+                count = b14_encode(chunk_ptr, <int>size, output_buf)
             output.write(<bytes>output_buf[:count])
             if size < 7:
                 break
@@ -196,7 +192,7 @@ def decode_file(object input,
                     input.seek(-2, 1)
             chunk_ptr = <const char *> PyBytes_AS_STRING(chunk)
             with nogil:
-                count = b14_decode(chunk_ptr, <int> size, output_buf, <int> output_size)
+                count = b14_decode(chunk_ptr, <int> size, output_buf)
             output.write(<bytes>output_buf[:count])
     finally:
         PyMem_Free(output_buf)
@@ -319,13 +315,11 @@ cpdef inline bytes _encode_parallel(const uint8_t[::1] data, int num_threads = 2
             for i in prange(num_threads, nogil=True, schedule="static", num_threads=num_threads):
                 b14_encode(<const char *> &data[i*chunk_size],
                                                   <int>chunk_size,
-                                                  &output_buf[i*output_chunk_size],
-                                                  <int>output_chunk_size)  # encode 整数倍的那个
+                                                  &output_buf[i*output_chunk_size])  # encode 整数倍的那个
         if mod!=0:
             count = b14_encode(<const char *> &data[length - mod],
                                     <int>mod,
-                                    &output_buf[num_threads * output_chunk_size],
-                                     <int>(output_size - num_threads * output_chunk_size))  # 余数
+                                    &output_buf[num_threads * output_chunk_size])  # 余数
         else:
             count = 0
 
@@ -349,13 +343,11 @@ cpdef inline bytes _decode_parallel(const uint8_t[::1] data, int num_threads = 2
             for i in prange(num_threads, nogil=True, schedule="static", num_threads=num_threads):
                 b14_decode(<const char *> &data[i * chunk_size],
                                  <int> chunk_size,
-                                 &output_buf[i * output_chunk_size],
-                                 <int> output_chunk_size)  # encode 整数倍的那个
+                                 &output_buf[i * output_chunk_size])  # encode 整数倍的那个
         if mod != 0:
             count = b14_decode(<const char *> &data[length - mod],
                                      <int> mod,
-                                     &output_buf[num_threads * output_chunk_size],
-                                     <int> (output_size - num_threads * output_chunk_size))  # 余数
+                                     &output_buf[num_threads * output_chunk_size])  # 余数
         else:
             count = 0
 
@@ -386,8 +378,7 @@ cdef class Encoder:
             for i in prange(self.num_threads, nogil=True, schedule="static", num_threads=self.num_threads):
                 b14_encode(<const char *> &buffer_ptr[i*7* buf_rate],
                            7* buf_rate,
-                           <char *> &out_ptr[i*8* buf_rate],
-                           8* buf_rate)
+                           <char *> &out_ptr[i*8* buf_rate])
             del self.buffer[:self.num_threads * 7* buf_rate]
             buffer_ptr = PyByteArray_AS_STRING(self.buffer)
         return bytes(out)
@@ -404,7 +395,7 @@ cdef class Encoder:
             buffer_ptr = PyByteArray_AS_STRING(self.buffer)
             try:
                 with nogil:
-                    count = b14_encode(<const char*>buffer_ptr, inplen, outbuf, outlen)
+                    count = b14_encode(<const char*>buffer_ptr, inplen, outbuf)
                 return <bytes>outbuf[:count]
             finally:
                 PyMem_Free(outbuf)
@@ -435,8 +426,7 @@ cdef class Decoder:
             for i in prange(self.num_threads, nogil=True, schedule="static", num_threads=self.num_threads):
                 b14_decode(<const char *> &buffer_ptr[i*8* buf_rate],
                            8* buf_rate,
-                           <char *> &out_ptr[i*7* buf_rate],
-                           7* buf_rate)
+                           <char *> &out_ptr[i*7* buf_rate])
             del self.unused[:self.num_threads * 8 * buf_rate]
             buffer_ptr = PyByteArray_AS_STRING(self.unused)
 
@@ -451,7 +441,6 @@ cdef class Decoder:
             with nogil:
                 count = b14_decode(<const char *>buffer_ptr,
                                    <int> remain,
-                                   &out_ptr[outlen-output_size],
-                                   <int> output_size)  # decode
+                                   &out_ptr[outlen-output_size])  # decode
             del out[outlen + count - output_size:]
         return bytes(out)
