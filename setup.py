@@ -26,7 +26,7 @@ class build_ext_compiler_check(build_ext):
         compiler = self.compiler.compiler_type
         args = BUILD_ARGS[compiler]
         for ext in self.extensions:
-            ext.extra_compile_args = args
+            ext.extra_compile_args.extend(args)
         super().build_extensions()
 
 
@@ -38,12 +38,21 @@ else:
 system = platform.system()
 if system == "Windows":
     macro_base = [("_WIN64", None)]
+    extra_compile_args = ["-openmp"]
+    extra_link_args = ["-openmp"]
 elif system == "Linux":
     macro_base = [("__linux__", None)]
+    extra_compile_args = ["-fopenmp"]
+    extra_link_args = ["-fopenmp"]
 elif system == "Darwin":
     macro_base = [("__MAC_10_0", None)]
+    os.system("brew install libomp")
+    extra_compile_args = ["-Xpreprocessor", "-fopenmp"]
+    extra_link_args = ["-L/usr/local/lib", "-lomp"]
 else:
     macro_base = []
+    extra_compile_args = ["-fopenmp"]
+    extra_link_args = ["-fopenmp"]
 
 if sys.byteorder != "little":
     macro_base.append(("WORDS_BIGENDIAN", None))
@@ -56,15 +65,17 @@ else:
 print(macro_base)
 extensions = [
     Extension(
-        "pybase16384.backends.cython._core_cy",
+        "pybase16384.backends.cython._core",
         [
-            "pybase16384/backends/cython/_core_cy.pyx",
+            "pybase16384/backends/cython/_core.pyx",
             f"./base16384/base14{CPUBIT}.c",
             "./base16384/file.c",
         ],
         include_dirs=[f"./base16384"],
         library_dirs=[f"./base16384"],
         define_macros=macro_base,
+        extra_link_args=extra_link_args,
+        extra_compile_args=extra_compile_args,
     ),
 ]
 cffi_modules = ["pybase16384/backends/cffi/build.py:ffibuilder"]
@@ -149,6 +160,7 @@ def main():
             "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
             "Programming Language :: Python :: 3.11",
+            "Programming Language :: Python :: 3.12",
             "Programming Language :: Python :: Implementation :: CPython",
             "Programming Language :: Python :: Implementation :: PyPy",
         ],

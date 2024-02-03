@@ -46,8 +46,8 @@ enum base16384_err_t {
 typedef enum base16384_err_t base16384_err_t;
 int base16384_encode_len(int dlen);
 int base16384_decode_len(int dlen, int offset);
-int base16384_encode(const char* data, int dlen, char* buf, int blen);
-int base16384_decode(const char* data, int dlen, char* buf, int blen);
+int base16384_encode(const char* data, int dlen, char* buf);
+int base16384_decode(const char* data, int dlen, char* buf);
 base16384_err_t base16384_encode_file(const char* input, const char* output, char* encbuf, char* decbuf);
 base16384_err_t base16384_decode_file(const char* input, const char* output, char* encbuf, char* decbuf);
 
@@ -96,7 +96,7 @@ int get_decsize()
 """
 
 ffibuilder.set_source(
-    "pybase16384.backends.cffi._core_cffi",
+    "pybase16384.backends.cffi._core",
     source,
     sources=[f"./base16384/base14{CPUBIT}.c", "./base16384/file.c"],
     include_dirs=["./base16384"],
