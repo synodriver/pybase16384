@@ -75,7 +75,7 @@ extensions = [
         library_dirs=[f"./base16384"],
         define_macros=macro_base,
         extra_link_args=extra_link_args,
-        extra_compile_args=extra_compile_args
+        extra_compile_args=extra_compile_args,
     ),
 ]
 cffi_modules = ["pybase16384/backends/cffi/build.py:ffibuilder"]

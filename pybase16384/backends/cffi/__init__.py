@@ -24,9 +24,7 @@ def _encode(data: bytes) -> bytes:
 
 
 def _encode_into(data: bytes, out: bytearray) -> int:
-    return lib.base16384_encode(
-        ffi.from_buffer(data), len(data), ffi.from_buffer(out)
-    )
+    return lib.base16384_encode(ffi.from_buffer(data), len(data), ffi.from_buffer(out))
 
 
 def _decode(data: bytes) -> bytes:
@@ -40,9 +38,7 @@ def _decode(data: bytes) -> bytes:
 
 
 def _decode_into(data: bytes, out: bytearray) -> int:
-    return lib.base16384_decode(
-        ffi.from_buffer(data), len(data), ffi.from_buffer(out)
-    )
+    return lib.base16384_decode(ffi.from_buffer(data), len(data), ffi.from_buffer(out))
 
 
 def is_64bits() -> bool:
@@ -92,9 +88,7 @@ def encode_file(input: IO, output: IO, write_head: bool = False, buf_rate: int =
                 input.seek(-size, 1)
                 continue
 
-        count = lib.base16384_encode(
-            ffi.from_buffer(chunk), size, output_buf
-        )
+        count = lib.base16384_encode(ffi.from_buffer(chunk), size, output_buf)
         output.write(ffi.unpack(output_buf, count))
         if size < 7:
             break
@@ -146,9 +140,7 @@ def decode_file(input: IO, output: IO, buf_rate: int = 10):
             else:
                 input.seek(-2, 1)
 
-        count = lib.base16384_decode(
-            ffi.from_buffer(chunk), size, output_buf
-        )
+        count = lib.base16384_decode(ffi.from_buffer(chunk), size, output_buf)
         output.write(ffi.unpack(output_buf, count))
 
 
@@ -216,3 +208,11 @@ def decode_fd(inp: int, out: int) -> None:
     ret = lib.base16384_decode_fd(inp, out, encbuf, decbuf)
     if ret != lib.base16384_err_ok:
         raise ValueError(err_to_str(ret))
+
+
+def _decode_parallel(data: bytes, num_threads: int = 2) -> bytes:
+    pass
+
+
+def _encode_parallel(data: bytes, num_threads: int = 2) -> bytes:
+    pass
