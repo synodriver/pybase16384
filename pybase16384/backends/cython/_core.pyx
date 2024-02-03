@@ -51,8 +51,7 @@ cpdef inline bytes _encode(const uint8_t[::1] data):
     with nogil:
         count = b14_encode(<const char*> &data[0],
                                         <int>length,
-                                        output_buf,
-                                        <int>output_size) # encode 整数倍的那个
+                                        output_buf) # encode 整数倍的那个
     try:
         return <bytes>output_buf[:count]
     finally:
@@ -68,8 +67,7 @@ cpdef inline bytes _decode(const uint8_t[::1] data):
     with nogil:
         count = b14_decode(<const char *> &data[0],
                                         <int> length,
-                                        output_buf,
-                                        <int> output_size)  # decode
+                                        output_buf)  # decode
     try:
         return <bytes> output_buf[:count]
     finally:
@@ -84,8 +82,7 @@ cpdef inline int _encode_into(const uint8_t[::1] data, uint8_t[::1] dest) except
     with nogil:
         return b14_encode(<const char *> &data[0],
                                 <int> input_size,
-                                <char *> &dest[0],
-                                <int> output_buf_size)
+                                <char *> &dest[0])
 
 cpdef inline int _decode_into(const uint8_t[::1] data, uint8_t[::1] dest) except -1:
     cdef size_t input_size = data.shape[0]
@@ -96,8 +93,7 @@ cpdef inline int _decode_into(const uint8_t[::1] data, uint8_t[::1] dest) except
     with nogil:
         return b14_decode(<const char *> &data[0],
                                 <int> input_size,
-                                <char *> &dest[0],
-                                <int> output_buf_size)
+                                <char *> &dest[0])
 
 
 def encode_file(object input,
@@ -140,7 +136,7 @@ def encode_file(object input,
                     continue
             chunk_ptr = <const char*>PyBytes_AS_STRING(chunk)
             with nogil:
-                count = b14_encode(chunk_ptr, <int>size, output_buf, <int> output_size)
+                count = b14_encode(chunk_ptr, <int>size, output_buf)
             output.write(<bytes>output_buf[:count])
             if size < 7:
                 break
@@ -194,7 +190,7 @@ def decode_file(object input,
                     input.seek(-2, 1)
             chunk_ptr = <const char *> PyBytes_AS_STRING(chunk)
             with nogil:
-                count = b14_decode(chunk_ptr, <int> size, output_buf, <int> output_size)
+                count = b14_decode(chunk_ptr, <int> size, output_buf)
             output.write(<bytes>output_buf[:count])
     finally:
         PyMem_Free(output_buf)

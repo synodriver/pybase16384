@@ -21,9 +21,9 @@ cdef extern from "base16384.h" nogil:
     int b14_decode_len "base16384_decode_len" (int dlen, int offset)
 
 # encode data and write result into buf
-    int b14_encode "base16384_encode" (const char* data, int dlen, char* buf, int blen)
+    int b14_encode "base16384_encode" (const char* data, int dlen, char* buf)
 # decode data and write result into buf
-    int b14_decode "base16384_decode" (const char* data, int dlen, char* buf, int blen)
+    int b14_decode "base16384_decode" (const char* data, int dlen, char* buf)
 
     base16384_err_t b14_encode_file "base16384_encode_file" (const char * input, const char * output, char * encbuf, char * decbuf)
     base16384_err_t b14_decode_file "base16384_decode_file" (const char * input, const char * output, char * encbuf, char * decbuf)

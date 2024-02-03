@@ -56,9 +56,9 @@ else:
 print(macro_base)
 extensions = [
     Extension(
-        "pybase16384.backends.cython._core_cy",
+        "pybase16384.backends.cython._core",
         [
-            "pybase16384/backends/cython/_core_cy.pyx",
+            "pybase16384/backends/cython/_core.pyx",
             f"./base16384/base14{CPUBIT}.c",
             "./base16384/file.c",
         ],

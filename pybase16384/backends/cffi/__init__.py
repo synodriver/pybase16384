@@ -4,7 +4,7 @@ Copyright (c) 2008-2021 synodriver <synodriver@gmail.com>
 from pathlib import Path
 from typing import IO
 
-from pybase16384.backends.cffi._core_cffi import ffi, lib
+from pybase16384.backends.cffi._core import ffi, lib
 
 __version__ = "0.1.0"
 
@@ -19,13 +19,13 @@ def _encode(data: bytes) -> bytes:
     output_buf = ffi.new(f"char[{output_size}]")
     if output_buf == ffi.NULL:
         raise MemoryError
-    count = lib.base16384_encode(ffi.from_buffer(data), length, output_buf, output_size)
+    count = lib.base16384_encode(ffi.from_buffer(data), length, output_buf)
     return ffi.unpack(output_buf, count)
 
 
 def _encode_into(data: bytes, out: bytearray) -> int:
     return lib.base16384_encode(
-        ffi.from_buffer(data), len(data), ffi.from_buffer(out), len(out)
+        ffi.from_buffer(data), len(data), ffi.from_buffer(out)
     )
 
 
@@ -35,13 +35,13 @@ def _decode(data: bytes) -> bytes:
     output_buf = ffi.new(f"char[{output_size}]")
     if output_buf == ffi.NULL:
         raise MemoryError
-    count = lib.base16384_decode(ffi.from_buffer(data), length, output_buf, output_size)
+    count = lib.base16384_decode(ffi.from_buffer(data), length, output_buf)
     return ffi.unpack(output_buf, count)
 
 
 def _decode_into(data: bytes, out: bytearray) -> int:
     return lib.base16384_decode(
-        ffi.from_buffer(data), len(data), ffi.from_buffer(out), len(out)
+        ffi.from_buffer(data), len(data), ffi.from_buffer(out)
     )
 
 
@@ -93,7 +93,7 @@ def encode_file(input: IO, output: IO, write_head: bool = False, buf_rate: int =
                 continue
 
         count = lib.base16384_encode(
-            ffi.from_buffer(chunk), size, output_buf, output_size
+            ffi.from_buffer(chunk), size, output_buf
         )
         output.write(ffi.unpack(output_buf, count))
         if size < 7:
@@ -147,7 +147,7 @@ def decode_file(input: IO, output: IO, buf_rate: int = 10):
                 input.seek(-2, 1)
 
         count = lib.base16384_decode(
-            ffi.from_buffer(chunk), size, output_buf, output_size
+            ffi.from_buffer(chunk), size, output_buf
         )
         output.write(ffi.unpack(output_buf, count))
 
